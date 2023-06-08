@@ -6,7 +6,7 @@ default:
 build-talos version:
   HCLOUD_TOKEN="op://Colorful Pandas/Hetzner Cloud/credential" \
   op run -- \
-    packer build -var talos_version={{ version }} modules/infra/talos
+    packer build -var talos_version={{ version }} clusters/_modules/infra/talos
 
 # Apply the infrastructure configuration of the specified cluster
 apply-cluster cluster:
