@@ -39,8 +39,8 @@ resource "hcloud_server" "node" {
 }
 
 resource "hcloud_server_network" "subnet" {
-  subnet_id = var.subnet_id
   server_id = hcloud_server.node.id
+  subnet_id = var.subnet_id
 }
 
 resource "hcloud_rdns" "v4" {

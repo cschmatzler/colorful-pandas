@@ -13,18 +13,6 @@ terraform {
       version = "0.7.2"
     }
   }
-
-  backend "s3" {
-    endpoint   = "https://s3.eu-central-2.wasabisys.com"
-    region     = "eu-central-2"
-    bucket     = "colorful-pandas-tfstate"
-    # TODO: Add key
-    key              = "cluster-{NAME}.tfstate"
-    force_path_style = true
-    # Required since Wasabi's STS system is only running in their `us-east-1` region.
-    skip_region_validation      = true
-    skip_credentials_validation = true
-  }
 }
 
 provider "hcloud" {
@@ -36,14 +24,13 @@ provider "cloudflare" {
 }
 
 module "cluster" {
-  source = "../../modules/infra/cluster"
-  # TODO: Add name
-  cluster_name = "{NAME}"
+  source       = "../../modules/infra/cluster"
+  cluster_name = "prod"
   base_domain  = "colorful-pandas.com"
   control_plane_nodepool = {
     type     = "cax11"
     location = "fsn1"
-    image_id = 113863656
+    image_id = 114060350
   }
   control_plane_config = data.sops_file.control_plane_config.raw
 
@@ -53,7 +40,7 @@ module "cluster" {
       count    = 2
       type     = "cax11"
       location = "fsn1"
-      image_id = 113863656
+      image_id = 114060350
     }
   ])
   worker_config = data.sops_file.worker_config.raw

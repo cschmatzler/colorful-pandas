@@ -42,3 +42,53 @@ resource "hcloud_load_balancer_target" "control_plane" {
   load_balancer_id = hcloud_load_balancer.control_plane.id
   server_id        = module.control_plane[count.index].node_id
 }
+
+resource "hcloud_firewall" "firewall" {
+  name = "${local.cluster_domain}"
+
+  rule {
+    description = "Control Plane"
+    direction   = "in"
+    protocol    = "tcp"
+    port        = 6443
+    source_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+  rule {
+    description = "Talos API"
+    direction   = "in"
+    protocol    = "tcp"
+    port        = 50000
+    source_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+  rule {
+    description = "Outgoing traffic/TCP"
+    direction   = "out"
+    protocol    = "tcp"
+    port        = "any"
+    destination_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+  rule {
+    description = "Outgoing traffic/UDP"
+    direction   = "out"
+    protocol    = "udp"
+    port        = "any"
+    destination_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+}
+
+resource "hcloud_firewall_attachment" "cluster_nodes" {
+   firewall_id = hcloud_firewall.firewall.id
+   server_ids  = concat(module.control_plane.*.node_id, flatten([for nodepool in module.worker : nodepool.*.node_id]))
+ }

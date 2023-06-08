@@ -1,0 +1,4 @@
+/.terraform/
+/talos/*
+!/talos/*.sops
+!/talos/patches/

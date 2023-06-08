@@ -10,8 +10,7 @@ packer {
 variable "hcloud_token" {
   type      = string
   sensitive = true
-  # Reuse the token from Terraform
-  default   = "${env("TF_VAR_hcloud_token")}"
+  default   = "${env("HCLOUD_TOKEN")}"
 }
 
 variable "talos_version" {
