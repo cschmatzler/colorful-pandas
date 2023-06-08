@@ -15,9 +15,9 @@ terraform {
   }
 
   backend "s3" {
-    endpoint         = "https://s3.eu-central-2.wasabisys.com"
-    region           = "eu-central-2"
-    bucket           = "colorful-pandas-tfstate"
+    endpoint = "https://s3.eu-central-2.wasabisys.com"
+    region   = "eu-central-2"
+    bucket   = "colorful-pandas-tfstate"
     # TODO: Add key
     key              = "cluster-{NAME}.tfstate"
     force_path_style = true
@@ -47,18 +47,9 @@ provider "cloudflare" {
   api_token = var.cloudflare_token
 }
 
-data "sops_file" "control_plane_config" {
-  source_file = "talos/controlplane.yaml.sops"
-  input_type = "yaml"
-}
-
-data "sops_file" "worker_config" {
-  source_file = "talos/worker.yaml.sops"
-  input_type = "yaml"
-}
-
 module "cluster" {
-  source       = "../../modules/cluster"
+  source = "../../modules/cluster"
+  # TODO: Add name
   cluster_name = "{NAME}"
   base_domain  = "colorful-pandas.com"
   control_plane_nodepool = {
