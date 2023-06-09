@@ -13,6 +13,14 @@ terraform {
       version = "0.7.2"
     }
   }
+
+  cloud {
+    organization = "Colorful-Pandas"
+
+    workspaces {
+      name = "cluster-prod"
+    }
+  }
 }
 
 provider "hcloud" {
@@ -24,7 +32,7 @@ provider "cloudflare" {
 }
 
 module "cluster" {
-  source       = "../_modules/infra/cluster"
+  source       = "../../modules/cluster"
   cluster_name = "prod"
   base_domain  = "colorful-pandas.com"
   control_plane_nodepool = {

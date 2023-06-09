@@ -8,11 +8,15 @@ build-talos version:
   op run -- \
     packer build -var talos_version={{ version }} clusters/_modules/infra/talos
 
-# Apply the infrastructure configuration of the specified cluster
-apply-cluster cluster:
-  SOPS_AGE_KEY="op://Colorful Pandas/SOPS/SOPS_AGE_KEY" \
-  SOPS_AGE_RECIPIENTS="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
+# Apply the configuration for external tooling
+apply-terraform-cloud:
+  AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
+  AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
+  TF_VAR_terraform_cloud_token="op://Colorful Pandas/Terraform Cloud/credential" \
+  TF_VAR_github_oauth_token="op://Colorful Pandas/GitHub OAuth/credential" \
+  TF_VAR_sops_age_key="op://Colorful Pandas/SOPS/SOPS_AGE_KEY" \
+  TF_VAR_sops_age_recipients="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
   TF_VAR_hcloud_token="op://Colorful Pandas/Hetzner Cloud/credential" \
   TF_VAR_cloudflare_token="op://Colorful Pandas/Cloudflare/credential" \
   op run -- \
-    terraform -chdir=clusters/{{ cluster }}/ apply
+    terraform -chdir=tooling/terraform_cloud/ apply
