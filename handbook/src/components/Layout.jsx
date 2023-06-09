@@ -19,7 +19,8 @@ export const navigation = [
     ],
   },
   {
-    title: "Prerequisites", links: []
+    title: 'Prerequisites',
+    links: [],
   },
   {
     title: 'Product',
@@ -31,7 +32,10 @@ export const navigation = [
   },
   {
     title: 'Infrastructure',
-    links: [{ title: 'Kubernetes', href: '/infrastructure/kubernetes' }],
+    links: [
+      { title: 'Provisioning', href: '/infrastructure/provisioning' },
+      { title: 'Kubernetes', href: '/infrastructure/kubernetes' },
+    ],
   },
   { title: 'ADRs', links: [] },
 ]

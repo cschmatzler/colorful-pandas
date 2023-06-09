@@ -1,0 +1,36 @@
+## This file is a PO ColorfulPandas file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+msgid ""
+msgstr ""
+
+#: lib/colorful_pandas/web/controllers/landing/index.html.heex:45
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr ""
+
+#: lib/colorful_pandas/web/controllers/landing/index.html.heex:112
+#, elixir-autogen, elixir-format
+msgid "Close menu"
+msgstr ""
+
+#: lib/colorful_pandas/web/controllers/landing/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Open main menu"
+msgstr ""
+
+#: lib/colorful_pandas/web/controllers/landing/index.html.heex:42
+#, elixir-autogen, elixir-format
+msgid "Pricing"
+msgstr ""
+
+#: lib/colorful_pandas/web/controllers/landing/index.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Product"
+msgstr ""

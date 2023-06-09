@@ -74,8 +74,3 @@ You also need to create the configuration files for Talos before creating any no
     sops -e clusters/$CLUSTER_NAME/talos/worker.yaml > clusters/$CLUSTER_NAME/talos/worker.yaml.sops 
     ```
 
-4. Apply the Terraform configuration.
-
-    ```
-    just apply-cluster $CLUSTER_NAME
-    ```

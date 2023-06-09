@@ -1,6 +1,5 @@
 {
-  "name": "tailwindui-syntax",
-  "version": "0.1.0",
+  "name": "colorful-pandas-handbook",
   "private": true,
   "scripts": {
     "dev": "next dev",

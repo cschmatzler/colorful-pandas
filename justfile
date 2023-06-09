@@ -2,6 +2,17 @@
 default:
   just --list
 
+setup-dev:
+  cd service && \
+  mix local.rebar --if-missing && \
+  mix local.hex --if-missing && \
+  mix deps.get && \
+  mix deps.compile
+
+run-dev-server:
+  cd service && \
+  mix phx.server
+
 # Build an image of the specified Talos version
 build-talos version:
   HCLOUD_TOKEN="op://Colorful Pandas/Hetzner Cloud/credential" \
