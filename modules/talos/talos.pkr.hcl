@@ -14,7 +14,7 @@ variable "hcloud_token" {
 }
 
 variable "talos_version" {
-  type    = string
+  type = string
 }
 
 locals {
