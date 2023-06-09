@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    hcp = {
+      source  = "hashicorp/hcp"
+      version = "0.60.0"
+    }
     hcloud = {
       source  = "hetznercloud/hcloud"
       version = "1.39.0"
