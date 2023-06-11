@@ -23,6 +23,8 @@ defmodule ColorfulPandas.Web.Pages.Landing do
             ... or something.
           </p>
 
+          <.link href="https://caring-snake-91.accounts.dev/sign-up">Sign up</.link>
+
           <p class="mt-6 text-sm leading-8 text-moss/60">
             Version <%= to_string(Application.spec(:colorful_pandas, :vsn)) %>
           </p>

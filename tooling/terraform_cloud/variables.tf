@@ -22,6 +22,12 @@ variable "cloudflare_token" {
   sensitive   = true
 }
 
+variable "neon_token" {
+  description = "Neon API Token"
+  type        = string
+  sensitive   = true
+}
+
 variable "sops_age_key" {
   description = "SOPS age key"
   type        = string

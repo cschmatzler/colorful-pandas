@@ -11,7 +11,7 @@ setup-dev:
   mix deps.compile
 
 # Run the development server
-run-dev-server user:
+run-dev-server:
   cd service && \
   DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
   op run -- \
@@ -43,5 +43,6 @@ apply-terraform-cloud:
   TF_VAR_sops_age_recipients="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
   TF_VAR_hcloud_token="op://Colorful Pandas/Hetzner Cloud/credential" \
   TF_VAR_cloudflare_token="op://Colorful Pandas/Cloudflare/credential" \
+  TF_VAR_neon_token="op://Colorful Pandas/Neon/credential" \
   op run -- \
     terraform -chdir=tooling/terraform_cloud/ apply
