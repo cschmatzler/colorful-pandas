@@ -44,7 +44,6 @@ defmodule ColorfulPandas.MixProject do
       {:esbuild, "~> 0.7"},
       {:ex_doc, "~> 0.29", runtime: false},
       {:excellent_migrations, "~> 0.1", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.16", only: :test},
       {:finch, "~> 0.16"},
       {:gettext, "~> 0.22"},
       {:hammox, "~> 0.7", only: :test},
@@ -66,14 +65,12 @@ defmodule ColorfulPandas.MixProject do
       {:phoenix_live_reload, "~> 1.4", only: :dev},
       {:phoenix_live_view, "~> 0.18"},
       {:postgrex, "~> 0.17"},
-      {:prom_ex, "~> 1.8"},
       {:remote_ip, "~> 1.1"},
       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:styler, "~> 0.7", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.9"},
       {:tailwind, "~> 0.2"},
       {:tesla, "~> 1.7"},
-      {:unleash, "~> 1.9"},
       {:nestru, "~> 0.3"}
     ]
   end
