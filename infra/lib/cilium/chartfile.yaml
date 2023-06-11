@@ -1,0 +1,8 @@
+directory: charts
+version: 1
+repositories:
+  - name: cilium
+    url: https://helm.cilium.io/
+requires:
+  - chart: cilium/cilium
+    version: 1.13.3

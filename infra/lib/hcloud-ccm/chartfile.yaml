@@ -1,0 +1,8 @@
+directory: charts
+version: 1
+repositories:
+  - name: hcloud
+    url: https://charts.hetzner.cloud
+requires:
+  - chart: hcloud/hcloud-cloud-controller-manager
+    version: v1.15.0

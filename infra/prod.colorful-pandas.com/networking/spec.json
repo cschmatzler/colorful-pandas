@@ -1,0 +1,12 @@
+{
+  "apiVersion": "tanka.dev/v1alpha1",
+  "kind": "Environment",
+  "metadata": {
+    "name": "prod.colorful-pandas.com/networking"
+  },
+  "spec": {
+    "apiServer": "cluster.prod.colorful-pandas.com:6443",
+    "namespace": "networking",
+    "injectLabels": true
+  }
+}

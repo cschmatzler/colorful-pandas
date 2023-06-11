@@ -1,0 +1,8 @@
+directory: charts
+version: 1
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+requires:
+  - chart: jetstack/cert-manager
+    version: 1.12.0
