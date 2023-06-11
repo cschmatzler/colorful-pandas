@@ -8,11 +8,11 @@ defmodule ColorfulPandas.Application do
 
   @impl Application
   def start(_type, _args) do
-    # OpentelemetryEcto.setup([:colorful_pandas, :repo])
-    # OpentelemetryOban.setup(trace: [:jobs])
-    # OpentelemetryFinch.setup()
-    # OpentelemetryPhoenix.setup()
-    # OpentelemetryLiveView.setup()
+    OpentelemetryEcto.setup([:colorful_pandas, :repo])
+    OpentelemetryOban.setup(trace: [:jobs])
+    OpentelemetryFinch.setup()
+    OpentelemetryPhoenix.setup()
+    OpentelemetryLiveView.setup()
 
     children = [
       {Cluster.Supervisor,

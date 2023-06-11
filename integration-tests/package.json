@@ -1,0 +1,8 @@
+{
+  "name": "colorful-pandas-integration-tests",
+  "main": "index.js",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.35.0"
+  }
+}

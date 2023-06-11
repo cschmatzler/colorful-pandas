@@ -13,7 +13,9 @@ defmodule ColorfulPandas.MixProject do
       releases: [
         colorful_pandas: [
           applications: [
-            colorful_pandas: :permanent
+            colorful_pandas: :permanent,
+            opentelemetry_exporter: :permanent,
+            opentelemetry: :temporary
           ]
         ]
       ]
@@ -50,10 +52,10 @@ defmodule ColorfulPandas.MixProject do
       {:knigge, "~> 1.4"},
       {:libcluster, "~> 3.3"},
       {:oban, "~> 2.14"},
+      {:opentelemetry_exporter, "~> 1.2"},
       {:opentelemetry, "~> 1.3"},
       {:opentelemetry_api, "~> 1.0"},
       {:opentelemetry_ecto, "~> 1.1"},
-      {:opentelemetry_exporter, "~> 1.2"},
       {:opentelemetry_finch, "~> 0.2"},
       {:opentelemetry_liveview, "~> 1.0-rc.4"},
       {:opentelemetry_oban, "~> 1.0"},

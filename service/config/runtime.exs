@@ -1,10 +1,34 @@
 import Config
+require Logger
 
 if System.get_env("ENABLE_SERVER") do
   config :colorful_pandas, ColorfulPandas.Web.Endpoint, server: true
 end
 
+if System.get_env("ENABLE_TELEMETRY") do
+  Logger.info("Telemetry enabled")
+
+  config :opentelemetry,
+    resource: [
+      service: [
+        name: "colorful_pandas"
+      ]
+    ],
+    traces_exporter: :otlp
+
+  config :opentelemetry_exporter,
+    otlp_protocol: :http_protobuf,
+    otlp_endpoint: "https://api.honeycomb.io:443",
+    otlp_headers: [
+      {"x-honeycomb-team", System.fetch_env!("HONEYCOMB_API_KEY")},
+      {"x-honeycomb-dataset", System.fetch_env!("HONEYCOMB_DATASET")}
+    ]
+end
+
 if config_env() in [:dev, :prod] do
+  # --------
+  # Database
+  # --------
   db_url = System.fetch_env!("DB_URL")
 
   config :colorful_pandas, ColorfulPandas.Repo,
@@ -15,7 +39,7 @@ if config_env() in [:dev, :prod] do
       server_name_indication:
         Regex.run(~r/.*@(.*)\/.*/, db_url, capture: :all_but_first)
         |> List.first()
-        |> to_charlist(),
+        |> to_charlist()
     ]
 end
 
@@ -24,24 +48,6 @@ end
 # ---------
 if config_env() == :prod do
   host = System.get_env("HOST")
-
-  # -------------
-  # Observability
-  # -------------
-  config :opentelemetry,
-    resource: [
-      service: [
-        name: "colorful_pandas",
-        namespace: System.fetch_env!("NAMESPACE")
-      ],
-      host: [
-        name: host
-      ]
-    ]
-
-  config :opentelemetry_exporter,
-    otlp_protocol: :http_protobuf,
-    otlp_endpoint: System.fetch_env!("OTLP_ENDPOINT")
 
   # ----------
   # Clustering
@@ -65,7 +71,6 @@ if config_env() == :prod do
   # --------
 
   config :colorful_pandas, ColorfulPandas.Repo,
-    url: System.fetch_env!("DB_URL"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
   # ---

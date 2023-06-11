@@ -2,6 +2,7 @@
 default:
   just --list
 
+# Setup development environment
 setup-dev:
   cd service && \
   mix local.rebar --if-missing && \
@@ -9,9 +10,22 @@ setup-dev:
   mix deps.get && \
   mix deps.compile
 
-run-dev-server:
+# Run the development server
+run-dev-server user:
   cd service && \
-  mix phx.server
+  DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
+  op run -- \
+    sh -c 'mix ecto.migrate && mix phx.server'
+
+run-dev-server-with-telemetry user:
+  cd service && \
+  ENABLE_TELEMETRY="true" \
+  DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
+  HONEYCOMB_API_KEY="op://Colorful Pandas/honeycomb-local/credential" \
+  HONEYCOMB_DATASET="colorful-pandas-{{ user }}" \
+  op run -- \
+    sh -c 'mix ecto.migrate && mix phx.server'
+
 
 # Build an image of the specified Talos version
 build-talos version:
