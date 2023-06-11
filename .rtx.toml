@@ -1,4 +1,0 @@
-[tools]
-elixir = "1.14.5-otp-25"
-erlang = "25.3"
-node = "18.16.0"
