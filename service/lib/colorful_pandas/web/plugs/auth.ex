@@ -16,7 +16,7 @@ defmodule ColorfulPandas.Web.Plugs.Auth do
   """
   def fetch_user(conn, _opts) do
     {session_token, conn} = ensure_session_token(conn)
-    user = session_token && Auth.get_user_with_token(session_token)
+    user = session_token && Auth.get_user_with_session_token(session_token)
 
     assign(conn, :user, user)
   end

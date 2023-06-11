@@ -43,7 +43,7 @@ defmodule ColorfulPandas.Web.Auth do
   session cookie. Afterwards, redirects to `signed_in_path/0`.
   """
   def start_session(conn, user) do
-    token = Auth.create_token!(user.id).token
+    token = Auth.create_session_token!(user.id).token
 
     conn
     |> renew_session()
@@ -61,7 +61,7 @@ defmodule ColorfulPandas.Web.Auth do
   """
   def end_session(conn) do
     session_token = get_session(conn, :session_token)
-    session_token && Auth.delete_token(session_token)
+    session_token && Auth.delete_session_token(session_token)
 
     if live_socket_id = get_session(conn, :live_socket_id) do
       ColorfulPandas.Web.Endpoint.broadcast(live_socket_id, "disconnect", %{})
