@@ -15,9 +15,9 @@ terraform {
   }
 
   backend "s3" {
-    endpoint   = "https://s3.eu-central-2.wasabisys.com"
-    region     = "eu-central-2"
-    bucket     = "colorful-pandas-tfstate"
+    endpoint = "https://s3.eu-central-2.wasabisys.com"
+    region   = "eu-central-2"
+    bucket   = "colorful-pandas-tfstate"
     # TODO: Add key
     key              = "cluster-{NAME}.tfstate"
     force_path_style = true

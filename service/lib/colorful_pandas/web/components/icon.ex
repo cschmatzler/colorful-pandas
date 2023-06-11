@@ -3,8 +3,8 @@ defmodule ColorfulPandas.Web.Components.Icon do
 
   use ColorfulPandas.Web, :component
 
-  attr :name, :string, required: true
-  attr :class, :string, default: ""
+  attr(:name, :string, required: true)
+  attr(:class, :string, default: "")
 
   def icon(%{name: "phosphor-" <> _} = assigns) do
     ~H"""

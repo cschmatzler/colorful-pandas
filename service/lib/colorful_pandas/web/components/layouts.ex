@@ -3,5 +3,5 @@ defmodule ColorfulPandas.Web.Layouts do
 
   use ColorfulPandas.Web, :component
 
-  embed_templates "layouts/*"
+  embed_templates("layouts/*")
 end

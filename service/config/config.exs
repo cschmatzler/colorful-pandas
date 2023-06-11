@@ -20,6 +20,13 @@ config :colorful_pandas, Oban,
   plugins: [Oban.Plugins.Pruner, {Oban.Plugins.Reindexer, schedule: "@weekly"}],
   queues: [default: 10, mail: 10]
 
+# Authentication
+# --------------
+config :ueberauth, Ueberauth,
+  providers: [
+    github: {Ueberauth.Strategy.Github, []}
+  ]
+
 # ---
 # Web
 # ---

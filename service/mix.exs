@@ -71,7 +71,8 @@ defmodule ColorfulPandas.MixProject do
       {:swoosh, "~> 1.9"},
       {:tailwind, "~> 0.2"},
       {:tesla, "~> 1.7"},
-      {:nestru, "~> 0.3"}
+      {:ueberauth, "~> 0.10"},
+      {:ueberauth_github, "~> 0.8"}
     ]
   end
 end

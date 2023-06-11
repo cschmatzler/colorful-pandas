@@ -1,4 +1,4 @@
-defmodule ColorfulPandas.Repo.Migrations.AddOban do
+defmodule ColorfulPandas.Repo.Migrations.InstallOban do
   use Ecto.Migration
 
   def up do

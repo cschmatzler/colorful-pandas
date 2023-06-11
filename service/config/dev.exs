@@ -11,6 +11,8 @@ config :opentelemetry, traces_exporter: :none
 # --------
 config :colorful_pandas, ColorfulPandas.Repo,
   stacktrace: true,
+  # Increase timeout to give database time to spin up
+  connect_timeout: 10_000,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

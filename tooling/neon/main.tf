@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     neon = {
-      source = "terraform-community-providers/neon"
+      source  = "terraform-community-providers/neon"
       version = "0.1.2"
     }
   }
@@ -20,7 +20,7 @@ provider "neon" {
 }
 
 resource "neon_project" "colorful_pandas" {
-  name = "Colorful Pandas"
+  name      = "Colorful Pandas"
   region_id = "aws-eu-central-1"
 }
 

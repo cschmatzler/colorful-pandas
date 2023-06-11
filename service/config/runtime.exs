@@ -1,4 +1,5 @@
 import Config
+
 require Logger
 
 if System.get_env("ENABLE_SERVER") do
@@ -37,10 +38,17 @@ if config_env() in [:dev, :prod] do
     ssl_opts: [
       verify: :verify_none,
       server_name_indication:
-        Regex.run(~r/.*@(.*)\/.*/, db_url, capture: :all_but_first)
+        ~r/.*@(.*)\/.*/
+        |> Regex.run(db_url, capture: :all_but_first)
         |> List.first()
         |> to_charlist()
     ]
+
+  # Authentication
+  # --------------
+  config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+    client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
+    client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
 end
 
 # ---------
@@ -70,8 +78,7 @@ if config_env() == :prod do
   # Database
   # --------
 
-  config :colorful_pandas, ColorfulPandas.Repo,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  config :colorful_pandas, ColorfulPandas.Repo, pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
   # ---
   # Web

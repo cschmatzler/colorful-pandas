@@ -24,13 +24,5 @@ defmodule ColorfulPandas.Repo.Migrations.AddUsers do
     end
 
     create unique_index(:users, [:provider, :uid], prefix: "auth", concurrently: true)
-
-    create table(:tokens, prefix: "auth") do
-      add :token, :binary, null: false
-      add :user_id, references(:users, on_delete: :delete_all), null: false
-      timestamps(updated_at: false)
-    end
-
-    create index(:tokens, [:token], prefix: "auth", concurrently: true)
   end
 end

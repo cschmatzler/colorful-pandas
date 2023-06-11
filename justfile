@@ -14,6 +14,8 @@ setup-dev:
 run-dev-server:
   cd service && \
   DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
+  GITHUB_CLIENT_ID="op://Colorful Pandas - Local/GitHub OAuth/username" \
+  GITHUB_CLIENT_SECRET="op://Colorful Pandas - Local/GitHub OAuth/credential" \
   op run -- \
     sh -c 'mix ecto.migrate && mix phx.server'
 
@@ -23,6 +25,8 @@ run-dev-server-with-telemetry user:
   DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
   HONEYCOMB_API_KEY="op://Colorful Pandas/honeycomb-local/credential" \
   HONEYCOMB_DATASET="colorful-pandas-{{ user }}" \
+  GITHUB_CLIENT_ID="op://Colorful Pandas/GitHub OAuth/username" \
+  GITHUB_CLIENT_SECRET="op://Colorful Pandas/GitHub OAuth/credential" \
   op run -- \
     sh -c 'mix ecto.migrate && mix phx.server'
 
