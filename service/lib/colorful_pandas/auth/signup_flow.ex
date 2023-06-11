@@ -2,8 +2,8 @@ defmodule ColorfulPandas.Auth.SignupFlow do
   @moduledoc false
   use Ecto.Schema
 
-  import Ecto.Changeset
-  import Ecto.Query
+  # import Ecto.Changeset
+  # import Ecto.Query
 
   @schema_prefix "auth"
   @timestamps_opts [type: :utc_datetime]

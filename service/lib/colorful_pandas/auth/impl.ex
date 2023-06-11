@@ -24,7 +24,7 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
-  def create_signup_flow(provider, uid, email) do
+  def create_signup_flow(_provider, _uid, _email) do
   end
 
   @impl ColorfulPandas.Auth

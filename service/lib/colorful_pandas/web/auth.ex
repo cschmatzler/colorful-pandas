@@ -24,7 +24,8 @@ defmodule ColorfulPandas.Web.Auth do
   def session_cookie, do: @session_cookie
 
   @doc "Path to redirect to when an authenticated session exists."
-  def signed_in_path, do: ~p"/app"
+  # TODO: change this
+  def signed_in_path, do: ~p"/"
 
   @doc "Path to redirect to when unauthenticated."
   def signed_out_path, do: ~p"/"
