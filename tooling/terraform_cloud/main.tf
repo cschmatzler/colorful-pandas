@@ -89,7 +89,7 @@ resource "tfe_workspace" "cluster_prod" {
   name               = "cluster-prod"
   auto_apply         = true
   allow_destroy_plan = false
-  working_directory  = "clusters/prod/"
+  working_directory  = "clusters/prod.colorful-pandas.com"
   vcs_repo {
     identifier     = "cschmatzler/colorful-pandas"
     branch         = "main"
