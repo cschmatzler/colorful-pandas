@@ -10,6 +10,11 @@ setup-dev:
   mix deps.get && \
   mix deps.compile
 
+# Format all the things
+fmt:
+  cd service && mix format
+  terraform fmt -recursive .
+
 # Run the development server
 run-dev-server:
   cd service && \
