@@ -3,40 +3,51 @@ defmodule ColorfulPandas.Fixtures.Auth do
 
   use Boundary, check: [in: false, out: false]
 
-  alias ColorfulPandas.Auth.SessionToken
-  alias ColorfulPandas.Auth.User
+  alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Organization
+  alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Repo
 
-  def setup_user(_context) do
-    %{user: user_fixture()}
+  def setup_identity(_context) do
+    %{identity: identity_fixture()}
   end
 
-  def setup_session(_context) do
-    user = user_fixture()
-    %{user: user, session_token: session_token_fixture(user)}
+  def setup_session(context) do
+    identity = Map.get(context, :identity, identity_fixture())
+    %{identity: identity, session: session_fixture(identity)}
   end
 
-  def user_fixture(attrs \\ %{}) do
+  def organization_fixture(attrs \\ %{}) do
     default_attrs = %{
-      provider: "google",
-      uid: make_ref() |> :erlang.ref_to_list() |> List.to_string(),
-      email: "google_user@example.com",
-      name: "Google User",
-      image: "https://example.com/image.jpg"
+      name: "Colorful Pandas"
     }
 
     attrs = Map.merge(default_attrs, attrs)
 
-    %User{}
-    |> User.changeset(attrs)
+    %Organization{}
+    |> Organization.changeset(attrs)
     |> Repo.insert!()
   end
 
-  def session_token_fixture(
-        user \\ user_fixture(),
-        attrs \\ %{payload: :crypto.strong_rand_bytes(SessionToken.token_size())}
-      ) do
-    token = Repo.insert!(%SessionToken{payload: attrs.payload, user_id: user.id})
+  def identity_fixture(organization \\ organization_fixture(), attrs \\ %{}) do
+    default_attrs = %{
+      provider: "google",
+      uid: make_ref() |> :erlang.ref_to_list() |> List.to_string(),
+      email: "google_identity@example.com",
+      name: "Google Identity",
+      image: "https://example.com/image.jpg",
+      organization_id: organization.id
+    }
+
+    attrs = Map.merge(default_attrs, attrs)
+
+    %Identity{}
+    |> Identity.changeset(attrs)
+    |> Repo.insert!()
+  end
+
+  def session_fixture(identity \\ identity_fixture(), attrs \\ %{token: :crypto.strong_rand_bytes(Session.token_size())}) do
+    token = Repo.insert!(%Session{token: attrs.token, identity_id: identity.id})
 
     token
   end

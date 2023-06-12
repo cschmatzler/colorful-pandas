@@ -23,6 +23,7 @@ config :colorful_pandas, Oban,
 # Authentication
 # --------------
 config :ueberauth, Ueberauth,
+  base_path: "/auth/oauth",
   providers: [
     github: {Ueberauth.Strategy.Github, []}
   ]

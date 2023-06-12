@@ -8,17 +8,17 @@ defmodule ColorfulPandas.Web.Plugs.Auth do
 
   @doc """
   Reads the session token from the browser session or cookies, whichever is available, and, if the
-  token is valid, assigns the corresponding user to the connection.
+  token is valid, assigns the corresponding identity to the connection.
 
   ## Usage
       # Router
-      plug :fetch_user
+      plug :fetch_identity
   """
-  def fetch_user(conn, _opts) do
+  def fetch_identity(conn, _opts) do
     {session_token, conn} = ensure_session_token(conn)
-    user = session_token && Auth.get_user_with_session_token(session_token)
+    identity = session_token && Auth.get_identity_with_session_token(session_token)
 
-    assign(conn, :user, user)
+    assign(conn, :identity, identity)
   end
 
   @doc """
@@ -29,7 +29,7 @@ defmodule ColorfulPandas.Web.Plugs.Auth do
       plug :require_session
   """
   def require_session(conn, _opts) do
-    if conn.assigns[:user] do
+    if conn.assigns[:identity] do
       conn
     else
       conn
@@ -46,7 +46,7 @@ defmodule ColorfulPandas.Web.Plugs.Auth do
       plug :redirect_if_authenticated
   """
   def redirect_if_authenticated(conn, _opts) do
-    if conn.assigns[:user] do
+    if conn.assigns[:identity] do
       conn
       |> redirect(to: signed_in_path())
       |> halt()

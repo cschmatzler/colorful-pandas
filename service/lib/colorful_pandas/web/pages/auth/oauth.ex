@@ -1,4 +1,4 @@
-defmodule ColorfulPandas.Web.Pages.Auth do
+defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   @moduledoc """
   Web authentication controller.
 
@@ -9,7 +9,7 @@ defmodule ColorfulPandas.Web.Pages.Auth do
 
   alias ColorfulPandas.Auth
 
-  plug(Ueberauth)
+  plug Ueberauth
 
   @doc """
   Starts an OAuth request.
@@ -41,13 +41,22 @@ defmodule ColorfulPandas.Web.Pages.Auth do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    case Auth.get_user_with_oauth(auth.provider, auth.uid) do
-      nil ->
-        signup_flow = Auth.create_signup_flow(auth.provider, auth.uid, auth.info.email)
-        redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+    provider = to_string(auth.provider)
+    uid = to_string(auth.uid)
 
-      %Auth.User{} = user ->
-        ColorfulPandas.Web.Auth.start_session(conn, user)
+    case Auth.get_identity_with_oauth(provider, uid) do
+      %Auth.Identity{} = identity ->
+        ColorfulPandas.Web.Auth.start_session(conn, identity)
+
+      nil ->
+        case Auth.get_signup_flow(provider, uid) do
+          %Auth.SignupFlow{} = signup_flow ->
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+
+          nil ->
+            {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name, "")
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+        end
     end
   end
 

@@ -5,13 +5,13 @@ defmodule ColorfulPandas.Auth.AuthImplTest do
   import ColorfulPandas.Fixtures.Auth
 
   alias ColorfulPandas.Auth.Impl, as: Auth
-  alias ColorfulPandas.Auth.SessionToken
+  alias ColorfulPandas.Auth.Sessions
   alias ColorfulPandas.Auth.User
 
   setup do
-    {session_token, user} = session_token_fixture()
+    {session, user} = session_fixture()
 
-    %{user: user, session_token: session_token}
+    %{user: user, session: session}
   end
 
   describe "create_user/5" do

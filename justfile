@@ -17,7 +17,7 @@ run-dev-server:
   GITHUB_CLIENT_ID="op://Colorful Pandas - Local/GitHub OAuth/username" \
   GITHUB_CLIENT_SECRET="op://Colorful Pandas - Local/GitHub OAuth/credential" \
   op run -- \
-    sh -c 'mix ecto.migrate && mix phx.server'
+    sh -c 'mix ecto.migrate && iex -S mix phx.server'
 
 run-dev-server-with-telemetry user:
   cd service && \

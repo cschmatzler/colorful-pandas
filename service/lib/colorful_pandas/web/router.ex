@@ -9,33 +9,39 @@ defmodule ColorfulPandas.Web.Router do
   import Plug.Conn
 
   pipeline :browser do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_live_flash)
-    plug(:put_root_layout, {ColorfulPandas.Web.Layouts, :root})
-    plug(:protect_from_forgery)
-    plug(:fetch_user)
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, {ColorfulPandas.Web.Layouts, :root}
+    plug :protect_from_forgery
+    plug :fetch_identity
   end
 
   scope "/", ColorfulPandas.Web.Pages do
-    pipe_through(:browser)
+    pipe_through :browser
 
     live_session :landing do
-      live("/", Landing, :index, as: :landing)
+      live "/", Landing, :index, as: :landing
     end
   end
 
-  scope "/auth", ColorfulPandas.Web.Pages do
-    pipe_through([:browser, :redirect_if_authenticated])
+  scope "/auth", ColorfulPandas.Web.Pages.Auth do
+    pipe_through :browser
 
-    get("/:provider", Auth, :request)
-    get("/:provider/callback", Auth, :callback)
-    delete("/session", Auth, :logout)
+    get "/signup", Signup, :show
+    delete "/session", Session, :logout
+  end
+
+  scope "/auth/oauth", ColorfulPandas.Web.Pages.Auth do
+    pipe_through [:browser, :redirect_if_authenticated]
+
+    get "/:provider", OAuth, :request
+    get "/:provider/callback", OAuth, :callback
   end
 
   if Application.compile_env(:colorful_pandas, :dev_routes) do
     scope "/dev" do
-      pipe_through(:browser)
+      pipe_through :browser
 
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end

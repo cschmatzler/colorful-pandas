@@ -5,30 +5,39 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @behaviour ColorfulPandas.Auth
 
-  alias ColorfulPandas.Auth.SessionToken
-  alias ColorfulPandas.Auth.User
+  alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Session
+  alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
 
   @impl ColorfulPandas.Auth
-  def get_user_with_oauth(provider, uid) do
+  def get_signup_flow(provider, uid) do
+    provider |> SignupFlow.with_oauth_query(uid) |> Repo.one()
+  end
+
+  @impl ColorfulPandas.Auth
+  def get_identity_with_oauth(provider, uid) do
     provider
-    |> User.with_oauth_query(uid)
+    |> Identity.with_oauth_query(uid)
     |> Repo.one()
   end
 
   @impl ColorfulPandas.Auth
-  def get_user_with_session_token(token) do
+  def get_identity_with_session_token(token) do
     token
-    |> SessionToken.user_with_payload_query()
+    |> Session.identity_with_token_query()
     |> Repo.one()
   end
 
   @impl ColorfulPandas.Auth
-  def create_signup_flow(_provider, _uid, _email) do
+  def create_signup_flow(provider, uid, email, name, invite_id) do
+    %{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id}
+    |> SignupFlow.changeset()
+    |> Repo.insert()
   end
 
   @impl ColorfulPandas.Auth
-  def create_user(provider, uid, email, name, image_url) do
+  def create_identity(provider, uid, email, name, image_url) do
     %{
       provider: provider,
       uid: uid,
@@ -36,21 +45,21 @@ defmodule ColorfulPandas.Auth.Impl do
       name: name,
       image_url: image_url
     }
-    |> User.changeset()
+    |> Identity.changeset()
     |> Repo.insert()
   end
 
   @impl ColorfulPandas.Auth
-  def create_session_token!(user_id) do
-    user_id
-    |> SessionToken.build()
+  def create_session!(identity_id) do
+    identity_id
+    |> Session.build()
     |> Repo.insert!()
   end
 
   @impl ColorfulPandas.Auth
-  def delete_session_token(token_payload) do
-    token_payload
-    |> SessionToken.with_payload_query()
+  def delete_session(token) do
+    token
+    |> Session.with_token_query()
     |> Repo.delete_all()
 
     :ok

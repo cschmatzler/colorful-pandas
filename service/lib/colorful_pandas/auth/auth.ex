@@ -2,61 +2,72 @@ defmodule ColorfulPandas.Auth do
   @moduledoc """
   Aggregate for authentication and authorization.
 
-  Login and signup are handled by using external OAuth providers. At the moment, these are Google
-  and GitHub.
+  Login and signup are handled by using external OAuth providers.
+  The following providers are supported:
+    - GitHub
+
   For session persistence, tokens are used.
 
   The default implementation lives in `ColorfulPandas.Auth.Implementation`.
   """
 
-  use Boundary, deps: [ColorfulPandas.Repo], exports: [User], top_level?: true
+  use Boundary, deps: [ColorfulPandas.Repo], exports: [Identity], top_level?: true
 
   use Knigge,
     otp_app: :template,
     default: ColorfulPandas.Auth.Impl
 
-  alias ColorfulPandas.Auth.SessionToken
-  alias ColorfulPandas.Auth.User
+  alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Sessions
+  alias ColorfulPandas.Auth.SignupFlow
+
+  @callback get_signup_flow(provider :: String.t(), uid :: String.t()) :: SignupFlow.t() | nil
 
   @doc """
-  Fetches a user with OAuth provider and external UID.
+  Fetches a identity with OAuth provider and external UID.
 
-  Returns `nil` if no user is found.
+  Returns `nil` if no identity is found.
   """
-  @callback get_user_with_oauth(provider :: String.t(), uid :: String.t()) :: User.t() | nil
+  @callback get_identity_with_oauth(provider :: String.t(), uid :: String.t()) :: Identity.t() | nil
 
   @doc """
-  Fetches a user with a session token.
+  Fetches a identity with a session token.
 
   Returns `nil` if the token does not exist or is expired.
   """
-  @callback get_user_with_session_token(token :: binary()) :: User.t() | nil
+  @callback get_identity_with_session_token(token :: binary()) :: Identity.t() | nil
 
+  # TODO:
+  @doc """
+  Creates a new signup flow.
+  """
   @callback create_signup_flow(
               oauth_provider :: String.t(),
               uid :: String.t(),
-              email :: String.t()
+              email :: String.t(),
+              name :: String.t() | nil,
+              invite_id :: binary() | nil
             ) :: {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
   @doc """
-  Creates a new user.
+  Creates a new identity.
   """
-  @callback create_user(
+  @callback create_identity(
               provider :: String.t(),
               uid :: String.t(),
               email :: String.t(),
               name :: String.t(),
               image_url :: String.t() | nil
             ) ::
-              {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+              {:ok, Identity.t()} | {:error, Ecto.Changeset.t()}
 
   @doc """
-  Creates a new session token for a user.
+  Creates a new session token for a identity.
   """
-  @callback create_session_token!(user_id :: integer()) :: SessionToken.t()
+  @callback create_session!(identity_id :: integer()) :: Sessions.t()
 
   @doc """
   Deletes a session token.
   """
-  @callback delete_session_token(token_payload :: binary()) :: :ok
+  @callback delete_session(token :: binary()) :: :ok
 end

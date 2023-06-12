@@ -2,8 +2,8 @@ defmodule ColorfulPandas.Web.Auth do
   @moduledoc """
   Authentication and authorization functionality for the web service.
 
-  This module includes functions to fetch the current user from a session, redirect users based on their
-  authentication status, manage session tokens, start and end user sessions, and handle mount actions
+  This module includes functions to fetch the current identity from a session, redirect identities based on their
+  authentication status, manage session tokens, start and end identity sessions, and handle mount actions
   for authenticated LiveView components.
 
   The authentication process relies on session tokens stored in cookies.
@@ -43,8 +43,8 @@ defmodule ColorfulPandas.Web.Auth do
   Creates and persists a session token, which is then added to the browser session and stored as a
   session cookie. Afterwards, redirects to `signed_in_path/0`.
   """
-  def start_session(conn, user) do
-    token = Auth.create_session_token!(user.id).token
+  def start_session(conn, identity) do
+    token = Auth.create_session!(identity.id).token
 
     conn
     |> renew_session()
@@ -58,11 +58,11 @@ defmodule ColorfulPandas.Web.Auth do
 
   Deletes the session token from the business layer, broadcasts a disconnect event to all
   connected LiveViews so that existing persistent connections are closed, preventing the
-  user from inadvertently staying authenticated.
+  identity from inadvertently staying authenticated.
   """
   def end_session(conn) do
-    session_token = get_session(conn, :session_token)
-    session_token && Auth.delete_session_token(session_token)
+    session = get_session(conn, :session)
+    session && Auth.delete_session(session)
 
     if live_socket_id = get_session(conn, :live_socket_id) do
       ColorfulPandas.Web.Endpoint.broadcast(live_socket_id, "disconnect", %{})
