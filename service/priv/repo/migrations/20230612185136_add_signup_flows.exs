@@ -1,9 +1,6 @@
 defmodule ColorfulPandas.Repo.Migrations.AddSignupFlows do
   use Ecto.Migration
 
-  @disable_ddl_transaction true
-  @disable_migration_lock true
-
   def change do
     create table(:signup_flows, prefix: "auth") do
       add :provider, :string, null: false
@@ -13,7 +10,5 @@ defmodule ColorfulPandas.Repo.Migrations.AddSignupFlows do
       add :invite_id, references(:organization_invites), null: true
       timestamps()
     end
-
-    create unique_index(:signup_flows, [:provider, :uid], prefix: "auth", concurrently: true)
   end
 end

@@ -1,14 +1,7 @@
 defmodule ColorfulPandas.Repo.Migrations.AddIdentities do
   use Ecto.Migration
 
-  # excellent_migrations:safety-assured-for-this-file raw_sql_executed
-  @disable_ddl_transaction true
-  @disable_migration_lock true
-
   def change do
-    execute "create extension if not exists citext", ""
-    execute "create schema if not exists auth", ""
-
     role_create_query = "CREATE TYPE identities_role AS ENUM ('user', 'admin')"
     role_drop_query = "DROP TYPE identities_role"
     execute(role_create_query, role_drop_query)
@@ -22,7 +15,5 @@ defmodule ColorfulPandas.Repo.Migrations.AddIdentities do
       add :role, :identities_role
       timestamps()
     end
-
-    create unique_index(:identities, [:provider, :uid], prefix: "auth", concurrently: true)
   end
 end
