@@ -21,6 +21,18 @@ defmodule ColorfulPandas.Auth.SignupFlow do
     timestamps()
   end
 
+  @type t :: %SignupFlow{
+          id: integer(),
+          provider: String.t(),
+          uid: String.t(),
+          email: String.t(),
+          name: String.t(),
+          invite: OrganizationInvite.t() | Ecto.Association.AssociationNotLoaded.t() | nil,
+          invite_id: integer() | nil,
+          inserted_at: DateTime.t(),
+          updated_at: DateTime.t() | nil
+        }
+
   @spec changeset(SignupFlow.t(), map()) :: Ecto.Changeset.t()
   def changeset(%SignupFlow{} = signup_flow \\ %SignupFlow{}, attrs) do
     signup_flow

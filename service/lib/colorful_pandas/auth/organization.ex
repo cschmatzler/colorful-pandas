@@ -19,6 +19,12 @@ defmodule ColorfulPandas.Auth.Organization do
     timestamps()
   end
 
+  @type t :: %Organization{
+          name: String.t(),
+          inserted_at: DateTime.t(),
+          updated_at: DateTime.t() | nil
+        }
+
   @doc """
   Builds a changeset for an organization.
   """
