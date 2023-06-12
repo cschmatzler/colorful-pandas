@@ -21,7 +21,7 @@ defmodule ColorfulPandas.Auth.SignupFlow do
     timestamps()
   end
 
-  @spec changeset(%SignupFlow{}, map()) :: Ecto.Changeset.t()
+  @spec changeset(SignupFlow.t(), map()) :: Ecto.Changeset.t()
   def changeset(%SignupFlow{} = signup_flow \\ %SignupFlow{}, attrs) do
     signup_flow
     |> cast(attrs, [:provider, :uid, :email, :name, :invite_id])

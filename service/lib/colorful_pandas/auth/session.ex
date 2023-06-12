@@ -39,7 +39,7 @@ defmodule ColorfulPandas.Auth.Session do
 
   Generates a random token with length `@token_size` and associates it with the given identity.
   """
-  @spec build(integer()) :: %Session{}
+  @spec build(integer()) :: Session.t()
   def build(identity_id) do
     token = :crypto.strong_rand_bytes(@token_size)
 

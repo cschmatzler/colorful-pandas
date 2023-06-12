@@ -49,7 +49,7 @@ defmodule ColorfulPandas.Auth.Identity do
   @doc """
   Builds a changeset for a identity.
   """
-  @spec changeset(%Identity{}, map()) :: Ecto.Changeset.t()
+  @spec changeset(Identity.t(), map()) :: Ecto.Changeset.t()
   def changeset(%Identity{} = identity \\ %Identity{}, attrs) do
     identity
     |> cast(attrs, [:provider, :uid, :email, :name, :image_url, :role, :organization_id])
