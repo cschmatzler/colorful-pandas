@@ -1,0 +1,6 @@
+[
+  exit: :low,
+  threshold: :low,
+  router: "lib/template/web/router.ex",
+  ignore: ["Config.HTTPS", "Config.Headers"]
+]

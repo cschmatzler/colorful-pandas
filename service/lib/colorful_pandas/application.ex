@@ -24,7 +24,7 @@ defmodule ColorfulPandas.Application do
       {Finch, name: ColorfulPandas.Finch},
       ColorfulPandas.Repo,
       {Oban, Application.fetch_env!(:colorful_pandas, Oban)},
-      ColorfulPandas.Web.Endpoint,
+      ColorfulPandas.Web.Endpoint
     ]
 
     opts = [strategy: :one_for_one, name: ColorfulPandas.Supervisor]

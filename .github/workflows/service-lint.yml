@@ -5,6 +5,10 @@ on:
       - infra/
       - tooling/
 
+defaults:
+  run:
+    working-directory: service/
+
 env:
   MIX_ENV: test
 
@@ -21,8 +25,8 @@ jobs:
         id: deps-cache
         with:
           path: |
-            deps
-            _build
+            service/deps/
+            service/_build/
           key: mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             mix-
@@ -44,8 +48,8 @@ jobs:
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
-            deps
-            _build
+            service/deps/
+            service/_build/
           key: mix-${{ github.sha }}
           restore-keys: |
             mix-${{ hashFiles('**/mix.lock') }}

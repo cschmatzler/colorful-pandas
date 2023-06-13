@@ -19,7 +19,6 @@ defmodule ColorfulPandas.Web do
         layouts: [html: ColorfulPandas.Web.Layouts]
 
       import Plug.Conn
-      import ColorfulPandas.Web, only: [cookie_header: 1]
 
       unquote(verified_routes())
     end
@@ -67,8 +66,8 @@ defmodule ColorfulPandas.Web do
 
   defp html_helpers do
     quote do
-      import Phoenix.HTML
       import ColorfulPandas.Web.Gettext
+      import Phoenix.HTML
 
       alias Phoenix.LiveView.JS
 

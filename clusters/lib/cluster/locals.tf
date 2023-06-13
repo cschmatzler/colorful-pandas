@@ -1,7 +1,7 @@
 locals {
   cluster_domain = "cluster.${var.cluster_name}.${var.base_domain}"
 
-  worker_count   = sum([for v in var.worker_nodepools : v.count])
+  worker_count = sum([for v in var.worker_nodepools : v.count])
   worker_nodes = merge([
     for pool_index, nodepool in var.worker_nodepools : {
       for node_index in range(nodepool.count) :

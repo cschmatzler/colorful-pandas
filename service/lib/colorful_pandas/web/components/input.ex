@@ -4,13 +4,13 @@ defmodule ColorfulPandas.Web.Components.Input do
 
   import ColorfulPandas.Web.Components.Helpers
 
-  attr :id, :any, default: nil
-  attr :name, :any
-  attr :label, :string
-  attr :value, :any
-  attr :type, :string, default: "text", values: ~w(submit text)
-  attr :class, :string, default: nil
-  attr :rest, :global, include: ~w()
+  attr(:id, :any, default: nil)
+  attr(:name, :any)
+  attr(:label, :string)
+  attr(:value, :any)
+  attr(:type, :string, default: "text", values: ~w(submit text))
+  attr(:class, :string, default: nil)
+  attr(:rest, :global, include: ~w())
 
   def input(%{type: "submit"} = assigns) do
     ~H"""

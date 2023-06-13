@@ -44,7 +44,7 @@ resource "hcloud_load_balancer_target" "control_plane" {
 }
 
 resource "hcloud_firewall" "firewall" {
-  name = "${local.cluster_domain}"
+  name = local.cluster_domain
 
   rule {
     description = "Control Plane"
@@ -89,6 +89,6 @@ resource "hcloud_firewall" "firewall" {
 }
 
 resource "hcloud_firewall_attachment" "cluster_nodes" {
-   firewall_id = hcloud_firewall.firewall.id
-   server_ids  = concat(module.control_plane.*.node_id, flatten([for nodepool in module.worker : nodepool.*.node_id]))
- }
+  firewall_id = hcloud_firewall.firewall.id
+  server_ids  = concat(module.control_plane.*.node_id, flatten([for nodepool in module.worker : nodepool.*.node_id]))
+}

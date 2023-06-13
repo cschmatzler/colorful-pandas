@@ -28,7 +28,7 @@ export const navigation = [
   },
   {
     title: 'Architecture',
-    links: [],
+    links: [{ title: 'Authentication', href: '/architecture/authentication' }],
   },
   {
     title: 'Infrastructure',
