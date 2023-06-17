@@ -1,1 +1,1 @@
-(import "./workload/grafana/grafana.libsonnet") + {}
+(import "./workload/grafana/grafana.libsonnet") 
