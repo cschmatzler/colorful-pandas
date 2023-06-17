@@ -21,7 +21,7 @@ defmodule ColorfulPandas.Auth do
   alias ColorfulPandas.Auth.Sessions
   alias ColorfulPandas.Auth.SignupFlow
 
-  @callback get_signup_flow(provider :: String.t(), uid :: String.t()) :: SignupFlow.t() | nil
+  @callback get_signup_flow(id :: non_neg_integer()) :: SignupFlow.t() | nil
 
   @doc """
   Fetches a identity with OAuth provider and external UID.

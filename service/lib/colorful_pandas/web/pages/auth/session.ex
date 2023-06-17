@@ -1,6 +1,6 @@
 defmodule ColorfulPandas.Web.Pages.Auth.Session do
   @moduledoc false
-  use ColorfulPandas.Web, :controller
+  use ColorfulPandas.Web.Page, :controller
 
   @doc """
   Ends an authenticated session.

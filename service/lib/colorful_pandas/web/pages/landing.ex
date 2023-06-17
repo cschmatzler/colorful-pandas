@@ -1,6 +1,6 @@
 defmodule ColorfulPandas.Web.Pages.Landing do
   @moduledoc false
-  use ColorfulPandas.Web, :live_view
+  use ColorfulPandas.Web.Page, :live_view
 
   @impl Phoenix.LiveView
   def render(assigns) do

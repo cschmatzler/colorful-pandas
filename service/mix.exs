@@ -64,6 +64,7 @@ defmodule ColorfulPandas.MixProject do
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.4", only: :dev},
       {:phoenix_live_view, "~> 0.18"},
+      {:phoenix_storybook, "~> 0.5"},
       {:postgrex, "~> 0.17"},
       {:remote_ip, "~> 1.1"},
       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},

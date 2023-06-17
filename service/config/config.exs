@@ -45,16 +45,16 @@ config :colorful_pandas, ColorfulPandas.Web.Endpoint,
 # Web Assets
 # ------
 config :esbuild,
-  version: "0.17.16",
+  version: "0.18.4",
   default: [
     args:
-      ~w(js/app.js css/manrope.css --bundle --target=es2020 --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --loader:.woff2=file),
+      ~w(js/app.js --bundle --target=es2020 --outdir=../priv/static/assets --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
 config :tailwind,
-  version: "3.3.1",
+  version: "3.3.2",
   default: [
     args: ~w(
       --config=tailwind.config.cjs

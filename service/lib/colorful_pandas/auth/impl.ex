@@ -5,14 +5,16 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @behaviour ColorfulPandas.Auth
 
+  import Ecto.Changeset
+
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
 
   @impl ColorfulPandas.Auth
-  def get_signup_flow(provider, uid) do
-    provider |> SignupFlow.with_oauth_query(uid) |> Repo.one()
+  def get_signup_flow(id) do
+    Repo.get(SignupFlow, id)
   end
 
   @impl ColorfulPandas.Auth
@@ -31,8 +33,11 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @impl ColorfulPandas.Auth
   def create_signup_flow(provider, uid, email, name, invite_id) do
-    %{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id}
-    |> SignupFlow.changeset()
+    %SignupFlow{}
+    |> change(%{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id})
+    |> validate_required([:provider, :uid, :email, :name])
+    |> unsafe_validate_unique([:provider, :uid], ColorfulPandas.Repo)
+    |> unique_constraint([:provider, :uid])
     |> Repo.insert()
   end
 

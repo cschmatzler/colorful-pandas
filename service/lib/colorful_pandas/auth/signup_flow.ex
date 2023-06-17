@@ -32,21 +32,4 @@ defmodule ColorfulPandas.Auth.SignupFlow do
           inserted_at: DateTime.t(),
           updated_at: DateTime.t() | nil
         }
-
-  @spec changeset(SignupFlow.t(), map()) :: Ecto.Changeset.t()
-  def changeset(%SignupFlow{} = signup_flow \\ %SignupFlow{}, attrs) do
-    signup_flow
-    |> cast(attrs, [:provider, :uid, :email, :name, :invite_id])
-    |> validate_required([:provider, :uid, :email, :name])
-    |> unsafe_validate_unique([:provider, :uid], ColorfulPandas.Repo)
-    |> unique_constraint([:provider, :uid])
-  end
-
-  @spec with_oauth_query(String.t(), String.t()) :: Ecto.Query.t()
-  def with_oauth_query(provider, uid) do
-    from(sf in SignupFlow,
-      where: sf.provider == ^provider,
-      where: sf.uid == ^uid
-    )
-  end
 end

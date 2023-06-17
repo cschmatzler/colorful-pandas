@@ -6,6 +6,7 @@ defmodule ColorfulPandas.Web.Router do
   import ColorfulPandas.Web.Plugs.Auth
   import Phoenix.Controller
   import Phoenix.LiveView.Router
+  import PhoenixStorybook.Router
   import Plug.Conn
 
   pipeline :browser do
@@ -15,6 +16,10 @@ defmodule ColorfulPandas.Web.Router do
     plug :put_root_layout, {ColorfulPandas.Web.Layouts, :root}
     plug :protect_from_forgery
     plug :fetch_identity
+  end
+
+  scope "/" do
+    storybook_assets()
   end
 
   scope "/", ColorfulPandas.Web.Pages do
@@ -28,7 +33,7 @@ defmodule ColorfulPandas.Web.Router do
   scope "/auth", ColorfulPandas.Web.Pages.Auth do
     pipe_through :browser
 
-    get "/signup", Signup, :show
+    live "/signup", Signup, :show, as: :signup
     delete "/session", Session, :logout
   end
 
@@ -37,6 +42,12 @@ defmodule ColorfulPandas.Web.Router do
 
     get "/:provider", OAuth, :request
     get "/:provider/callback", OAuth, :callback
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    live_storybook("/storybook", backend_module: ColorfulPandas.Web.Storybook)
   end
 
   if Application.compile_env(:colorful_pandas, :dev_routes) do

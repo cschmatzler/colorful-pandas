@@ -5,7 +5,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   Starts OAuth requests, handles callbacks and manages session tokens.
   """
 
-  use ColorfulPandas.Web, :controller
+  use ColorfulPandas.Web.Page, :controller
 
   alias ColorfulPandas.Auth
 
