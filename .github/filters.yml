@@ -1,0 +1,4 @@
+clusters_tanka: &clusters_tanka
+  - clusters/lib/**/*.libsonnet
+  - clusters/**/spec.json
+  - clusters/**/*.{jsonnet, libsonnet}

@@ -1,0 +1,51 @@
+name: "Clusters: Compile"
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changed-clusters:
+    name: Detect changed files
+    runs-on: ubuntu-22.04
+    timeout-minutes: 3
+    outputs:
+      changed-clusters: ${{ steps.collect-clusters.output.changed-clusters }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check for file changes
+        uses: dorny/paths-filter
+        id: changes
+        with:
+          token: ${{ github.token }}
+          filters: .github/filters.yml
+
+      - name: Collect changed clusters
+        id: collect-clusters
+        if: |
+          steps.changes.outputs.clusters_tanka == 'true'
+        shell: bash
+        run: |
+          PATHS='${{ steps.changes.outputs.clusters_tanka }}'
+          OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/")[1]) | unique')
+          echo "changed-clusters=${OUTPUT}" >> $GITHUB_OUTPUT
+
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    needs:
+      - collect-clusters
+    if: ${{ needs.collect-clusters.outputs.changed-clusters }} != ''
+    strategy:
+      matrix:
+        cluster: ["${{ fromJson(needs.collect-clusters.outputs.changed-clusters) }}"]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - run: "echo ${{ matrix.cluster }}"
