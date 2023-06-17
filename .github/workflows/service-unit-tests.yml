@@ -2,8 +2,9 @@ name: "Service: Unit tests"
 on:
   pull_request:
     paths-ignore:
-      - infra/
-      - tooling/
+      - "**/"
+      # - infra/
+      # - tooling/
 
 defaults:
   run:

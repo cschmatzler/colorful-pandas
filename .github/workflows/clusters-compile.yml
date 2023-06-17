@@ -38,7 +38,6 @@ jobs:
 
   compile:
     name: Compile
-    runs-on: ubuntu-latest
     needs:
       - changed-clusters
     if: ${{ needs.changed-clusters.outputs.changed-clusters }} != ''
@@ -46,6 +45,10 @@ jobs:
       matrix:
         cluster: ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
       fail-fast: false
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: clusters/
     steps:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
@@ -54,4 +57,4 @@ jobs:
         with:
           tanka-version: 0.25.0
       - name: Compile manifests
-        run: "tk export clusters/${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
+        run: "tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy fail-on-conflicts"
