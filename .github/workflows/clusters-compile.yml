@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           PATHS='${{ steps.changes.outputs.clusters_tanka_files }}'
-          OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/") | { "cluster": .[1], "env": .[2] }')
+          OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/") | { "cluster": .[1], "env": .[2]})')
           echo "changed-clusters=${OUTPUT}" >> $GITHUB_OUTPUT
 
   compile:
