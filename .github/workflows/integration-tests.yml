@@ -18,17 +18,17 @@ jobs:
     runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Install node
-        uses: buildjet/setup-node@v3
+        uses: buildjet/setup-node@c7d4af42cfb6551248967ed0e51379dbae4cdefd # v3
         with:
           node-version: 18.16.0
           cache: npm
           cache-dependency-path: integration-tests/package-lock.json
 
       - name: Cache Playwright binaries
-        uses: buildjet/cache@v3
+        uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         id: playwright-cache
         with:
           key: playwright
@@ -45,7 +45,7 @@ jobs:
         run: "npx playwright test"
 
       - name: Upload report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
         if: always()
         with:
           name: playwright-report
