@@ -1,6 +1,10 @@
 name: "Handbook: Deploy"
 on:
   push:
+    branches:
+      - main
+    paths:
+      - handbook/**
 
 concurrency:
   group: ${{ github.workflow }}

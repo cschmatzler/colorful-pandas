@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: 18.16.0
           cache: npm
+          cache-dependency-path: integration-tests/package-lock.json
       - name: Cache playwright binaries
         uses: buildjet/cache@v3
         id: playwright-cache
