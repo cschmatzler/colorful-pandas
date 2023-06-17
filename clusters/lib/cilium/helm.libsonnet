@@ -12,6 +12,39 @@ local helm = tanka.helm.new(std.thisFile);
       },
       hostRoot: '/sys/fs/cgroup',
     },
+    securityContext: {
+      privileged: false,
+      capabilities: {
+        ciliumAgent: [
+          'CHOWN',
+          'KILL',
+          'NET_ADMIN',
+          'NET_RAW',
+          'IPC_LOCK',
+          'SYS_ADMIN',
+          'SYS_RESOURCE',
+          'DAC_OVERRIDE',
+          'FOWNER',
+          'SETGID',
+          'SETUID',
+        ],
+        mountCgroup: [
+          'SYS_ADMIN',
+          'SYS_CHROOT',
+          'SYS_PTRACE',
+        ],
+        applySysctlOverwrites: [
+          'SYS_ADMIN',
+          'SYS_CHROOT',
+          'SYS_PTRACE',
+        ],
+        cleanCiliumState: [
+          'NET_ADMIN',
+          'SYS_ADMIN',
+          'SYS_RESOURCE',
+        ],
+      },
+    },
     loadBalancer: {
       algorithm: 'maglev',
     },

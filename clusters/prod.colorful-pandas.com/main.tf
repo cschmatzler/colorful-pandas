@@ -45,7 +45,7 @@ module "cluster" {
   worker_nodepools = tolist([
     {
       name     = "worker-cax11"
-      count    = 3
+      count    = 2
       type     = "cax11"
       location = "fsn1"
       image_id = 114060350
