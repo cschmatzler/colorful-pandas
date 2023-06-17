@@ -32,7 +32,7 @@ jobs:
           steps.changes.outputs.clusters_tanka == 'true'
         shell: bash
         run: |
-          PATHS='${{ steps.changes.outputs.clusters_tanka }}'
+          PATHS='${{ steps.changes.outputs.clusters_tanka_files }}'
           OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/")[1]) | unique')
           echo "changed-clusters=${OUTPUT}" >> $GITHUB_OUTPUT
 
