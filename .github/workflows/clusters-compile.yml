@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check for file changes
-        uses: dorny/paths-filter
+        uses: dorny/paths-filter@v2.11.1
         id: changes
         with:
           token: ${{ github.token }}
