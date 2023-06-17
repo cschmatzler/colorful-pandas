@@ -2,7 +2,7 @@ name: "Handbook: Deploy"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - handbook/
 
