@@ -5,5 +5,13 @@
     "**/deps/**",
     "**/node_modules/**",
     "**/vendor/**"
+  ],
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "action"
+      ],
+      "pinDigests": true
+    }
   ]
 }
