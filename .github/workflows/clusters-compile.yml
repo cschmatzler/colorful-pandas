@@ -33,9 +33,8 @@ jobs:
         shell: bash
         run: |
           PATHS='${{ steps.changes.outputs.clusters_tanka_files }}'
-          OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/")[1]) | unique')
+          OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/") | { "cluster": .[1], "env": .[2] }')
           echo "changed-clusters=${OUTPUT}" >> $GITHUB_OUTPUT
-      - run: "echo ${{ steps.collect-clusters.outputs.changed-clusters }}"
 
   compile:
     name: Compile
@@ -48,5 +47,11 @@ jobs:
         cluster: ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
       fail-fast: false
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
-      - run: "echo ${{ matrix.cluster }}"
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
+      - name: Setup Tanka
+        uses: unfunco/setup-tanka@v1
+        with:
+          tanka-version: 0.25.0
+      - name: Compile manifests
+        run: "tk export clusters/${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
