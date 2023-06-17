@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 3
     outputs:
-      changed-clusters: ${{ steps.collect-clusters.output.changed-clusters }}
+      changed-clusters: ${{ steps.collect-clusters.outputs.changed-clusters }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,8 +34,8 @@ jobs:
         run: |
           PATHS='${{ steps.changes.outputs.clusters_tanka_files }}'
           OUTPUT=$(echo $PATHS | jq --raw-output -c 'map(. |= split("/")[1]) | unique')
-          echo $OUTPUT
           echo "changed-clusters=${OUTPUT}" >> $GITHUB_OUTPUT
+      - run: "echo ${{ steps.collect-clusters.outputs.changed-clusters }}"
 
   compile:
     name: Compile
