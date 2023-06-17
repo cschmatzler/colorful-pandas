@@ -40,11 +40,11 @@ jobs:
     name: Compile
     runs-on: ubuntu-latest
     needs:
-      - collect-clusters
-    if: ${{ needs.collect-clusters.outputs.changed-clusters }} != ''
+      - changed-clusters
+    if: ${{ needs.changed-clusters.outputs.changed-clusters }} != ''
     strategy:
       matrix:
-        cluster: ["${{ fromJson(needs.collect-clusters.outputs.changed-clusters) }}"]
+        cluster: ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
       fail-fast: false
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
