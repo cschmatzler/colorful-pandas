@@ -42,6 +42,7 @@ build-talos version:
   op run -- \
     packer build -var talos_version={{ version }} modules/talos/
 
+# Encrypts a cluster's sensitive files
 encrypt-cluster-config cluster_name:
   SOPS_AGE_KEY="op://Colorful Pandas/SOPS/SOPS_AGE_KEY" \
   SOPS_AGE_RECIPIENTS="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
@@ -51,14 +52,13 @@ encrypt-cluster-config cluster_name:
     sops -e clusters/{{ cluster_name }}/talos/controlplane.yaml > clusters/{{ cluster_name }}/talos/controlplane.sops.yaml && \
     sops -e clusters/{{ cluster_name }}/talos/worker.yaml > clusters/{{ cluster_name }}/talos/worker.sops.yaml"
 
-init-terraform-cloud:
+# Apply the configuration for external tooling
+apply-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
   AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
   op run -- \
     terraform -chdir=tooling/terraform_cloud/ init -upgrade
 
-# Apply the configuration for external tooling
-apply-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
   AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
   TF_VAR_terraform_cloud_token="op://Colorful Pandas/Terraform Cloud/credential" \

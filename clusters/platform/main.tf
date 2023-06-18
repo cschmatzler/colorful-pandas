@@ -33,7 +33,7 @@ provider "cloudflare" {
 
 module "cluster" {
   source       = "../lib/cluster"
-  cluster_name = "prod"
+  cluster_name = "platform"
   base_domain  = "colorful-pandas.com"
 
   control_plane_nodepool = {
