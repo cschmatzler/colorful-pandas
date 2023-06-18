@@ -8,8 +8,8 @@ local helm = tanka.helm.new(std.thisFile);
       network: {
         valueFrom: {
           secretKeyRef: {
-            name: 'hcloud-network',
-            key: 'network',
+            name: "hcloud-network",
+            key: "network",
           },
         },
       },
