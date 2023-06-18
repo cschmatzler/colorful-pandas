@@ -1,0 +1,28 @@
+name: "Compile environment"
+description: "Compiles an environment using Tanka"
+inputs:
+  input-dir:
+    description: "Directory where `spec.json` is"
+    required: true
+  output-dir:
+    description: "Directory to output new files to"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Jsonnet
+      uses: kobtea/setup-jsonnet-action@1ba74f3571a59047dd4c5b8cb365bd3656f88e2a # v1
+    # TODO: make this a proper action
+    - name: Setup Tanka
+      shell: bash
+      run: |
+        curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-amd64 --output tk
+        chmod +x tk
+    - name: Install dependencies
+      shell: bash
+      run: jb install
+    - name: Compile manifests
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.output-dir }}
+        ./tk export ${{ inputs.output-dir }} ${{ inputs.input-dir }} --merge-strategy replace-envs

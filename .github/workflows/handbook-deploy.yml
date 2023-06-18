@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - handbook/**
+    # paths:
+    #   - handbook/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -44,8 +44,18 @@ jobs:
       - name: Update image tag
         run: |
           sed -i "s/handbook: 'ghcr\.io\/cschmatzler\/handbook:\(.*\)'/handbook: 'ghcr.io\/cschmatzler\/handbook:${{ env.VERSION }}'/g" clusters/platform/docs/handbook.jsonnet
+
+      - name: Compile Kubernetes manifests
+        uses: ./.github/actions/compile-environment
+        with:
+          input-dir: clusters/platform/docs/
+          output-dir: clusters/platform/compiled/docs
+
+      - name: Push changes
+        run: |
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
           git add clusters/platform/docs/handbook.jsonnet
+          git add clusters/platform/compiled/
           git commit -am "Update handbook deployment tag to ${{ env.VERSION }}"
           git push
