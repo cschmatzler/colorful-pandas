@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - handbook/**
+    # paths:
+    #   - handbook/**
 
 concurrency:
   group: ${{ github.workflow }}
@@ -13,7 +13,8 @@ concurrency:
 jobs:
   deploy:
     name: Build and deploy image
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-latest
+    # runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -46,9 +47,9 @@ jobs:
 
       - name: Update image tag
         run: |
-          sd "handbook: 'ghcr.io/cschmatzler/handbook:(?:.*)'" "handbook: 'ghcr.io/cschmatzler/handbook:${{ env.VERSION }}'" clusters/platform/docs/handbook.jsonnet
+          sed -i "s/handbook: 'ghcr\.io\/cschmatzler\/handbook:\(.*\)'/handbook: 'ghcr.io\/cschmatzler\/handbook:${{ env.VERSION }}'/g" clusters/platform/docs/handbook.jsonnet
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
           git add clusters/platform/docs/handbook.jsonnet
-          git commit -m "Update handbook deployment tag to ${{ env.VERSION }}"
+          git commit -am "Update handbook deployment tag to ${{ env.VERSION }}"
           git push
