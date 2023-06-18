@@ -2,7 +2,7 @@
 {
   _images+:: {
     handbook: {
-      handbook: 'ghcr.io/cschmatzler/handbook:23.6.18-0eb0397',
+      handbook: 'ghcr.io/cschmatzler/handbook:23.6.18-dc1152e',
     },
   },
   _config+:: {},
