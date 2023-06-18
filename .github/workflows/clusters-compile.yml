@@ -66,3 +66,9 @@ jobs:
         run: |
           mkdir -p ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled
           ./tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
+      - name: Push manifests
+        run: |
+          git config --global user.name "actions[bot]"
+          git config --global user.email "actions@colorful-pandas.com"
+          git commit -am "Update manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
+          git push
