@@ -43,8 +43,7 @@ jobs:
     if: "'${{ needs.changed-clusters.outputs.changed-clusters }}' != ''"
     strategy:
       matrix:
-        cluster:
-          ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
+        cluster: ${{ join(fromJson(needs.changed-clusters.outputs.changed-clusters), ',') }}
       fail-fast: false
     runs-on: ubuntu-latest
     defaults:
