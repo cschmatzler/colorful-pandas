@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "dependencyDashboard": true,
-  "labels": ["renovate"],
+  "labels": [
+    "renovate"
+  ],
   "ignorePaths": [
     "**/deps/**",
     "**/node_modules/**",
@@ -10,7 +12,7 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^chartfile.yaml$"
+        "^chartfile\.yaml$"
       ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( registryUrl=(?<registryUrl>.*?))?( versioning=(?<versioning>.*?))?( depType=(?<depType>.*?))?\\s*(version|tag):\\s*(?<currentValue>.*)"
