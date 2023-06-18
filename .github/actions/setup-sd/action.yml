@@ -10,10 +10,12 @@ runs:
   steps:
     - name: Download sd
       shell: bash
-      run: curl https://github.com/chmln/sd/releases/download/v${{ inputs.version }}/sd-v${{ inputs.version }}-x86_64-unknown-linux-gnu --output sd
+      run: |
+        curl https://github.com/chmln/sd/releases/download/v${{ inputs.version }}/sd-v${{ inputs.version }}-x86_64-unknown-linux-gnu \
+          --output ${{ github.action_path }}/sd
     - name: Make sd executable
       shell: bash
-      run: chmod +x sd
+      run: chmod +x ${{ github.action_path }}/sd
     - name: Add sd to PATH
       shell: bash
       run: echo "${{ github.action_path }}" >> $GITHUB_PATH

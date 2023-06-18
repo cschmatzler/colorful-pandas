@@ -9,5 +9,8 @@ hero:
     - theme: brand
       text: Engineering
       link: /engineering/
+    - theme: secondary
+      text: GitHub
+      link: https://github.com/cschmatzler/colorful-pandas
 ---
 
