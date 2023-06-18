@@ -3,6 +3,6 @@
   "main": "index.js",
   "private": true,
   "devDependencies": {
-    "@playwright/test": "^1.35.0"
+    "@playwright/test": "1.35.0"
   }
 }
