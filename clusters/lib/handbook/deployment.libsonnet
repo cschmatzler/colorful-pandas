@@ -1,18 +1,27 @@
 local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet',
+      util = (import 'util.libsonnet').withK(k),
       deployment = k.apps.v1.deployment,
       container = k.core.v1.container,
       port = k.core.v1.containerPort;
 
 {
   handbook+: {
-    deployment: deployment.new('handbook') +
-                deployment.spec.withReplicas(3) +
-                deployment.spec.template.spec.withContainers([
-                  container.withName('handbook') +
-                  container.withImage($._images.handbook.handbook) +
-                  container.withPorts([
-                    port.withName('http') + port.withProtocol('TCP') + port.withContainerPort(80),
-                  ]),
-                ]),
+    container::
+      container.new('handbook', $._images.handbook.handbook) +
+      container.withPorts([
+        port.newNamed(3000, 'http'),
+      ]),
+
+    deployment: deployment.new(
+                  'handbook',
+                  replicas=3,
+                  containers=[
+                    self.container,
+                  ]
+                ) +
+                util.withDeploymentLabels({
+                  'app.kubernetes.io/name': 'handbook',
+                  'app.kubernetes.io/instance': 'handbook',
+                }),
   },
 }
