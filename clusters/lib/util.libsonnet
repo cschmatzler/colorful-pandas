@@ -20,8 +20,8 @@ local util(k) = {
       for p in (c + container.withPortsMixin([])).ports
     ];
     local selector = {
-      [x]: deployment.spec.template.metadata.labels[x]
-      for x in std.objectFields(deployment.spec.template.metadata.labels)
+      [x]: deployment.spec.selector.matchLabels[x]
+      for x in std.objectFields(deployment.spec.selector.matchLabels)
     };
 
     service.new(
