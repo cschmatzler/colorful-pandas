@@ -12,10 +12,10 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^chartfile.yaml$"
+        "(^|/)chartfile\\.yaml$"
       ],
       "matchStrings": [
-        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*) (?:registryUrl=(?<registryUrl>.*))? (?:versioning=(?<versioning>.*))?\\s*(?:version|tag):\\s*(?<currentValue>.*)"
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?) registryUrl=(?<registryUrl>.*) versioning=(?<versioning>.*?)\\s*version: (?<currentValue>.*)\\s*"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
