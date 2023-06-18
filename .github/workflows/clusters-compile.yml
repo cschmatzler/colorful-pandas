@@ -57,22 +57,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-      - name: Setup Jsonnet
-        uses: kobtea/setup-jsonnet-action@1ba74f3571a59047dd4c5b8cb365bd3656f88e2a # v1
-      # TODO: make this a proper action
-      - name: Setup Tanka
-        run: |
-          curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-amd64 --output ${{ github.action_path }}/tk
-          chmod +x ${{ github.action_path }}/tk
-          echo ${{ github.action_path }} >> $GITHUB_PATH
-      - name: Install dependencies
-        working-directory: clusters/
-        run: jb install
-      - name: Compile manifests
-        working-directory: clusters/
-        run: |
-          mkdir -p ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }}
-          tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
+      - name: Compile Kubernetes manifests
+        uses: ./.github/actions/compile-environment
+        with:
+          cluster: ${{ matrix.cluster.cluster }}
+          env: ${{ matrix.cluster.env }}
       - name: Push manifests
         run: |
           git config --global user.name "actions[bot]"

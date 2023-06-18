@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - handbook/**
+    paths:
+      - handbook/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -57,5 +57,5 @@ jobs:
           git config --global user.email "actions@colorful-pandas.com"
           git add clusters/platform/docs/handbook.jsonnet
           git add clusters/platform/compiled/
-          git commit -am "Update handbook deployment tag to ${{ env.VERSION }}"
+          git commit -am "Deploy handbook v${{ env.VERSION }}"
           git push
