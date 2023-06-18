@@ -1,0 +1,6 @@
+{
+    "apps-v1.Deployment-hcloud-cloud-controller-manager.yaml": "prod.colorful-pandas.com/kube-system/main.jsonnet",
+    "rbac.authorization.k8s.io-v1.ClusterRoleBinding-system:cloud-controller-manager.yaml": "prod.colorful-pandas.com/kube-system/main.jsonnet",
+    "v1.Namespace-kube-system.yaml": "prod.colorful-pandas.com/kube-system/main.jsonnet",
+    "v1.ServiceAccount-cloud-controller-manager.yaml": "prod.colorful-pandas.com/kube-system/main.jsonnet"
+}
