@@ -15,7 +15,7 @@
         "^chartfile.yaml$"
       ],
       "matchStrings": [
-        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*) (?:registryUrl=(?<registryUrl>.*))? (?:versioning=(?<versioning>.*))?"
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*) (?:registryUrl=(?<registryUrl>.*))? (?:versioning=(?<versioning>.*))?\\s*(?:version|tag):\\s*(?<currentValue>.*)"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
