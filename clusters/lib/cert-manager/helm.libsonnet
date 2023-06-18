@@ -4,7 +4,7 @@ local helm = tanka.helm.new(std.thisFile);
 {
   values:: {
     installCRDs: true,
-    clusterResourceNamespace: 'security',
+    clusterResourceNamespace: $._config.cert_manager.namespace,
     replicaCount: 3,
     extraArgs: [
       '--dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53',

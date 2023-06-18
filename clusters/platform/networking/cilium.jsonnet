@@ -4,8 +4,6 @@
     cilium+: {
       namespace: 'networking',
       service_host: 'cluster.platform.colorful-pandas.com',
-      hubble_dns_target: 'not sure',
-      hubble_host: 'hubble.prod.colorful-pandas.com',
     },
   },
 }
