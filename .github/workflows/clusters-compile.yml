@@ -75,5 +75,5 @@ jobs:
           git config --global user.email "actions@colorful-pandas.com"
           # NOTE: this might lead to race conditions if multiple environments are updated at once
           git pull --ff-only
-          git commit -am "Update cluster manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
+          git diff --quiet && git diff --staged --quiet || git commit -am "Update cluster manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
           git push
