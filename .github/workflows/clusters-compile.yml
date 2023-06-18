@@ -59,5 +59,6 @@ jobs:
           tanka-version: 0.25.0
       - name: Compile manifests
         run: |
+          echo $PATH
           mkdir -p ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled
           tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
