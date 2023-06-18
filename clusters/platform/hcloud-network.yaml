@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hcloud-network
+  namespace: kube-system
+stringData:
+  network: cluster.platform.colorful-pandas.com

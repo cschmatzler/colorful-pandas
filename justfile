@@ -51,6 +51,12 @@ encrypt-cluster-config cluster_name:
     sops -e clusters/{{ cluster_name }}/talos/controlplane.yaml > clusters/{{ cluster_name }}/talos/controlplane.yaml.sops && \
     sops -e clusters/{{ cluster_name }}/talos/worker.yaml > clusters/{{ cluster_name }}/talos/worker.yaml.sops"
 
+init-terraform-cloud:
+  AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
+  AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
+  op run -- \
+    terraform -chdir=tooling/terraform_cloud/ init -upgrade
+
 # Apply the configuration for external tooling
 apply-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \

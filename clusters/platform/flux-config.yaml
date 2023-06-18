@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  CLUSTER_NAME: platform.colorful-pandas.com
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: colorful-pandas
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: ssh://git@github.com/cschmatzler/colorful-pandas
+  secretRef:
+    name: github
+  ref:
+    branch: main
+  ignore: |
+    /*
+    !/clusters/platform
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: colorful-pandas
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: colorful-pandas
+  path: ./clusters/platform/compiled
+  prune: true
+  wait: false

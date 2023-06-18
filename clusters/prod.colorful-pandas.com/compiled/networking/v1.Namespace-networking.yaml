@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    pod-security.kubernetes.io/enforce: privileged
-    tanka.dev/environment: 8f414366f31d43444fdc780a19d124ba4288640390afcba2
-  name: networking

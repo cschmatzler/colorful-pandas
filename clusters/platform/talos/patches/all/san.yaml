@@ -1,0 +1,3 @@
+machine:
+  certSANs:
+    - cluster.platform.colorful-pandas.com
