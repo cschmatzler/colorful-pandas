@@ -1,0 +1,4 @@
+{
+    "apps-v1.Deployment-handbook.yaml": "platform/docs/main.jsonnet",
+    "v1.Namespace-docs.yaml": "platform/docs/main.jsonnet"
+}

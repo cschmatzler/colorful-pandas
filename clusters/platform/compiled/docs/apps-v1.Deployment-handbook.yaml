@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handbook
+  namespace: docs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: handbook
+  template:
+    metadata:
+      labels:
+        name: handbook
+    spec:
+      containers:
+      - image: ghcr.io/cschmatzler/handbook:23.6.18-12e8304
+        name: handbook
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
