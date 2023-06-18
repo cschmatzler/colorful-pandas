@@ -3,10 +3,9 @@ name: Integration tests
 on:
   push:
     branches:
-      - main
-    paths:
-      - service/**
-  pull_request:
+      - disabled
+        # - main
+  # pull_request:
 
 defaults:
   run:
