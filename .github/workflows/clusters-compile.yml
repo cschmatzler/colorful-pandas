@@ -1,4 +1,6 @@
 name: "Clusters: Compile manifests"
+# TODO: this currently only runs when a cluster specification is changed. It does not run when something in `lib/`
+# is updated. On `lib/` update, all clusters using that library should be recompiled.
 on:
   push:
     branches:

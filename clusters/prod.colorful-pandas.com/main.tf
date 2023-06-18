@@ -35,6 +35,7 @@ module "cluster" {
   source       = "../lib/cluster"
   cluster_name = "prod"
   base_domain  = "colorful-pandas.com"
+
   control_plane_nodepool = {
     type     = "cax11"
     location = "fsn1"

@@ -21,6 +21,7 @@ module "worker" {
   rdns_domain = local.cluster_domain
 
   labels = {
+    "cluster"     = local.cluster_domain,
     "provisioner" = "terraform",
     "role"        = "worker"
   }

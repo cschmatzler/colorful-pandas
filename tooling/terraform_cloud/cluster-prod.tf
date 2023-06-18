@@ -4,7 +4,7 @@ resource "tfe_workspace" "cluster_prod" {
   name               = "cluster-prod"
   auto_apply         = true
   allow_destroy_plan = false
-  terraform_version = "1.5.0"
+  terraform_version  = "1.5.0"
   working_directory  = "clusters/prod.colorful-pandas.com"
   vcs_repo {
     identifier     = "cschmatzler/colorful-pandas"

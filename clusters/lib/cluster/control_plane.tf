@@ -19,6 +19,7 @@ module "control_plane" {
   rdns_domain = local.cluster_domain
 
   labels = {
+    "cluster"     = local.cluster_domain,
     "provisioner" = "terraform",
     "role"        = "control-plane"
   }
