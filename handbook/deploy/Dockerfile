@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE="node:20.3.0-alpine3.18"
+ARG BUILDER_IMAGE="node:18.16.0-alpine3.18"
 ARG RUNNER_IMAGE="busybox:1.35"
 
 # Builder
