@@ -41,10 +41,10 @@ jobs:
     needs:
       - changed-clusters
     if: ${{ needs.changed-clusters.outputs.changed-clusters }} != ''
-    strategy:
-      matrix:
-        cluster: ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
-      fail-fast: false
+    # strategy:
+    #   matrix:
+    #     cluster: ["${{ fromJson(needs.changed-clusters.outputs.changed-clusters) }}"]
+    #   fail-fast: false
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -56,5 +56,6 @@ jobs:
         uses: unfunco/setup-tanka@1.0.0-alpha.1
         with:
           tanka-version: 0.25.0
-      - name: Compile manifests
-        run: "tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy fail-on-conflicts"
+      - run: "echo $(${{ needs.changed-clusters.outputs.changed-clusters }} != '')"
+      # - name: Compile manifests
+      #   run: "tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy fail-on-conflicts"
