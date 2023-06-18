@@ -48,8 +48,8 @@ jobs:
       - name: Compile Kubernetes manifests
         uses: ./.github/actions/compile-environment
         with:
-          input-dir: clusters/platform/docs/
-          output-dir: clusters/platform/compiled/docs
+          cluster: platform
+          env: docs
 
       - name: Push changes
         run: |

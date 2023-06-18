@@ -62,14 +62,17 @@ jobs:
       # TODO: make this a proper action
       - name: Setup Tanka
         run: |
-          curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-amd64 --output tk
-          chmod +x tk
+          curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-amd64 --output ${{ github.action_path }}/tk
+          chmod +x ${{ github.action_path }}/tk
+          echo ${{ github.action_path }} >> $GITHUB_PATH
       - name: Install dependencies
+        working-directory: clusters/
         run: jb install
       - name: Compile manifests
+        working-directory: clusters/
         run: |
           mkdir -p ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }}
-          ./tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
+          tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
       - name: Push manifests
         run: |
           git config --global user.name "actions[bot]"
