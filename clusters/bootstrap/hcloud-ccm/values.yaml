@@ -1,0 +1,7 @@
+networking:
+  enabled: true
+  network:
+    valueFrom:
+      secretKeyRef:
+        name: hcloud-network
+        key: network

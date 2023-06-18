@@ -65,7 +65,7 @@ jobs:
       - name: Compile manifests
         run: |
           mkdir -p ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled
-          ./tk export ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
+          ./tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
       - name: Push manifests
         run: |
           git add ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled/
