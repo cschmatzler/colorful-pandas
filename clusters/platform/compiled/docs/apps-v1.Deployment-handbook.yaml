@@ -14,7 +14,7 @@ spec:
         name: handbook
     spec:
       containers:
-      - image: ghcr.io/cschmatzler/handbook:23.6.18-12e8304
+      - image: ghcr.io/cschmatzler/handbook:23.6.18-2d97148
         name: handbook
         ports:
         - containerPort: 80
