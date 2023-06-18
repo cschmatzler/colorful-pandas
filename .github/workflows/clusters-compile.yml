@@ -68,7 +68,7 @@ jobs:
           ./tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
       - name: Push manifests
         run: |
-          git add ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled/
+          git add ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }}/
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
           # NOTE: this might lead to race conditions if multiple environments are updated at once
