@@ -13,7 +13,23 @@ export default defineConfig({
       "/engineering/": [
         {
           text: "Platform",
-          items: [],
+          items: [
+            {
+              text: "Kubernetes",
+              items: [
+                {
+                  text: "Creating a new cluster",
+                  link: "/engineering/platform/kubernetes/create-new-cluster",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          text: "ADR",
+          items: [
+            { text: "000 - Template", link: "/engineering/adr/000-template" },
+          ],
         },
       ],
     },

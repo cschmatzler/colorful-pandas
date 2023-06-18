@@ -1,4 +1,4 @@
-name: "Clusters: Compile"
+name: "Clusters: Compile manifests"
 on:
   push:
     branches:
@@ -71,6 +71,7 @@ jobs:
           git add ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled/
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
+          # NOTE: this might lead to race conditions if multiple environments are updated at once
           git pull --ff-only
-          git commit -am "Update manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
+          git commit -am "Update cluster manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
           git push
