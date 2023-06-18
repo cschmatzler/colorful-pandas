@@ -5,6 +5,14 @@ local helm = tanka.helm.new(std.thisFile);
   values:: {
     networking: {
       enabled: true,
+      network: {
+        valueFrom: {
+          secretKeyRef: {
+            name: 'hcloud-network',
+            key: 'network',
+          },
+        },
+      },
     },
   },
 
