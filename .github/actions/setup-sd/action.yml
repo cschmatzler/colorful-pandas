@@ -1,0 +1,19 @@
+name: "sd setup"
+description: "Sets up sd, s[earch] & d[isplace]"
+inputs:
+  version:
+    description: "sd version to install"
+    required: false
+    default: 0.7.6
+runs:
+  using: 'composite'
+  steps:
+    - name: Download sd
+      shell: bash
+      run: curl https://github.com/chmln/sd/releases/download/v${{ inputs.version }}/sd-v${{ inputs.version }}-x86_64-unknown-linux-gnu --output sd
+    - name: Make sd executable
+      shell: bash
+      run: chmod +x sd
+    - name: Add sd to PATH
+      shell: bash
+      run: echo "${{ github.action_path }}" >> $GITHUB_PATH
