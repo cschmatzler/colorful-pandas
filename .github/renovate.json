@@ -8,7 +8,9 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["helm-values"],
+      "matchManagers": [
+        "helm-values"
+      ],
       "enabled": false
     },
     {
@@ -16,6 +18,17 @@
         "action"
       ],
       "pinDigests": true
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^chartfile.yaml$"
+      ],
+      "matchStrings": [
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( registryUrl=(?<registryUrl>.*?))?( versioning=(?<versioning>.*?))?( depType=(?<depType>.*?))?\\s*(version|tag):\\s*(?<currentValue>.*)"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ]
 }
