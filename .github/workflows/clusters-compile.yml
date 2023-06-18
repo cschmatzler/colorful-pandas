@@ -71,5 +71,6 @@ jobs:
           git add ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled/
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
+          git pull --ff-only
           git commit -am "Update manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
           git push
