@@ -5,4 +5,5 @@ repositories:
     url: https://charts.hetzner.cloud
 requires:
   - chart: hcloud/hcloud-cloud-controller-manager
+    # renovate: datasource=helm depName=hcloud-cloud-controller-manager registryUrl=https://charts.hetzner.cloud versioning=helm
     version: v1.16.0
