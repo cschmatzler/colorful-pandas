@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cainjector
+    app.kubernetes.io/component: cainjector
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/managed-by: Helmraiser
+    app.kubernetes.io/name: cainjector
+    app.kubernetes.io/version: v1.12.0
+    helm.sh/chart: cert-manager-v1.12.0
+    tanka.dev/environment: c7987b707994ad88ed8d378aa0f1422c53b90d25c85f274e
+  name: cert-manager-cainjector
+  namespace: security
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: cainjector
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/name: cainjector
+  template:
+    metadata:
+      labels:
+        app: cainjector
+        app.kubernetes.io/component: cainjector
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: cainjector
+        app.kubernetes.io/version: v1.12.0
+        helm.sh/chart: cert-manager-v1.12.0
+    spec:
+      containers:
+      - args:
+        - --v=2
+        - --leader-election-namespace=kube-system
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: quay.io/jetstack/cert-manager-cainjector:v1.12.0
+        imagePullPolicy: IfNotPresent
+        name: cert-manager-cainjector
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      nodeSelector:
+        kubernetes.io/os: linux
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: cert-manager-cainjector
