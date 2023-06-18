@@ -36,7 +36,7 @@ defmodule ColorfulPandas.MixProject do
     [
       {:bandit, "~> 0.7"},
       {:boundary, "~> 0.9", runtime: false},
-      {:castore, "~> 1.0", override: true},
+      {:castore, "~> 1.0"},
       {:carbonite, "~> 0.9"},
       {:corsica, "~> 1.3"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
