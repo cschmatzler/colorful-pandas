@@ -9,7 +9,7 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^chartfile.yaml$"
+        "clusters/lib/**/chartfile.yaml"
       ],
       "matchStrings": [
         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( registryUrl=(?<registryUrl>.*?))?( versioning=(?<versioning>.*?))?( depType=(?<depType>.*?))?\\s*(version|tag):\\s*(?<currentValue>.*)"
@@ -32,7 +32,7 @@
     },
     {
       "matchFiles": [
-        "chartfile.yaml"
+        "clusters/lib/**/chartfile.yaml"
       ],
       "postUpgradeTasks": {
         "commands": [
@@ -41,8 +41,8 @@
           "tk tool charts vendor"
         ],
         "fileFilters": [
-          "chartfile.yaml",
-          "charts/**"
+          "clusters/lib/**/chartfile.yaml",
+          "clusters/lib/**/charts/**"
         ]
       }
     }
