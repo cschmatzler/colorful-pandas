@@ -1,11 +1,11 @@
 name: "Compile environment"
 description: "Compiles an environment using Tanka"
 inputs:
-  input-dir:
-    description: "Directory where `spec.json` is"
+  cluster:
+    description: "Cluster to compile"
     required: true
-  output-dir:
-    description: "Directory to output new files to"
+  env:
+    description: "Environment inside cluster to compile"
     required: true
 runs:
   using: "composite"
@@ -24,5 +24,5 @@ runs:
     - name: Compile manifests
       shell: bash
       run: |
-        mkdir -p ${{ inputs.output-dir }}
-        ./tk export ${{ inputs.output-dir }} ${{ inputs.input-dir }} --merge-strategy replace-envs
+        mkdir -p ${{ inputs.cluster }}/compiled/${{ inputs.env }}
+        tk export ${{ inputs.cluster }}/compiled/${{ inputs.env }} ${{ inputs.cluster }}/${{ inputs.env }} --merge-strategy replace-envs

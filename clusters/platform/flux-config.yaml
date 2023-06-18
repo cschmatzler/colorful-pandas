@@ -12,7 +12,7 @@ metadata:
   name: colorful-pandas
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 15s
   url: ssh://git@github.com/cschmatzler/colorful-pandas
   secretRef:
     name: github
