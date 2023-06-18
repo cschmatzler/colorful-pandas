@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    tanka.dev/environment: c7987b707994ad88ed8d378aa0f1422c53b90d25c85f274e
-  name: security
