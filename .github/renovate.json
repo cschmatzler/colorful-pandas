@@ -8,6 +8,10 @@
   ],
   "packageRules": [
     {
+      "matchManagers": ["helm-values"],
+      "enabled": false
+    },
+    {
       "matchDepTypes": [
         "action"
       ],
