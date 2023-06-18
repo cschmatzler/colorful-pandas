@@ -1,5 +1,5 @@
 ARG BUILDER_IMAGE="node:18.16.0-alpine3.18"
-ARG RUNNER_IMAGE="busybox:1.35"
+ARG RUNNER_IMAGE="busybox:1.36"
 
 # Builder
 # -----
