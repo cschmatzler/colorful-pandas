@@ -997,7 +997,7 @@ hubble:
     image:
       override: ~
       repository: "quay.io/cilium/hubble-relay"
-      tag: "v1.13.3"
+      tag: "v1.13.4"
        # hubble-relay-digest
       digest: "sha256:19e4aae5ff72cd9fbcb7d2d16a1570533320a478acc015fc91a4d41a177cadf6"
       useDigest: true
