@@ -1,5 +1,5 @@
 ARG BUILDER_IMAGE="node:20.3.0-alpine3.18"
-ARG RUNNER_IMAGE="alpine:3.18"
+ARG RUNNER_IMAGE="busybox:1.35"
 
 # Builder
 # -----
@@ -18,10 +18,11 @@ RUN npm run build
 
 FROM ${RUNNER_IMAGE}
 
-RUN apk add \
-  nginx \
-  && rm -rf /var/cache/apk/*
+RUN adduser -D static
+USER static
+WORKDIR /home/static
 
-COPY --from=builder /app/.vitepress/dist /usr/share/nginx/html/
+COPY --from=builder /app/.vitepress/dist .
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["busybox", "httpd", "-f", "-v", "-p", "3000"]
