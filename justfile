@@ -46,10 +46,10 @@ encrypt-cluster-config cluster_name:
   SOPS_AGE_KEY="op://Colorful Pandas/SOPS/SOPS_AGE_KEY" \
   SOPS_AGE_RECIPIENTS="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
   op run -- sh -c \
-    "sops -e clusters/{{ cluster_name }}/talos/secrets.yaml > clusters/{{ cluster_name }}/talos/secrets.yaml.sops && \
+    "sops -e clusters/{{ cluster_name }}/talos/secrets.yaml > clusters/{{ cluster_name }}/talos/secrets.sops.yaml && \
     sops -e clusters/{{ cluster_name }}/talos/talosconfig > clusters/{{ cluster_name }}/talos/talosconfig.sops && \
-    sops -e clusters/{{ cluster_name }}/talos/controlplane.yaml > clusters/{{ cluster_name }}/talos/controlplane.yaml.sops && \
-    sops -e clusters/{{ cluster_name }}/talos/worker.yaml > clusters/{{ cluster_name }}/talos/worker.yaml.sops"
+    sops -e clusters/{{ cluster_name }}/talos/controlplane.yaml > clusters/{{ cluster_name }}/talos/controlplane.sops.yaml && \
+    sops -e clusters/{{ cluster_name }}/talos/worker.yaml > clusters/{{ cluster_name }}/talos/worker.sops.yaml"
 
 init-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
