@@ -40,7 +40,7 @@ jobs:
     name: Compile
     needs:
       - changed-clusters
-    if: "'${{ needs.changed-clusters.outputs.changed-clusters }}' != ''"
+    if: ${{ needs.changed-clusters.outputs.changed-clusters }}
     # strategy:
     #   matrix:
     #     cluster:
