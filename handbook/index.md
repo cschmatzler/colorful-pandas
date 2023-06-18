@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Colorful Pandas"
   text: ""
-  tagline: "So uncompleted, you won't believe it"
+  tagline: "So uncompleted, you won't believe it."
   actions:
     - theme: brand
       text: Engineering
