@@ -64,7 +64,7 @@ jobs:
         run: jb install
       - name: Compile manifests
         run: |
-          mkdir -p ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}-compiled
+          mkdir -p ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }}
           ./tk export ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }} ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }} --merge-strategy replace-envs
       - name: Push manifests
         run: |
