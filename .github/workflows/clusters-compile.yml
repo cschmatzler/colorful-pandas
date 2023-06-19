@@ -13,11 +13,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changed-clusters:
+  detect-changes:
     name: Detect changed files
     runs-on: ubuntu-22.04
     timeout-minutes: 3
     outputs:
+      changes: ${{ steps.changes.outputs.tanka }}
       envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
       - name: Checkout
@@ -30,6 +31,16 @@ jobs:
           list-files: json
           filters: .github/filters.yml
 
+
+  collect-envs:
+    name: Collect environments
+    needs:
+      - detect-changes
+    if: needs.detect-changes.outputs.changes == 'true'
+    runs-on: ubuntu-22.04
+    outputs:
+      envs: ${{ steps.collect-envs.outputs.envs }}
+    steps:
       - name: Collect environments
         id: collect-envs
         if: |
@@ -44,7 +55,6 @@ jobs:
     name: Compile
     needs:
       - collect-envs
-    if: ${{ needs.collect-envs.outputs.envs }}
     strategy:
       matrix:
         cluster:
