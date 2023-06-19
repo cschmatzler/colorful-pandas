@@ -29,6 +29,7 @@
   "apps-v1.Deployment-external-secrets.yaml": "platform/security/main.jsonnet",
   "apps-v1.Deployment-onepassword-connect.yaml": "platform/security/main.jsonnet",
   "batch-v1.Job-cert-manager-startupapicheck.yaml": "platform/security/main.jsonnet",
+  "external-secrets.io-v1beta1.ClusterSecretStore-onepassword.yaml": "platform/security/main.jsonnet",
   "rbac.authorization.k8s.io-v1.ClusterRole-cert-manager-cainjector.yaml": "platform/security/main.jsonnet",
   "rbac.authorization.k8s.io-v1.ClusterRole-cert-manager-controller-approvecert-manager-io.yaml": "platform/security/main.jsonnet",
   "rbac.authorization.k8s.io-v1.ClusterRole-cert-manager-controller-certificates.yaml": "platform/security/main.jsonnet",
