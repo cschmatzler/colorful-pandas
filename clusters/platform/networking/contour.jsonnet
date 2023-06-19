@@ -4,7 +4,7 @@
     contour+: {
       namespace: 'networking',
       ingressClass: "public",
-      loadBalancerName: "contour-public"
+      loadBalancerName: "contour"
     },
   },
 }
