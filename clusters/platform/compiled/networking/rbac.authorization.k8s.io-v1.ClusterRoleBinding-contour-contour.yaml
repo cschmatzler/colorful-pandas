@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: contour
+    app.kubernetes.io/managed-by: Helmraiser
+    app.kubernetes.io/name: contour
+    helm.sh/chart: contour-12.0.0
+    tanka.dev/environment: 439e2fd20d1bf711c47badca8952d4305eef138178fb3ea9
+  name: contour-contour
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: contour-contour
+subjects:
+- kind: ServiceAccount
+  name: contour-contour
+  namespace: networking
