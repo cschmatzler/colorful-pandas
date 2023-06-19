@@ -3,7 +3,7 @@ local helm = tanka.helm.new(std.thisFile);
 
 {
   cert_manager: {
-    values: {
+    values:: {
       installCRDs: true,
       clusterResourceNamespace: $._config.cert_manager.namespace,
       replicaCount: 3,
