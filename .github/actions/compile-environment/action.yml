@@ -36,7 +36,7 @@ runs:
     - name: Sanitize names
       shell: bash
       working-directory: clusters/
-      run: find . -depth -name '*:*' -execdir rename 's/://g' "{}" \;
+      run: find . -depth -name '*:*' -execdir bash -c 'mv "$1" "${1//:/}"' bash {} \;
     - name: Store manifests
       uses: actions/upload-artifact@v3
       with:
