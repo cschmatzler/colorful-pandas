@@ -43,7 +43,7 @@
         "commands": [
           "curl -sL -o- https://get.helm.sh/helm-v$(awk '/^helm / { print $2 }' .tool-versions)-linux-amd64.tar.gz | tar xz --strip-components=1 -C /usr/local/bin/ linux-amd64/helm && chmod +x /usr/local/bin/helm",
           "curl -sL -o /usr/local/bin/tk https://github.com/grafana/tanka/releases/download/v$(awk '/^tanka / { print $2 }' .tool-versions)/tk-linux-amd64 && chmod +x /usr/local/bin/tk",
-          "tk tool charts vendor"
+          "cd clusters/lib/ && tk tool charts vendor --prune"
         ],
         "fileFilters": [
           "clusters/lib/chartfile.yaml",
