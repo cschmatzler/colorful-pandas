@@ -32,4 +32,7 @@ local util(k) = {
     service.metadata.withLabelsMixin({ name: deployment.metadata.name }),
 };
 
-{ withK(k):: util(k) }
+{
+  withK(k)::
+    util(k),
+}
