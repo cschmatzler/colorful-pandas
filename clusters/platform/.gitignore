@@ -1,4 +1,0 @@
-/.terraform/
-/talos/*
-!/talos/*.sops.yaml
-!/talos/patches/
