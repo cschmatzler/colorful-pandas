@@ -33,3 +33,8 @@ runs:
       run: |
         mkdir -p ${{ inputs.cluster }}/compiled/${{ inputs.env }}
         tk export ${{ inputs.cluster }}/compiled/${{ inputs.env }} ${{ inputs.cluster }}/${{ inputs.env }} --merge-strategy replace-envs
+    - name: Store manifests
+      uses: actions/upload-artifact@v3
+      with:
+        name: manifests-${{ inputs.cluster }}-${{ inputs.env }}
+        path: clusters/${{ inputs.cluster }}/compiled/${{ inputs.env }}

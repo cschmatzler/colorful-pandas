@@ -1,6 +1,4 @@
 name: "Clusters: Compile manifests"
-# TODO: this currently only runs when a cluster specification is changed. It does not run when something in `lib/`
-# is updated. On `lib/` update, all clusters using that library should be recompiled.
 on:
   push:
     branches:
@@ -70,12 +68,19 @@ jobs:
         with:
           cluster: ${{ matrix.cluster.cluster }}
           env: ${{ matrix.cluster.env }}
+
+  push:
+    name: Push manifests
+    needs:
+    - compile
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    steps:
+      - name: Download manifests
+        uses: actions/download-artifact@v3
       - name: Push manifests
         run: |
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
-          # NOTE: this might lead to race conditions if multiple environments are updated at once
-          git pull --ff-only
-          git add ${{ matrix.cluster.cluster}}/compiled/${{ matrix.cluster.env }}/
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests for ${{ matrix.cluster.cluster}}/${{ matrix.cluster.env }}"
+          git add clusters/**/compiled
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests
           git push
