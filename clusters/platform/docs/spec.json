@@ -6,6 +6,7 @@
   },
   "spec": {
     "apiServer": "cluster.platform.colorful-pandas.com:6443",
-    "namespace": "docs"
+    "namespace": "docs",
+    "injectLabels": true
   }
 }
