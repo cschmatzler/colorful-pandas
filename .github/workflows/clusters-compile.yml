@@ -13,7 +13,7 @@ concurrency:
 jobs:
   detect-changes:
     name: Detect changed files
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     outputs:
       changes: ${{ steps.changes.outputs.tanka }}
     steps:
@@ -32,7 +32,7 @@ jobs:
     needs:
       - detect-changes
     if: needs.detect-changes.outputs.changes == 'true'
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     outputs:
       envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
@@ -53,10 +53,9 @@ jobs:
     if: needs.collect-envs.outputs.envs != ''
     strategy:
       matrix:
-        cluster:
-          ["${{ fromJson(needs.collect-envs.outputs.envs) }}"]
+        cluster: ["${{ fromJson(needs.collect-envs.outputs.envs) }}"]
       fail-fast: false
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     defaults:
       run:
         working-directory: clusters/
@@ -72,8 +71,8 @@ jobs:
   push:
     name: Push manifests
     needs:
-    - compile
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+      - compile
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
