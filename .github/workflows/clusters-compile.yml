@@ -15,7 +15,7 @@ concurrency:
 jobs:
   detect-changes:
     name: Detect changed files
-    runs-on: ubuntu-22.04
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     outputs:
       changes: ${{ steps.changes.outputs.tanka }}
     steps:
@@ -34,7 +34,7 @@ jobs:
     needs:
       - detect-changes
     if: needs.detect-changes.outputs.changes == 'true'
-    runs-on: ubuntu-22.04
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     outputs:
       envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
@@ -58,7 +58,7 @@ jobs:
         cluster:
           ["${{ fromJson(needs.collect-envs.outputs.envs) }}"]
       fail-fast: false
-    runs-on: ubuntu-latest
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     defaults:
       run:
         working-directory: clusters/
