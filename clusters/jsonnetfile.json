@@ -27,6 +27,15 @@
         }
       },
       "version": "main"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/external-secrets-libsonnet.git",
+          "subdir": "0.8"
+        }
+      },
+      "version": "main"
     }
   ],
   "legacyImports": true
