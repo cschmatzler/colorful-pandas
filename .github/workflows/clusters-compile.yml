@@ -38,6 +38,8 @@ jobs:
     outputs:
       envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
       - name: Collect environments
         id: collect-envs
         shell: bash
