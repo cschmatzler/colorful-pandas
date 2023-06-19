@@ -36,7 +36,10 @@ runs:
     - name: Sanitize names
       shell: bash
       working-directory: clusters/
-      run: find . -depth -name '*:*' -execdir bash -c 'mv "$1" "${1//:/}"' bash {} \;
+      run: |
+        find . -depth -name '*:*' -execdir bash -c 'mv "$1" "${1//:/}"' bash {} \;
+        jq 'with_entries(.key |= (strings | gsub(":"; "")))' manifest.json > tmp.json
+        mv tmp.json manifest.json
     - name: Store manifests
       uses: actions/upload-artifact@v3
       with:
