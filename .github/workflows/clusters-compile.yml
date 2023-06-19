@@ -16,10 +16,8 @@ jobs:
   detect-changes:
     name: Detect changed files
     runs-on: ubuntu-22.04
-    timeout-minutes: 3
     outputs:
       changes: ${{ steps.changes.outputs.tanka }}
-      envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -31,12 +29,11 @@ jobs:
           list-files: json
           filters: .github/filters.yml
 
-
   collect-envs:
     name: Collect environments
     needs:
       - detect-changes
-    if: needs.detect-changes.outputs.changes == 'true'
+    if: ${{ needs.detect-changes.outputs.changes }} == 'true'
     runs-on: ubuntu-22.04
     outputs:
       envs: ${{ steps.collect-envs.outputs.envs }}
