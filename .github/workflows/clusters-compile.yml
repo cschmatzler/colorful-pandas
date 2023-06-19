@@ -50,7 +50,7 @@ jobs:
     name: Compile
     needs:
       - collect-envs
-    if: needs.collect-envs.outputs.envs != ""
+    if: needs.collect-envs.outputs.envs != ''
     strategy:
       matrix:
         cluster:
