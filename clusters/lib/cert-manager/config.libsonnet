@@ -1,6 +1,6 @@
 {
   _config+:: {
-    cert_manager: {
+    certManager: {
       namespace: 'security',
     },
   },

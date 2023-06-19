@@ -1,6 +1,6 @@
 {
   _config+:: {
-    external_secrets: {
+    externalSecrets: {
       namespace: 'security',
       manageCRDs: true,
     },

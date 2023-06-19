@@ -2,10 +2,10 @@ local tanka = import 'github.com/grafana/jsonnet-libs/tanka-util/main.libsonnet'
 local helm = tanka.helm.new(std.thisFile);
 
 {
-  cert_manager: {
+  certManager: {
     values:: {
       installCRDs: true,
-      clusterResourceNamespace: $._config.cert_manager.namespace,
+      clusterResourceNamespace: $._config.certManager.namespace,
       replicaCount: 3,
       extraArgs: [
         '--dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53',
@@ -27,8 +27,8 @@ local helm = tanka.helm.new(std.thisFile);
     },
 
     template: helm.template('cert-manager', '../charts/cert-manager', {
-      namespace: $._config.cert_manager.namespace,
-      values: $.cert_manager.values,
+      namespace: $._config.certManager.namespace,
+      values: $.certManager.values,
       includeCrds: true,
     }),
   },
