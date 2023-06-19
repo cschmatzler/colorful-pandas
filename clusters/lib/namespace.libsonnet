@@ -1,4 +1,4 @@
-local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.26/main.libsonnet',
+local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       namespace = k.core.v1.namespace;
 
 {
