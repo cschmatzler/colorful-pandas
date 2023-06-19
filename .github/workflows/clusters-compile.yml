@@ -33,15 +33,13 @@ jobs:
     name: Collect environments
     needs:
       - detect-changes
-    if: ${{ needs.detect-changes.outputs.changes }} == 'true'
+    if: needs.detect-changes.outputs.changes == 'true'
     runs-on: ubuntu-22.04
     outputs:
       envs: ${{ steps.collect-envs.outputs.envs }}
     steps:
       - name: Collect environments
         id: collect-envs
-        if: |
-          steps.changes.outputs.clusters_tanka == 'true'
         shell: bash
         run: |
           ALL_ENVS=$(find clusters -name spec.json -exec dirname {} \; | sort -u | jq -R . | jq -s .)
@@ -52,6 +50,7 @@ jobs:
     name: Compile
     needs:
       - collect-envs
+    if: needs.collect-envs.outputs.envs != ""
     strategy:
       matrix:
         cluster:
