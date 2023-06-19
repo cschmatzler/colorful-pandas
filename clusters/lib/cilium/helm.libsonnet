@@ -58,7 +58,6 @@ local helm = tanka.helm.new(std.thisFile);
           enabled: true,
         },
       },
-      agent: false,
       hubble: {
         enabled: false,
       },
