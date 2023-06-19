@@ -5,10 +5,14 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   - name: cilium
     url: https://helm.cilium.io/
+  - name: external-secrets
+    url: https://charts.external-secrets.io
   - name: hcloud
     url: https://charts.hetzner.cloud
   - name: jetstack
     url: https://charts.jetstack.io
+  - name: onepassword
+    url: https://1password.github.io/connect-helm-charts
 requires:
   - chart: bitnami/contour
     # renovate: datasource=helm depName=contour registryUrl=https://charts.bitnami.com/bitnami versioning=helm
@@ -16,9 +20,15 @@ requires:
   - chart: cilium/cilium
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io versioning=helm
     version: 1.13.4
+  - chart: external-secrets/external-secrets
+    # renovate: datasource=helm depName=external-secrets registryUrl=https://charts.external-secrets.io versioning=helm
+    version: 0.8.1
   - chart: jetstack/cert-manager
     # renovate: datasource=helm depName=cert-manager registryUrl=https://charts.jetstack.io versioning=helm
     version: v1.12.2
   - chart: hcloud/hcloud-cloud-controller-manager
     # renovate: datasource=helm depName=hcloud-cloud-controller-manager registryUrl=https://charts.hetzner.cloud versioning=helm
     version: v1.16.0
+  - chart: onepassword/connect
+    # renovate: datasource=helm depName=connect registryUrl=https://1password.github.io/connect-helm-charts versioning=helm
+    version: 1.11.0
