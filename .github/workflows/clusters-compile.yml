@@ -78,8 +78,6 @@ jobs:
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
       - name: Download manifests
         uses: actions/download-artifact@v3
-        with:
-          path: /manifests
       - name: Move artifacts into the correct directory
         run: |
           for dir in manifests-*; do
