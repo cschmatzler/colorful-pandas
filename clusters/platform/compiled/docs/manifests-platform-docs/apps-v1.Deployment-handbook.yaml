@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: handbook
+    app.kubernetes.io/name: handbook
+  name: handbook
+  namespace: docs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: handbook
+      app.kubernetes.io/name: handbook
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: handbook
+        app.kubernetes.io/name: handbook
+    spec:
+      containers:
+      - image: ghcr.io/cschmatzler/handbook:23.6.19-0d2adfe
+        name: handbook
+        ports:
+        - containerPort: 3000
+          name: http
