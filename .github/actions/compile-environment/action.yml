@@ -33,6 +33,10 @@ runs:
       run: |
         mkdir -p ${{ inputs.cluster }}/compiled/${{ inputs.env }}
         tk export ${{ inputs.cluster }}/compiled/${{ inputs.env }} ${{ inputs.cluster }}/${{ inputs.env }} --merge-strategy replace-envs
+    - name: Sanitize names
+      shell: bash
+      working-directory: clusters/
+      run: find . -depth -name '*:*' -execdir rename 's/://g' "{}" \;
     - name: Store manifests
       uses: actions/upload-artifact@v3
       with:
