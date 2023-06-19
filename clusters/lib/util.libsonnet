@@ -33,6 +33,5 @@ local util(k) = {
 };
 
 {
-  withK(k)::
-    util(k),
+  withK(k):: util(k),
 }
