@@ -54,3 +54,4 @@ resource "hcloud_rdns" "v6" {
   ip_address = hcloud_server.node.ipv6_address
   dns_ptr    = format("%s.%s", local.name, var.rdns_domain)
 }
+
