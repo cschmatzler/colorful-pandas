@@ -10,7 +10,7 @@ repositories:
 requires:
   - chart: cilium/cilium
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io versioning=helm
-    version: 1.13.3
+    version: 1.13.4
   - chart: jetstack/cert-manager
     # renovate: datasource=helm depName=cert-manager registryUrl=https://charts.jetstack.io versioning=helm
     version: 1.12.0
