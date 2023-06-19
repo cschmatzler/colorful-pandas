@@ -1,9 +1,0 @@
-directory: charts
-version: 1
-repositories:
-  - name: jetstack
-    url: https://charts.jetstack.io
-requires:
-  - chart: jetstack/cert-manager
-    # renovate: datasource=helm depName=cert-manager registryUrl=https://charts.jetstack.io versioning=helm
-    version: 1.12.0

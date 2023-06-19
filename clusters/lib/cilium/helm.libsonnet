@@ -60,7 +60,7 @@ local helm = tanka.helm.new(std.thisFile);
     hubble: { enabled: false },
   },
 
-  cilium: helm.template('cilium', './charts/cilium', {
+  cilium: helm.template('cilium', '../charts/cilium', {
     namespace: $._config.cilium.namespace,
     values: $.values,
   }),

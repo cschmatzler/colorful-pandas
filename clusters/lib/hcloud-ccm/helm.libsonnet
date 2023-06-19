@@ -16,7 +16,7 @@ local helm = tanka.helm.new(std.thisFile);
     },
   },
 
-  hcloud_ccm: helm.template('hcloud-ccm', './charts/hcloud-cloud-controller-manager', {
+  hcloud_ccm: helm.template('hcloud-ccm', '../charts/hcloud-cloud-controller-manager', {
     namespace: $._config.hcloud_ccm.namespace,
     values: $.values,
   }),
