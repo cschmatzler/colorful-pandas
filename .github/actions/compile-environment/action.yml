@@ -38,8 +38,7 @@ runs:
       working-directory: clusters/
       run: |
         find . -depth -name '*:*' -execdir bash -c 'mv "$1" "${1//:/}"' bash {} \;
-        jq 'with_entries(.key |= (strings | gsub(":"; "")))' manifest.json > tmp.json
-        mv tmp.json manifest.json
+        find . -depth -name manifest.json -print0 | xargs -0 -I {} sh -c "jq 'with_entries(.key |= (strings | gsub(\":\"; \"\")))' {} > tmp.json && mv tmp.json {}"
     - name: Store manifests
       uses: actions/upload-artifact@v3
       with:
