@@ -1,5 +1,6 @@
 {
   "name": "colorful-pandas-handbook",
+  "author": "Christoph Schmatzler <christoph@medium.place>",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
