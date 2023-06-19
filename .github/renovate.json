@@ -39,6 +39,7 @@
       "matchFiles": [
         "clusters/lib/chartfile.yaml"
       ],
+      "groupName": "helm",
       "postUpgradeTasks": {
         "commands": [
           "curl -sL -o- https://get.helm.sh/helm-v$(awk '/^helm / { print $2 }' .tool-versions)-linux-amd64.tar.gz | tar xz --strip-components=1 -C /usr/local/bin/ linux-amd64/helm && chmod +x /usr/local/bin/helm",
