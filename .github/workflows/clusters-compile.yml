@@ -86,7 +86,7 @@ jobs:
             env=${cluster#*-}
             cluster=${cluster%%-*}
             mkdir -p "clusters/$cluster/compiled/$env"
-            mv "$dir" "clusters/$cluster/compiled/$env"
+            mv "$dir/*" "clusters/$cluster/compiled/$env"
           done
       - name: Push manifests
         run: |
