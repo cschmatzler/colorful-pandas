@@ -19,6 +19,10 @@ runs:
         curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-arm64 --output ${{ github.action_path }}/tk
         chmod +x ${{ github.action_path }}/tk
         echo ${{ github.action_path }} >> $GITHUB_PATH
+    - name: Setup Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: 3.12.1
     - name: Install dependencies
       shell: bash
       working-directory: clusters/
