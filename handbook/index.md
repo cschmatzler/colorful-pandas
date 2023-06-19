@@ -10,6 +10,3 @@ hero:
       text: Engineering
       link: /engineering/
 ---
-
-Hello!
-

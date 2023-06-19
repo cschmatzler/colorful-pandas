@@ -28,5 +28,6 @@ local helm = tanka.helm.new(std.thisFile);
   cert_manager: helm.template('cert-manager', '../charts/cert-manager', {
     namespace: $._config.cert_manager.namespace,
     values: $.values,
+    includeCrds: true,
   }),
 }

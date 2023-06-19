@@ -63,5 +63,6 @@ local helm = tanka.helm.new(std.thisFile);
   cilium: helm.template('cilium', '../charts/cilium', {
     namespace: $._config.cilium.namespace,
     values: $.values,
+    includeCrds: true,
   }),
 }
