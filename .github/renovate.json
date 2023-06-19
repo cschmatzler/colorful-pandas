@@ -37,7 +37,7 @@
     },
     {
       "matchFiles": [
-        "(^|/)chartfile\\.yaml$"
+        "clusters/lib/chartfile.yaml"
       ],
       "postUpgradeTasks": {
         "commands": [
@@ -46,8 +46,8 @@
           "tk tool charts vendor"
         ],
         "fileFilters": [
-          "chartfile.yaml",
-          "charts/**"
+          "clusters/lib/chartfile.yaml",
+          "clusters/lib/charts/**"
         ]
       }
     }

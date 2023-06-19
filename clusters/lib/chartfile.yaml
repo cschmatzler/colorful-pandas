@@ -6,4 +6,4 @@ repositories:
 requires:
   - chart: cilium/cilium
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io versioning=helm
-    version: 1.13.4
+    version: 1.13.3
