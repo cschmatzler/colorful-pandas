@@ -83,5 +83,5 @@ jobs:
           git config --global user.name "actions[bot]"
           git config --global user.email "actions@colorful-pandas.com"
           git add clusters/**/compiled
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests"
           git push
