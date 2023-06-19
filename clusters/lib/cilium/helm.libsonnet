@@ -57,7 +57,10 @@ local helm = tanka.helm.new(std.thisFile);
         enabled: true,
       },
     },
-    hubble: { enabled: false },
+    agent: false,
+    hubble: {
+      enabled: false,
+    },
   },
 
   cilium: helm.template('cilium', '../charts/cilium', {
