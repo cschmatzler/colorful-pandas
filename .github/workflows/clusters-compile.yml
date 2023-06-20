@@ -57,9 +57,6 @@ jobs:
         cluster: ["${{ fromJson(needs.collect-envs.outputs.envs) }}"]
       fail-fast: false
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: clusters/
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3

@@ -6,7 +6,7 @@ hero:
   text: ""
   tagline: "So uncompleted, you won't believe it."
   actions:
-    - theme: brand
+    - theme: secondary
       text: Engineering
       link: /engineering/
 ---

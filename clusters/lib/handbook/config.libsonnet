@@ -1,7 +1,7 @@
 {
   _config+:: {
     handbook: {
-      host: error "host is required"
+      host: error 'host is required',
     },
   },
 }
