@@ -1,0 +1,62 @@
+name: "Service: Lint"
+on:
+  pull_request:
+    paths-ignore:
+      - "**/"
+        # - infra/
+        # - tooling/
+
+defaults:
+  run:
+    working-directory: service/
+
+env:
+  MIX_ENV: test
+
+jobs:
+  compile:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: erlef/setup-beam@c2e02f777c158310fc6d3d4e11b36a52d2d52db8 # v1
+        with:
+          otp-version: "26.0"
+          elixir-version: "1.14.5-otp-26"
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        id: deps-cache
+        with:
+          path: |
+            service/deps/
+            service/_build/
+          key: mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            mix-
+      - run: mix deps.get
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+      - run: mix deps.compile
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+      - run: mix compile --warnings-as-errors
+
+  lint:
+    runs-on: ubuntu-22.04
+    needs: compile
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - uses: erlef/setup-beam@c2e02f777c158310fc6d3d4e11b36a52d2d52db8 # v1
+        with:
+          otp-version: "26.0"
+          elixir-version: "1.14.4-otp-26"
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        with:
+          path: |
+            service/deps/
+            service/_build/
+          key: mix-${{ github.sha }}
+          restore-keys: |
+            mix-${{ hashFiles('**/mix.lock') }}
+      - run: mix deps.unlock --check-unused
+      - run: mix hex.audit
+      - run: mix format --check-formatted
+      - run: mix credo
+      - run: mix excellent_migrations.check_safety
+      - run: mix sobelow --config

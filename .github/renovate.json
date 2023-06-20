@@ -1,0 +1,58 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "repositories": ["cschmatzler/colorful-pandas"],
+  "username": "colorful-pandas-renovate[bot]",
+  "gitAuthor": "Colorful Pandas Renovate <137164246+colorful-pandas-renovate[bot]@users.noreply.github.com>",
+  "dependencyDashboard": true,
+  "allowedPostUpgradeCommands": [".*"],
+  "labels": [
+    "renovate"
+  ],
+  "ignorePaths": [
+    "**/deps/**",
+    "**/node_modules/**",
+    "**/vendor/**"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(^|/)chartfile\\.yaml$"
+      ],
+      "matchStrings": [
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?) registryUrl=(?<registryUrl>.*) versioning=(?<versioning>.*?)\\s*version: (?<currentValue>.*)\\s*"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "helm-values"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": [
+        "action"
+      ],
+      "pinDigests": true
+    },
+    {
+      "matchFiles": [
+        "clusters/lib/chartfile.yaml"
+      ],
+      "groupName": "Chartfile",
+      "postUpgradeTasks": {
+        "commands": [
+          "curl -sL -o- https://get.helm.sh/helm-v$(awk '/^helm / { print $2 }' .tool-versions)-linux-amd64.tar.gz | tar xz --strip-components=1 -C /usr/local/bin/ linux-amd64/helm && chmod +x /usr/local/bin/helm",
+          "curl -sL -o /usr/local/bin/tk https://github.com/grafana/tanka/releases/download/v$(awk '/^tanka / { print $2 }' .tool-versions)/tk-linux-amd64 && chmod +x /usr/local/bin/tk",
+          "cd clusters/lib/ && tk tool charts vendor --prune"
+        ],
+        "fileFilters": [
+          "clusters/lib/chartfile.yaml",
+          "clusters/lib/charts/**"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "colorful-pandas-handbook",
+  "author": "Christoph Schmatzler <christoph@medium.place>",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "1.0.0-beta.3"
+  }
+}
