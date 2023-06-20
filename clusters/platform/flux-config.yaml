@@ -34,4 +34,5 @@ spec:
     name: colorful-pandas
   path: ./clusters/platform/compiled
   prune: true
+  force: true
   wait: false
