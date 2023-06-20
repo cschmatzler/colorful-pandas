@@ -5,5 +5,9 @@
       handbook: 'ghcr.io/cschmatzler/handbook:23.6.20-4c77428',
     },
   },
-  _config+:: {},
+  _config+:: {
+    handbook+: {
+      host: 'handbook.colorful-pandas.com',
+    },
+  },
 }
