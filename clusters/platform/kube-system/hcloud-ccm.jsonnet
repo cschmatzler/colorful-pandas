@@ -1,7 +1,7 @@
 (import 'hcloud-ccm/main.libsonnet') +
 {
   _config+:: {
-    hcloud_ccm+: {
+    hcloudCCM+: {
       namespace: 'kube-system',
     },
   },
