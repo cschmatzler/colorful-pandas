@@ -6,6 +6,21 @@ metadata:
 data:
   CLUSTER_NAME: platform.colorful-pandas.com
 ---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: colorful-pandas
+  path: ./clusters/platform/flux
+  prune: true
+  force: true
+  wait: false
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
