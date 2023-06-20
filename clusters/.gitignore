@@ -1,4 +1,5 @@
 /vendor/
 /**/talos/*
 !/**/talos/*.sops.yaml
+!/**/talos/talosconfig.sops
 !/**/talos/patches/
