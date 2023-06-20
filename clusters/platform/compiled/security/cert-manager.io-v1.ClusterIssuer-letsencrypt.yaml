@@ -1,9 +1,4 @@
 apiVersion: cert-manager.io/v1
-dns01:
-  cloudflare:
-    apiTokenSecretRef:
-      key: cloudflare-token
-      name: cert-manager
 kind: ClusterIssuer
 metadata:
   annotations:
@@ -16,3 +11,9 @@ spec:
     privateKeySecretRef:
       key: letsencrypt-key
     server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            key: cloudflare-token
+            name: cert-manager
