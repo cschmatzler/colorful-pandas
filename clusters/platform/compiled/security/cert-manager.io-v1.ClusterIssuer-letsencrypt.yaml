@@ -9,11 +9,11 @@ metadata:
 spec:
   acme:
     privateKeySecretRef:
-      key: letsencrypt-key
+      name: letsencrypt-key
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - dns01:
         cloudflare:
           apiTokenSecretRef:
             key: cloudflare-token
-            name: cert-manager
+            name: cert-manager-cloudflare-token
