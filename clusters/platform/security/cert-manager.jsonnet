@@ -30,8 +30,10 @@
       letsencrypt: ci.new('letsencrypt') +
                    ci.spec.acme.withServer('https://acme-v02.api.letsencrypt.org/directory') +
                    ci.spec.acme.privateKeySecretRef.withKey('letsencrypt-key') +
-                   ci.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.withName('cert-manager') +
-                   ci.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.withKey('cloudflare-token'),
+                   ci.spec.acme.withSolvers([
+                     ci.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.withName('cert-manager') +
+                     ci.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.withKey('cloudflare-token'),
+                   ]),
     },
   },
 }
