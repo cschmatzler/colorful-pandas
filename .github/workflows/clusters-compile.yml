@@ -64,18 +64,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
-      - name: Get versions
-        id: versions
+      - name: Get tool versions
+        id: tool-versions
         run: |
-          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions) helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+          echo "helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
 
       - name: Compile Kubernetes manifests
         uses: ./.github/actions/compile-environment
         with:
           cluster: ${{ matrix.cluster.cluster }}
           env: ${{ matrix.cluster.env }}
-          tanka-version: ${{ steps.versions.outputs.tanka-version }}
-          helm-version: ${{ steps.versions.outputs.helm-version }}
+          tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
+          helm-version: ${{ steps.tool-versions.outputs.helm-version }}
 
   push:
     name: Push manifests
