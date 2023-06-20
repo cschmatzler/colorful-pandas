@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+  labels:
+    tanka.dev/environment: 95f2e5977737602092bf0877799bea7da9b9d31f0678674c
+  name: handbook
+  namespace: docs
+spec:
+  ingressClassName: public
+  rules:
+  - host: handbook.colorful-pandas.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: handbook
+            port:
+              name: handbook-http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - handbook.colorful-pandas.com
+    secretName: handbook-tls

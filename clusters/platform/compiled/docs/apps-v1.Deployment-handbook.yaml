@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/name: handbook
     spec:
       containers:
-      - image: ghcr.io/cschmatzler/handbook:23.6.20-4c77428
+      - image: ghcr.io/cschmatzler/handbook:23.6.20-c5066be
         name: handbook
         ports:
         - containerPort: 3000
