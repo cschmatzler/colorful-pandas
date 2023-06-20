@@ -2,8 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.2
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.11.4
   labels:
     app.kubernetes.io/managed-by: Helmraiser
     tanka.dev/environment: 439e2fd20d1bf711c47badca8952d4305eef138178fb3ea9
@@ -54,7 +53,7 @@ spec:
                       to apply when the `RequestHash` load balancing strategy is chosen.
                       If an element of the supplied list of hash policies is invalid,
                       it will be ignored. If the list of hash policies is empty after
-                      validation, the load balancing strategy will fall back the the
+                      validation, the load balancing strategy will fall back to the
                       default `RoundRobin`.
                     items:
                       description: RequestHashPolicy contains configuration for an

@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+dns01:
+  cloudflare:
+    apiTokenSecretRef:
+      key: cloudflare-token
+      name: cert-manager
+kind: ClusterIssuer
+metadata:
+  annotations:
+    tanka.dev/namespaced: "false"
+  labels:
+    tanka.dev/environment: a916120a6ded3ca7c01e6c3f52c2381957a38d80ebdc2cce
+  name: letsencrypt
+spec:
+  acme:
+    privateKeySecretRef:
+      key: letsencrypt-key
+    server: https://acme-v02.api.letsencrypt.org/directory
