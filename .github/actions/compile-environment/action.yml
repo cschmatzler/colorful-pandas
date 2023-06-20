@@ -7,6 +7,14 @@ inputs:
   env:
     description: "Environment inside cluster to compile"
     required: true
+  tanka-version:
+    description: "Tanka version"
+    required: false
+    default: 0.25.0
+  helm-version:
+    description: "Helm version"
+    required: false
+    default: 3.12.1
 runs:
   using: "composite"
   steps:
@@ -16,13 +24,13 @@ runs:
     - name: Setup Tanka
       shell: bash
       run: |
-        curl -L https://github.com/grafana/tanka/releases/download/v0.25.0/tk-linux-amd64 --output ${{ github.action_path }}/tk
+        curl -L https://github.com/grafana/tanka/releases/download/v${{ inputs.tanka-version }}/tk-linux-amd64 --output ${{ github.action_path }}/tk
         chmod +x ${{ github.action_path }}/tk
         echo ${{ github.action_path }} >> $GITHUB_PATH
     - name: Setup Helm
       uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
       with:
-        version: 3.12.1
+        version: ${{ inputs.helm-version }}
     - name: Install dependencies
       shell: bash
       working-directory: clusters/

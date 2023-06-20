@@ -55,11 +55,18 @@ jobs:
         run: |
           sed -i "s/handbook: 'ghcr\.io\/cschmatzler\/handbook:\(.*\)'/handbook: 'ghcr.io\/cschmatzler\/handbook:${{ env.VERSION }}'/g" clusters/platform/docs/handbook.jsonnet
 
+      - name: Get versions
+        id: versions
+        run: |
+          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions) helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+
       - name: Compile Kubernetes manifests
         uses: ./.github/actions/compile-environment
         with:
           cluster: platform
           env: docs
+          tanka-version: ${{ steps.versions.outputs.tanka-version }}
+          helm-version: ${{ steps.versions.outputs.helm-version }}
 
       - name: Push changes
         run: |
