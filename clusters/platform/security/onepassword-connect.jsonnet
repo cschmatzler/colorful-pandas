@@ -1,7 +1,7 @@
 (import 'onepassword-connect/main.libsonnet') +
 {
   _config+:: {
-    onepassword_connect+: {
+    onepasswordConnect+: {
       namespace: 'security',
       secretName: 'onepassword',
     },

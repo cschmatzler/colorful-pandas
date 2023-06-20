@@ -1,6 +1,6 @@
 {
   _config+:: {
-    hcloud_ccm: {
+    hcloudCCM: {
       namespace: 'kube-system',
     },
   },

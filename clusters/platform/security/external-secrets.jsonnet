@@ -1,15 +1,15 @@
 (import 'external-secrets/main.libsonnet') +
 {
   _config+:: {
-    external_secrets+: {
+    externalSecrets+: {
       namespace: 'security',
     },
   },
 } +
 {
-  local es = import 'es.libsonnet',
-  local css = es.nogroup.v1beta1.clusterSecretStore,
-  external_secrets+: {
+  local eslib = (import 'external-secrets.libsonnet').eslib,
+  local css = eslib.nogroup.v1beta1.clusterSecretStore,
+  externalSecrets+: {
     clusterSecretStores: {
       onepassword: css.new('onepassword') +
                    // TODO: Don't hardcode this

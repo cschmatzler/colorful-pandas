@@ -2,7 +2,7 @@ local tanka = import 'github.com/grafana/jsonnet-libs/tanka-util/main.libsonnet'
 local helm = tanka.helm.new(std.thisFile);
 
 {
-  hcloud_ccm: {
+  hcloudCCM: {
     values:: {
       networking: {
         enabled: true,
@@ -18,8 +18,8 @@ local helm = tanka.helm.new(std.thisFile);
     },
 
     template: helm.template('hcloud-ccm', '../charts/hcloud-cloud-controller-manager', {
-      namespace: $._config.hcloud_ccm.namespace,
-      values: $.hcloud_ccm.values,
+      namespace: $._config.hcloudCCM.namespace,
+      values: $.hcloudCCM.values,
     }),
   },
 }
