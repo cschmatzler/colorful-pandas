@@ -1,1 +1,1 @@
-Wow, much panda
+Wow, much panda!
