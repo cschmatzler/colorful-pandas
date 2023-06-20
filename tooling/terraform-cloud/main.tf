@@ -10,7 +10,7 @@ terraform {
     endpoint         = "https://s3.eu-central-2.wasabisys.com"
     region           = "eu-central-2"
     bucket           = "colorful-pandas-tfstate"
-    key              = "terraform_cloud.tfstate"
+    key              = "terraform-cloud.tfstate"
     force_path_style = true
     # Required since Wasabi's STS system is only running in their `us-east-1` region.
     skip_region_validation      = true

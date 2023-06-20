@@ -57,7 +57,7 @@ apply-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
   AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
   op run -- \
-    terraform -chdir=tooling/terraform_cloud/ init -upgrade
+    terraform -chdir=tooling/terraform-cloud/ init -upgrade
 
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
   AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
@@ -69,4 +69,4 @@ apply-terraform-cloud:
   TF_VAR_cloudflare_token="op://Colorful Pandas/Cloudflare/credential" \
   TF_VAR_neon_token="op://Colorful Pandas/Neon/credential" \
   op run -- \
-    terraform -chdir=tooling/terraform_cloud/ apply
+    terraform -chdir=tooling/terraform-cloud/ apply
