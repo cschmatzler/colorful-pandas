@@ -4,6 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: handbook
     app.kubernetes.io/name: handbook
+    tanka.dev/environment: 95f2e5977737602092bf0877799bea7da9b9d31f0678674c
   name: handbook
   namespace: docs
 spec:

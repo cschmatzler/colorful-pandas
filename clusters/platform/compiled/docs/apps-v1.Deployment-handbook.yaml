@@ -4,6 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: handbook
     app.kubernetes.io/name: handbook
+    tanka.dev/environment: 95f2e5977737602092bf0877799bea7da9b9d31f0678674c
   name: handbook
   namespace: docs
 spec:
@@ -19,7 +20,7 @@ spec:
         app.kubernetes.io/name: handbook
     spec:
       containers:
-      - image: ghcr.io/cschmatzler/handbook:23.6.19-0d2adfe
+      - image: ghcr.io/cschmatzler/handbook:23.6.20-4c77428
         name: handbook
         ports:
         - containerPort: 3000
