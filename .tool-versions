@@ -1,5 +1,5 @@
 elixir 1.15.0
-erlang 25.3.2
+erlang 26.0.1
 node 18.16.0
 terraform 1.5.0
 tanka 0.25.0
