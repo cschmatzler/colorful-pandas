@@ -74,8 +74,16 @@ jobs:
       - compile
     runs-on: ubuntu-22.04
     steps:
+      - name: Get app token
+        id: get_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_KEY }}
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        with:
+          token: ${{ steps.get_token.outputs.token }}
       - name: Download manifests
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3
       - name: Move artifacts into the correct directory
@@ -91,8 +99,8 @@ jobs:
           done
       - name: Push manifests
         run: |
-          git config --global user.name "actions[bot]"
-          git config --global user.email "actions@colorful-pandas.com"
+          git config --global user.name "chief-panda[bot]"
+          git config --global user.email "137164246+chief-panda[bot]@users.noreply.github.com"
           git add clusters/**/compiled
           git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests"
           git push
