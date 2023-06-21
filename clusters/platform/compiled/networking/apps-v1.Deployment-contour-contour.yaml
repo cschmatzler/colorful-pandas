@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: contour
     app.kubernetes.io/managed-by: Helmraiser
     app.kubernetes.io/name: contour
-    helm.sh/chart: contour-12.1.0
+    helm.sh/chart: contour-12.1.1
     tanka.dev/environment: 439e2fd20d1bf711c47badca8952d4305eef138178fb3ea9
   name: contour-contour
   namespace: networking
@@ -20,13 +20,13 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: c12a8b2040063e8fe81668fde8332481625aee00449f22639ebcaefd78b5d202
+        checksum/config: a6525325789272fb9ca1e18071ad029a8c14cb6948beaedb2711d06aa866589f
       labels:
         app.kubernetes.io/component: contour
         app.kubernetes.io/instance: contour
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: contour
-        helm.sh/chart: contour-12.1.0
+        helm.sh/chart: contour-12.1.1
     spec:
       affinity:
         nodeAffinity: null
@@ -75,7 +75,7 @@ spec:
               fieldPath: metadata.name
         - name: BITNAMI_DEBUG
           value: "false"
-        image: docker.io/bitnami/contour:1.25.0-debian-11-r3
+        image: docker.io/bitnami/contour:1.25.0-debian-11-r13
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
