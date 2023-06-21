@@ -16,7 +16,7 @@ repositories:
 requires:
   - chart: bitnami/contour
     # renovate: datasource=helm depName=contour registryUrl=https://charts.bitnami.com/bitnami versioning=helm
-    version: 12.1.0
+    version: 12.1.1
   - chart: cilium/cilium
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io versioning=helm
     version: 1.13.4
