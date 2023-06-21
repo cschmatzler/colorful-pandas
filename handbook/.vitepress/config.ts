@@ -1,38 +1,20 @@
 import { defineConfig } from "vitepress";
+import sidebar from "./sidebar";
 
 export default defineConfig({
   title: "Handbook - Colorful Pandas",
   description: "The Colorful Pandas handbook",
   themeConfig: {
+    search: {
+      provider: "local",
+    },
+
     nav: [
       { text: "Home", link: "/" },
       { text: "Engineering", link: "/engineering" },
     ],
 
-    sidebar: {
-      "/engineering/": [
-        {
-          text: "Platform",
-          items: [
-            {
-              text: "Kubernetes",
-              items: [
-                {
-                  text: "Creating a new cluster",
-                  link: "/engineering/platform/kubernetes/create-new-cluster",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          text: "ADR",
-          items: [
-            { text: "000 - Template", link: "/engineering/adr/000-template" },
-          ],
-        },
-      ],
-    },
+    sidebar: sidebar,
 
     socialLinks: [
       {

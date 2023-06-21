@@ -1,11 +1,3 @@
-(import 'cert-manager/main.libsonnet') +
-{
-  _config+:: {
-    certManager+: {
-      namespace: 'security',
-    },
-  },
-} +
 {
   local eslib = (import 'external-secrets.libsonnet').eslib,
   local esutil = (import 'external-secrets.libsonnet').esutil,
@@ -19,6 +11,14 @@
                          es.spec.data.remoteRef.withKey('Cloudflare') +
                          es.spec.data.remoteRef.withProperty('credential'),
                        ]),
+    },
+  },
+} +
+(import 'cert-manager/main.libsonnet') +
+{
+  _config+:: {
+    certManager+: {
+      namespace: 'security',
     },
   },
 } +
