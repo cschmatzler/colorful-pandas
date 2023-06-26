@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/cschmatzler/colorful-pandas/raw/main/assets/logo.png" alt="Logo" width="400" height="400" style="max-width: 100%;">
+    <img src="/cschmatzler/colorful-pandas/blob/main/assets/logo.png" alt="Logo" width="400" height="400" style="max-width: 100%;">
 </p>
 
 [Handbook](https://handbook.colorful-pandas.com)
