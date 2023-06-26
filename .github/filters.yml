@@ -1,4 +1,5 @@
 tanka:
-  - clusters/lib/**/*.{libsonnet, yaml}
+  - clusters/lib/**/*.libsonnet
+  - clusters/lib/chartfile.yaml
   - clusters/**/spec.json
   - clusters/**/*.{jsonnet, libsonnet}
