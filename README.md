@@ -1,5 +1,5 @@
 <p align="center">
-    ![Logo](./assets/logo.png =400x400)
+    <img src="/cschmatzler/colorful-pandas/raw/main/assets/logo.png" alt="Logo" width="400" height="400" style="max-width: 100%;">
 </p>
 
 [Handbook](https://handbook.colorful-pandas.com)
