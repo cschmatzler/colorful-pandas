@@ -1,4 +1,4 @@
-# Colorful Pandas
+![Logo](./assets/logo.png)
 
 [Handbook](https://handbook.colorful-pandas.com)
 
