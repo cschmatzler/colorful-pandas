@@ -111,8 +111,8 @@ jobs:
 
       - name: Push manifests
         run: |
-          git config --global user.name "chief-panda[bot]"
-          git config --global user.email "137164246+chief-panda[bot]@users.noreply.github.com"
+          git config --global user.name "astronaut-panda[bot]"
+          git config --global user.email "137164246+astronaut-panda[bot]@users.noreply.github.com"
           git add clusters/**/compiled
           git pull --ff-only
           git diff --quiet && git diff --staged --quiet || git commit -m "Update cluster manifests"
