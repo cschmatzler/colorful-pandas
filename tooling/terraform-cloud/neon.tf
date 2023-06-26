@@ -4,7 +4,7 @@ resource "tfe_workspace" "neon" {
   name               = "neon"
   auto_apply         = true
   allow_destroy_plan = false
-  terraform_version  = "1.5.0"
+  terraform_version  = "1.5.1"
   working_directory  = "tooling/neon"
   vcs_repo {
     identifier     = "cschmatzler/colorful-pandas"
