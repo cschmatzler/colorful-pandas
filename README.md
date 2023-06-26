@@ -1,4 +1,6 @@
-![Logo](./assets/logo.png)
+<p align="center">
+    ![Logo](./assets/logo.png =400x400)
+</p>
 
 [Handbook](https://handbook.colorful-pandas.com)
 
