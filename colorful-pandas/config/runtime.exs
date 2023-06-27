@@ -44,11 +44,11 @@ if config_env() in [:dev, :prod] do
         |> to_charlist()
     ]
 
-  # Authentication
-  # --------------
-  config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-    client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
-    client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
+  # # Authentication
+  # # --------------
+  # config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  #   client_id: System.fetch_env!("GITHUB_CLIENT_ID"),
+  #   client_secret: System.fetch_env!("GITHUB_CLIENT_SECRET")
 end
 
 # ---------
@@ -96,7 +96,7 @@ if config_env() == :prod do
   # ----
   # Mail
   # ----
-  config :colorful_pandas, ColorfulPandas.Mailer,
-    adapter: Swoosh.Adapters.Postmark,
-    api_key: System.fetch_env!("POSTMARK_API_KEY")
+  # config :colorful_pandas, ColorfulPandas.Mailer,
+  #   adapter: Swoosh.Adapters.Postmark,
+  #   api_key: System.fetch_env!("POSTMARK_API_KEY")
 end

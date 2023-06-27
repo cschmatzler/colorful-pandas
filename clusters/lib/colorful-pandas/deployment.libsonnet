@@ -3,6 +3,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       deployment = k.apps.v1.deployment,
       container = k.core.v1.container,
       envVar = k.core.v1.envVar,
+      envFromSource = k.core.v1.envFromSource,
       port = k.core.v1.containerPort;
 
 {
@@ -14,7 +15,11 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
     container::
       container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
       container.withEnv([
-        envVar.new('SERVER_PORT', std.toString(self.vars.port)),
+        envVar.new('HOST', $._config.colorfulPandas.host),
+        envVar.new('PORT', std.toString(self.vars.port)),
+      ]) +
+      container.withEnvFrom([
+        envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),
       ]) +
       container.withPorts([
         port.newNamed(self.vars.port, 'http'),

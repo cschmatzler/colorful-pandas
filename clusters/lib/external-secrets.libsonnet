@@ -5,5 +5,11 @@
       local es = $.eslib.nogroup.v1beta1.externalSecret;
       es.spec.secretStoreRef.withKind('ClusterSecretStore') +
       es.spec.secretStoreRef.withName('onepassword'),
+
+    data(secretKey, remoteKey, remoteProperty)::
+      local es = $.eslib.nogroup.v1beta1.externalSecret;
+      es.spec.data.withSecretKey(secretKey) +
+      es.spec.data.remoteRef.withKey(remoteKey) +
+      es.spec.data.remoteRef.withProperty(remoteProperty),
   },
 }
