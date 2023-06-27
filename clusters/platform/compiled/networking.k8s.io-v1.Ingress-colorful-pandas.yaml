@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+  name: colorful-pandas
+  namespace: default
+spec:
+  ingressClassName: public
+  rules:
+  - host: colorful-pandas.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: colorful-pandas
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - colorful-pandas.com
+    secretName: colorful-pandas-tls
