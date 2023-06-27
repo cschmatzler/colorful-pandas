@@ -40,8 +40,8 @@ jobs:
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: astronaut-panda[bot]
+          password: ${{ steps.get_token.outputs.token }}
 
       - name: Set environment
         run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
@@ -80,4 +80,3 @@ jobs:
           body: Update handbook to v${{ env.VERSION }}
           labels: |
             ops
-            astronaut-panda
