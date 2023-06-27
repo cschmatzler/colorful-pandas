@@ -27,7 +27,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     end
   end
 
-  defp changeset(schema, data, action) do
+  defp changeset(schema, data, _action) do
     types = schema |> Enum.map(fn {field, [type | _]} -> {field, type} end) |> Map.new()
 
     required =

@@ -2,9 +2,6 @@ defmodule ColorfulPandas.Auth.SignupFlow do
   @moduledoc false
   use Ecto.Schema
 
-  import Ecto.Changeset
-  import Ecto.Query
-
   alias ColorfulPandas.Auth.OrganizationInvite
   alias ColorfulPandas.Auth.SignupFlow
 
