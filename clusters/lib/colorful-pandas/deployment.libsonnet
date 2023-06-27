@@ -12,6 +12,13 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       port: 4000,
     },
 
+    migration_container::
+      container.new('colorful-pandas-migrations', $._images.colorfulPandas.colorfulPandas) +
+      container.withCommand('/app/bin/migrate') +
+      container.withEnvFrom([
+        envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),
+      ]),
+
     container::
       container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
       container.withEnv([
@@ -27,16 +34,13 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
         port.newNamed(self.vars.port, 'http'),
       ]),
 
-    deployment: deployment.new(
-                  'colorful-pandas',
-                  replicas=3,
-                  containers=[
-                    self.container,
-                  ]
-                ) +
+    deployment: deployment.new('colorful-pandas') +
                 util.deployment.withCommonLabels({
                   'app.kubernetes.io/name': 'colorful-pandas',
                   'app.kubernetes.io/instance': 'colorful-pandas',
-                }),
+                }) +
+                deployment.spec.withReplicas(3) +
+                deployment.spec.template.spec.withInitContainers([self.migration_container]) +
+                deployment.spec.template.spec.withContainers([self.container]),
   },
 }
