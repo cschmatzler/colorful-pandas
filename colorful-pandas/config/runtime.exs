@@ -96,7 +96,8 @@ if config_env() == :prod do
   # ----
   # Mail
   # ----
-  # config :colorful_pandas, ColorfulPandas.Mailer,
-  #   adapter: Swoosh.Adapters.Postmark,
-  #   api_key: System.fetch_env!("POSTMARK_API_KEY")
+  config :colorful_pandas, ColorfulPandas.Mailer,
+    adapter: Swoosh.Adapters.Postmark,
+    # api_key: System.fetch_env!("POSTMARK_API_KEY")
+    api_key: "nil"
 end
