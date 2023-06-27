@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "repositories": ["cschmatzler/colorful-pandas"],
+  "repositories": ["panda-den/colorful-pandas"],
   "username": "astronaut-panda[bot]",
   "gitAuthor": "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>",
   "dependencyDashboard": true,
