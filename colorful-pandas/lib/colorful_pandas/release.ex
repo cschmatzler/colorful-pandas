@@ -4,6 +4,7 @@ defmodule ColorfulPandas.Release do
   use Boundary, deps: [], exports: [], top_level?: true
 
   def migrate do
+    ensure_started()
     load_app()
 
     for repo <- repos() do
@@ -12,6 +13,7 @@ defmodule ColorfulPandas.Release do
   end
 
   def rollback(repo, version) do
+    ensure_started()
     load_app()
 
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
@@ -22,7 +24,10 @@ defmodule ColorfulPandas.Release do
   end
 
   defp load_app do
-    Application.load(:ssl)
     Application.load(:colorful_pandas)
+  end
+
+  defp ensure_started do
+    Application.ensure_all_started(:ssl)
   end
 end
