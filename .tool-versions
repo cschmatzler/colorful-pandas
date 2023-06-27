@@ -1,6 +1,6 @@
 elixir 1.15.0
 erlang 25.3.2
-nodejs 18.16.0
+nodejs 20.3.1
 terraform 1.5.0
 tanka 0.25.0
 helm 3.12.1
