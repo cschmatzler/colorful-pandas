@@ -24,7 +24,7 @@
 {
   _images+:: {
     colorfulPandas: {
-      colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:23.6.27-02d0199',
+      colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:23.6.27-c83a99c',
     },
   },
   _config+:: {
