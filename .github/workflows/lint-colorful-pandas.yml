@@ -27,10 +27,13 @@ jobs:
           restore-keys: |
             mix-
       - run: mix deps.get
+        working-directory: colorful-pandas/
         if: steps.deps-cache.outputs.cache-hit != 'true'
       - run: mix deps.compile
+        working-directory: colorful-pandas/
         if: steps.deps-cache.outputs.cache-hit != 'true'
       - run: mix compile --warnings-as-errors
+        working-directory: colorful-pandas/
 
   lint:
     name: Lint
@@ -51,8 +54,14 @@ jobs:
           restore-keys: |
             mix-${{ hashFiles('**/mix.lock') }}
       - run: mix deps.unlock --check-unused
+        working-directory: colorful-pandas/
       - run: mix hex.audit
+        working-directory: colorful-pandas/
       - run: mix format --check-formatted
+        working-directory: colorful-pandas/
       - run: mix credo
+        working-directory: colorful-pandas/
       - run: mix excellent_migrations.check_safety
+        working-directory: colorful-pandas/
       - run: mix sobelow --config
+        working-directory: colorful-pandas/
