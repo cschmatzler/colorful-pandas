@@ -36,7 +36,7 @@ runs:
       shell: bash
       working-directory: clusters/
       run: |
-        tk export ${{ inputs.cluster }}/compiled ${{ inputs.cluster }} --merge-strategy=replace-envs
+        tk export ${{ inputs.cluster }}/compiled ${{ inputs.cluster }} --merge-strategy=replace-envs --recursive
     - name: Sanitize names
       shell: bash
       working-directory: clusters/
