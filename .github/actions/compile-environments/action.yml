@@ -21,7 +21,7 @@ runs:
     - name: Setup Tanka
       shell: bash
       run: |
-        curl -L https://github.com/grafana/tanka/releases/download/v${{ inputs.tanka-version }}/tk-linux-arm64 --output ${{ runner.temp }}/tk
+        curl -L https://github.com/grafana/tanka/releases/download/v${{ inputs.tanka-version }}/tk-linux-amd64 --output ${{ runner.temp }}/tk
         chmod +x ${{ runner.temp }}/tk
         echo ${{ runner.temp }} >> $GITHUB_PATH
     - name: Setup Helm
