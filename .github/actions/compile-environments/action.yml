@@ -37,14 +37,3 @@ runs:
       working-directory: clusters/
       run: |
         tk export ${{ inputs.cluster }}/compiled ${{ inputs.cluster }} --merge-strategy=replace-envs --recursive
-    - name: Sanitize names
-      shell: bash
-      working-directory: clusters/
-      run: |
-        find . -depth -name '*:*' -execdir bash -c 'mv "$1" "${1//:/}"' bash {} \;
-        find . -depth -name manifest.json -print0 | xargs -0 -I {} sh -c "jq 'with_entries(.key |= (strings | gsub(\":\"; \"\")))' {} > tmp.json && mv tmp.json {}"
-    - name: Store manifests
-      uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
-      with:
-        name: manifests-${{ inputs.cluster }}
-        path: clusters/${{ inputs.cluster }}/compiled
