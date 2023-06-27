@@ -16,6 +16,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
       container.withEnv([
         envVar.fromFieldPath('POD_IP', 'status.podIP'),
+        envVar.new('SERVICE_NAME', $._config.colorfulPandas.headlessServiceName),
         envVar.new('HOST', $._config.colorfulPandas.host),
         envVar.new('PORT', std.toString(self.vars.port)),
       ]) +
