@@ -115,7 +115,7 @@ jobs:
           token: ${{ steps.get_token.outputs.token }}
           commit-message: Update cluster manifests
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
-          branch: actions/deploy-handbook
+          branch: actions/compile-clusters
           title: Update cluster manifests
           body: Update cluster manifests
           labels: |
