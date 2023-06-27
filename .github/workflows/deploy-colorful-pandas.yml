@@ -1,0 +1,86 @@
+name: "Deploy Colorful Pandas"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - colorful-pandas/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy image
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get app token
+        id: get_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        with:
+          token: ${{ steps.get_token.outputs.token }}
+
+      - name: Get tool versions
+        id: tool-versions
+        run: |
+          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+          echo "helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@ecf95283f03858871ff00b787d79c419715afc34 # v2
+
+      - name: Log into GHCR
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set environment
+        run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
+        with:
+          platforms: linux/arm64
+          context: colorful-pandas/
+          file: colorful-pandas/deploy/Dockerfile
+          tags: ghcr.io/panda-den/colorful-pandas:latest,ghcr.io/panda-den/colorful-pandas:${{ env.VERSION }}
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Update image tag
+        run: |
+          sed -i "s/handbook: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/handbook: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
+
+      - name: Compile docs environment
+        uses: ./.github/actions/compile-environment
+        with:
+          cluster: platform
+          env: default
+          tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
+          helm-version: ${{ steps.tool-versions.outputs.helm-version }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ steps.get_token.outputs.token }}
+          add-paths: |
+            clusters/platform/
+          commit-message: Update Colorful Pandas to v${{ env.VERSION }}
+          author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
+          branch: actions/deploy-colorful-pandas
+          title: Update Colorful Pandas to v${{ env.VERSION }}
+          body: Update Colorful Pandas to v${{ env.VERSION }}
+          labels: |
+            ops
+            platform
+            colorful-pandas
