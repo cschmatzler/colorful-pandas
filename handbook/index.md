@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Colorful Pandas"
   text: ""
-  tagline: "So uncompleted, you won't believe it."
+  tagline: "Work in progress."
   actions:
     - theme: primary
       text: Product
