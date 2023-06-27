@@ -1,4 +1,4 @@
-name: "Deploy Colorful Pandas"
+name: Deploy Colorful Pandas
 on:
   workflow_dispatch:
   push:

@@ -1,4 +1,4 @@
-name: "Handbook: Deploy"
+name: Deploy Handbook
 on:
   workflow_dispatch:
   push:
