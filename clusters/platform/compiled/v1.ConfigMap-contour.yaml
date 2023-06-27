@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  contour.yaml: |-
+    accesslog-format: envoy
+    disablePermitInsecure: false
+    tls:
+      fallback-certificate: {}
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: contour
+    app.kubernetes.io/instance: contour
+    app.kubernetes.io/managed-by: Helmraiser
+    app.kubernetes.io/name: contour
+    helm.sh/chart: contour-12.1.1
+  name: contour
+  namespace: networking
