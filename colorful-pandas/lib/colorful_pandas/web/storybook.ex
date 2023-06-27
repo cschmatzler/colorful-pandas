@@ -6,5 +6,5 @@ defmodule ColorfulPandas.Web.Storybook do
     content_path: Path.expand("./storybook", __DIR__),
     css_path: "/assets/css/app.css",
     js_path: "/assets/js/app.js",
-  compilation_mode: :lazy
+    compilation_mode: :lazy
 end
