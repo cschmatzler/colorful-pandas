@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Colorful Pandas"
   text: ""
-  tagline: "Work in progress."
+  tagline: "Elevator music."
   actions:
     - theme: primary
       text: Product
