@@ -46,6 +46,7 @@
   "cert-manager.io-v1.ClusterIssuer-letsencrypt.yaml": "platform/security/main.jsonnet",
   "external-secrets.io-v1beta1.ClusterSecretStore-onepassword.yaml": "platform/security/main.jsonnet",
   "external-secrets.io-v1beta1.ExternalSecret-cert-manager-cloudflare-token.yaml": "platform/security/main.jsonnet",
+  "external-secrets.io-v1beta1.ExternalSecret-colorful-pandas-env.yaml": "platform/default/main.jsonnet",
   "external-secrets.io-v1beta1.ExternalSecret-external-dns-cloudflare-token.yaml": "platform/networking/main.jsonnet",
   "networking.k8s.io-v1.Ingress-colorful-pandas.yaml": "platform/default/main.jsonnet",
   "networking.k8s.io-v1.Ingress-handbook.yaml": "platform/docs/main.jsonnet",
