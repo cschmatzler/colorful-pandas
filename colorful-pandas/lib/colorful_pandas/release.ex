@@ -22,6 +22,7 @@ defmodule ColorfulPandas.Release do
   end
 
   defp load_app do
+    Application.load(:ssl)
     Application.load(:colorful_pandas)
   end
 end
