@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: colorful-pandas
+    app.kubernetes.io/name: colorful-pandas
+  name: colorful-pandas
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: colorful-pandas
+      app.kubernetes.io/name: colorful-pandas
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: colorful-pandas
+        app.kubernetes.io/name: colorful-pandas
+    spec:
+      containers:
+      - env:
+        - name: SERVER_PORT
+          value: "4000"
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-12746ab
+        name: colorful-pandas
+        ports:
+        - containerPort: 4000
+          name: http
