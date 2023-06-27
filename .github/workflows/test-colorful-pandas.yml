@@ -9,6 +9,7 @@ env:
 
 jobs:
   compile:
+    name: Compile
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -35,8 +36,9 @@ jobs:
         working-directory: colorful-pandas/
 
   test:
-    runs-on: ubuntu-22.04
+    name: Test
     needs: compile
+    runs-on: ubuntu-22.04
     env:
       POSTGRES_HOST: localhost
     services:
