@@ -6,7 +6,6 @@
   },
   "spec": {
     "apiServer": "cluster.platform.colorful-pandas.com:6443",
-    "namespace": "security",
-    "injectLabels": true
+    "namespace": "security"
   }
 }
