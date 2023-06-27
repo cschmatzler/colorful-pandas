@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    tanka.dev/environment: 52da14134257b0f883fed06eea4ba3ef5134e486501c237b
-  name: kube-system
