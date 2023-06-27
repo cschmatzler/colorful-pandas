@@ -21,9 +21,9 @@ runs:
     - name: Setup Tanka
       shell: bash
       run: |
-        curl -L https://github.com/grafana/tanka/releases/download/v${{ inputs.tanka-version }}/tk-linux-amd64 --output ${{ github.action_path }}/tk
-        chmod +x ${{ github.action_path }}/tk
-        echo ${{ github.action_path }} >> $GITHUB_PATH
+        curl -L https://github.com/grafana/tanka/releases/download/v${{ inputs.tanka-version }}/tk-linux-amd64 --output ${{ runner.temp }}/tk
+        chmod +x ${{ runner.temp }}/tk
+        echo ${{ runner.temp }} >> $GITHUB_PATH
     - name: Setup Helm
       uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3
       with:
