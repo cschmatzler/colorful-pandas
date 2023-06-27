@@ -4,6 +4,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     ingress.kubernetes.io/force-ssl-redirect: "true"
+    projectcontour.io/websocket-routes: /
   name: colorful-pandas
   namespace: default
 spec:
@@ -16,7 +17,7 @@ spec:
           service:
             name: colorful-pandas
             port:
-              name: http
+              name: server-http
         path: /
         pathType: Prefix
   tls:
