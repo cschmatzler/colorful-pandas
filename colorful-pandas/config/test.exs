@@ -33,5 +33,5 @@ config :colorful_pandas, Oban, testing: :inline
 # ----
 # Mail
 # ----
-config :colorful_pandas, ColorfulPandas.Mailer, adapter: Swoosh.Adapters.Test
 config :swoosh, :api_client, false
+config :colorful_pandas, ColorfulPandas.Mailer, adapter: Swoosh.Adapters.Test

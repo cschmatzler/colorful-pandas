@@ -14,3 +14,9 @@ config :opentelemetry,
 # Web
 # ---
 config :colorful_pandas, ColorfulPandas.Web.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
+
+# Mail
+# ----
+config :swoosh,
+  api_client: Swoosh.ApiClient.Finch,
+  finch_name: ColorfulPandas.Finch
