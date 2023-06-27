@@ -35,7 +35,7 @@ jobs:
     needs:
       - detect-changes
     if: needs.detect-changes.outputs.changes == 'true'
-    runs-on: buildjet-2vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3

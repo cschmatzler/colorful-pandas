@@ -42,6 +42,9 @@ if config_env() in [:dev, :prod] do
         |> Regex.run(db_url, capture: :all_but_first)
         |> List.first()
         |> to_charlist()
+    ],
+    customize_hostname_check: [
+      match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
     ]
 
   # # Authentication

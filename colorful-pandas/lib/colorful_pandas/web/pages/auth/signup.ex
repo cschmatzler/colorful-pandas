@@ -27,7 +27,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     end
   end
 
-  defp changeset(schema, data, action) do
+  defp changeset(schema, data, _action) do
     types = schema |> Enum.map(fn {field, [type | _]} -> {field, type} end) |> Map.new()
 
     required =
@@ -45,7 +45,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   def handle_event(_event, params, socket) do
     form = @form_schema |> changeset(params, :update) |> to_form(as: "signup")
     socket = assign(socket, :form, form)
-    IO.inspect(form.errors)
 
     {:noreply, socket}
   end
