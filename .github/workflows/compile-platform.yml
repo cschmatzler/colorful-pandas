@@ -4,8 +4,8 @@ on:
     branches:
       - main
     paths:
-      - clusters/lib
-      - clusters/platform
+      - clusters/lib/**
+      - clusters/platform/**
       - "!clusters/platform/compiled"
 
 concurrency:
