@@ -60,19 +60,16 @@ if config_env() == :prod do
   # ----------
   # Clustering
   # ----------
-  # dns_name = System.get_env("RENDER_DISCOVERY_SERVICE")
-  # app_name = System.get_env("RENDER_SERVICE_NAME")
-  #
-  # config :libcluster,
-  #   topologies: [
-  #     render: [
-  #       strategy: Cluster.Strategy.Kubernetes.DNS,
-  #       config: [
-  #         service: dns_name,
-  #         application_name: app_name
-  #       ]
-  #     ]
-  #   ]
+
+  config :libcluster,
+    topologies: [
+      render: [
+        strategy: Cluster.Strategy.Kubernetes.DNS,
+        config: [
+          mode: :dns
+        ]
+      ]
+    ]
 
   # --------
   # Database
