@@ -16,6 +16,8 @@
                 esutil.data('DB_URL', 'Neon main', 'url'),
                 esutil.data('SECRET_KEY_BASE', 'Colorful Pandas', 'SECRET_KEY_BASE'),
                 esutil.data('LIVEVIEW_SIGNING_SALT', 'Colorful Pandas', 'LIVEVIEW_SIGNING_SALT'),
+                esutil.data('HONEYCOMB_API_KEY', 'Colorful Pandas', 'HONEYCOMB_API_KEY'),
+                esutil.data('HONEYCOMB_DATASET', 'Colorful Pandas', 'HONEYCOMB_DATASET'),
               ]),
     },
   },

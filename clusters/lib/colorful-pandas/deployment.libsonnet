@@ -18,6 +18,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
         envVar.new('SERVICE_NAME', $._config.colorfulPandas.headlessServiceName),
         envVar.new('HOST', $._config.colorfulPandas.host),
         envVar.new('PORT', std.toString(self.vars.port)),
+        envVar.new('ENABLE_TELEMETRY', 'true')
       ]) +
       container.withEnvFrom([
         envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),

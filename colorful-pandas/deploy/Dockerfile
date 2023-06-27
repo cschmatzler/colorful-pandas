@@ -26,9 +26,13 @@ COPY config config
 
 RUN mix do deps.get, deps.compile
 
-COPY rel rel
 COPY lib lib
+COPY assets assets
+COPY rel rel
+COPY priv priv
 
+RUN mix do tailwind.install --if-missing, esbuild.install --if-missing
+RUN mix do tailwind default --minify, esbuild default --minify, phx.digest
 RUN mix do compile, release colorful_pandas
 
 # Runner
