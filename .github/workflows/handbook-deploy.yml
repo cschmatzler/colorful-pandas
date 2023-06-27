@@ -73,6 +73,8 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.get_token.outputs.token }}
+          add-paths: |
+            /clusters/platform/
           commit-message: Update handbook to v${{ env.VERSION }}
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/deploy-handbook
