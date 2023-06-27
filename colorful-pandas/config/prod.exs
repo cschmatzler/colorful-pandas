@@ -18,5 +18,6 @@ config :colorful_pandas, ColorfulPandas.Web.Endpoint, cache_static_manifest: "pr
 # Mail
 # ----
 config :swoosh,
+  local: false,
   api_client: Swoosh.ApiClient.Finch,
   finch_name: ColorfulPandas.Finch
