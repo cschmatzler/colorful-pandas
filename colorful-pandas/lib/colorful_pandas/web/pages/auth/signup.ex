@@ -45,7 +45,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   def handle_event(_event, params, socket) do
     form = @form_schema |> changeset(params, :update) |> to_form(as: "signup")
     socket = assign(socket, :form, form)
-    IO.inspect(form.errors)
 
     {:noreply, socket}
   end
