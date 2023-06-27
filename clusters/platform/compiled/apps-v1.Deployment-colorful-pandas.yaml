@@ -33,7 +33,7 @@ spec:
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-345b233
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-02d0199
         name: colorful-pandas
         ports:
         - containerPort: 4000
@@ -41,8 +41,19 @@ spec:
       initContainers:
       - command:
         - /app/bin/migrate
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SERVICE_NAME
+          value: colorful-pandas-headless
+        - name: HOST
+          value: colorful-pandas.com
+        - name: PORT
+          value: "4000"
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-345b233
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-02d0199
         name: colorful-pandas-migrations
