@@ -29,7 +29,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
 
     deployment: deployment.new(
                   'colorful-pandas',
-                  replicas=3,
+                  replicas=2,
                   containers=[
                     self.container,
                   ]
