@@ -6,6 +6,7 @@ local util(k) = {
       ingress.metadata.withAnnotations({
         'cert-manager.io/cluster-issuer': tlsIssuer,
         'ingress.kubernetes.io/force-ssl-redirect': 'true',
+        'projectcontour.io/websocket-routes': '/'
       }) +
       ingress.spec.withIngressClassName(ingressClassName) +
       ingress.spec.withTls([
