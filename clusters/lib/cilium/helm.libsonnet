@@ -2,7 +2,7 @@ local tanka = import 'github.com/grafana/jsonnet-libs/tanka-util/main.libsonnet'
 local helm = tanka.helm.new(std.thisFile);
 
 {
-  cilium: {
+  cilium+: {
     values:: {
       k8sServiceHost: $._config.cilium.service_host,
       k8sServicePort: 6443,

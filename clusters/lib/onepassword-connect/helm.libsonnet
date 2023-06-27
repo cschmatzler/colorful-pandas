@@ -2,7 +2,7 @@ local tanka = import 'github.com/grafana/jsonnet-libs/tanka-util/main.libsonnet'
 local helm = tanka.helm.new(std.thisFile);
 
 {
-  onepasswordConnect: {
+  onepasswordConnect+: {
     values:: {
       connect: {
         credentialsName: $._config.onepasswordConnect.secretName,
