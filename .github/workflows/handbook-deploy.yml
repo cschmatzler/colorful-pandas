@@ -52,14 +52,14 @@ jobs:
           platforms: linux/arm64
           context: handbook/
           file: handbook/deploy/Dockerfile
-          tags: ghcr.io/cschmatzler/handbook:latest,ghcr.io/cschmatzler/handbook:${{ env.VERSION }}
+          tags: ghcr.io/panda-den/handbook:latest,ghcr.io/panda-den/handbook:${{ env.VERSION }}
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Update image tag
         run: |
-          sed -i "s/handbook: 'ghcr\.io\/cschmatzler\/handbook:\(.*\)'/handbook: 'ghcr.io\/cschmatzler\/handbook:${{ env.VERSION }}'/g" clusters/platform/docs/handbook.jsonnet
+          sed -i "s/handbook: 'ghcr\.io\/panda-den\/handbook:\(.*\)'/handbook: 'ghcr.io\/panda-den\/handbook:${{ env.VERSION }}'/g" clusters/platform/docs/handbook.jsonnet
 
       - name: Compile docs environment
         uses: ./.github/actions/compile-environment

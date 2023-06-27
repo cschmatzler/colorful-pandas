@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: "Colorful Pandas"
-  text: "Very colorful."
+  text: ""
   tagline: "So uncompleted, you won't believe it."
   actions:
     - theme: secondary
