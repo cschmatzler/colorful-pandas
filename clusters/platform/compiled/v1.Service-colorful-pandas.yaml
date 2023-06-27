@@ -8,7 +8,7 @@ metadata:
   namespace: default
 spec:
   ports:
-  - name: colorful-pandas-http
+  - name: server-http
     port: 4000
     targetPort: 4000
   selector:
