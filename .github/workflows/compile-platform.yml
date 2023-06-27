@@ -1,11 +1,11 @@
-name: "Clusters: Compile manifests"
+name: "Compile platform"
 on:
   push:
     branches:
       - main
     paths:
-      - clusters/**
-      - "!clusters/**/compiled"
+      - clusters/platform
+      - "!clusters/platform/compiled"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -62,10 +62,11 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.get-token.outputs.token }}
-          commit-message: Update cluster manifests
+          commit-message: Update `platform` manifests
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/compile-clusters
-          title: Update cluster manifests
-          body: Update cluster manifests
+          title: Update `platform` manifests
+          body: Update `platform` manifests
           labels: |
             ops
+            platform

@@ -75,10 +75,12 @@ jobs:
           token: ${{ steps.get_token.outputs.token }}
           add-paths: |
             clusters/platform/
-          commit-message: Update handbook to v${{ env.VERSION }}
+          commit-message: Update Handbook to v${{ env.VERSION }}
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/deploy-handbook
-          title: Update handbook to v${{ env.VERSION }}
-          body: Update handbook to v${{ env.VERSION }}
+          title: Update Handbook to v${{ env.VERSION }}
+          body: Update Handbook to v${{ env.VERSION }}
           labels: |
             ops
+            platform
+            handbook
