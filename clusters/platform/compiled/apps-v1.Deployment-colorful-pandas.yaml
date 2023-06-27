@@ -20,9 +20,14 @@ spec:
     spec:
       containers:
       - env:
-        - name: SERVER_PORT
+        - name: HOST
+          value: colorful-pandas.com
+        - name: PORT
           value: "4000"
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-44877db
+        envFrom:
+        - secretRef:
+            name: colorful-pandas-env
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-03769f9
         name: colorful-pandas
         ports:
         - containerPort: 4000
