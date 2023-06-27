@@ -61,11 +61,10 @@ jobs:
         run: |
           sed -i "s/colorfulPandas: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/colorfulPandas: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
 
-      - name: Compile docs environment
-        uses: ./.github/actions/compile-environment
+      - name: Compile Kubernetes manifests
+        uses: ./.github/actions/compile-environments
         with:
           cluster: platform
-          env: default
           tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
           helm-version: ${{ steps.tool-versions.outputs.helm-version }}
 

@@ -1,4 +1,5 @@
 defmodule ColorfulPandas.Web.Plugs.Auth do
+  # TODO: Add doc
   @moduledoc false
   import ColorfulPandas.Web.Auth, only: [signed_in_path: 0, signed_out_path: 0, session_cookie: 0]
   import Phoenix.Controller
