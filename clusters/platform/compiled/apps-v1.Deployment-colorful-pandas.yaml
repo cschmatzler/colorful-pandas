@@ -24,6 +24,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        - name: SERVICE_NAME
+          value: colorful-pandas-headless
         - name: HOST
           value: colorful-pandas.com
         - name: PORT
