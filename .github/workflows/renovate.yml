@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ steps.get_token.outputs.token }}
 
-      - name: Renovate
+      - name: Run Renovate
         uses: renovatebot/github-action@2a87d1192eaa0cac92b6566233afedf68fd3472a # v38.1.8
         with:
           configurationFile: ./.github/renovate.json
