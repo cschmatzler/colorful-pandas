@@ -14,9 +14,7 @@
       cloudflareToken: es.new($.vars.secretName) +
                        esutil.onepasswordStore() +
                        es.spec.withData([
-                         es.spec.data.withSecretKey($.vars.secretKey) +
-                         es.spec.data.remoteRef.withKey('Cloudflare') +
-                         es.spec.data.remoteRef.withProperty('credential'),
+                         esutil.data($.vars.secretKey, 'Cloudflare', 'credential')
                        ]),
     },
   },
