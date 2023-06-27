@@ -20,6 +20,14 @@ spec:
     spec:
       containers:
       - env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         - name: HOST
           value: colorful-pandas.com
         - name: PORT
@@ -27,7 +35,7 @@ spec:
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-03769f9
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-5be1ef4
         name: colorful-pandas
         ports:
         - containerPort: 4000
