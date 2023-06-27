@@ -22,7 +22,7 @@ spec:
       - env:
         - name: SERVER_PORT
           value: "4000"
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-12746ab
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-44877db
         name: colorful-pandas
         ports:
         - containerPort: 4000
