@@ -66,7 +66,8 @@ if config_env() == :prod do
       render: [
         strategy: Cluster.Strategy.Kubernetes.DNS,
         config: [
-          mode: :dns
+          application_name: "colorful_pandas",
+          service: System.fetch_env!("SERVICE_NAME"),
         ]
       ]
     ]
