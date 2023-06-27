@@ -62,29 +62,25 @@ jobs:
         run: |
           sed -i "s/colorfulPandas: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/colorfulPandas: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
 
-      - name: Update Kubernetes manifests
-        uses: ./.github/workflows/compile-platform.yml
-        secrets: inherit
+      - name: Compile Kubernetes manifests
+        uses: ./.github/actions/compile-environments
+        with:
+          cluster: platform
+          tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
+          helm-version: ${{ steps.tool-versions.outputs.helm-version }}
 
-      # - name: Compile Kubernetes manifests
-      #   uses: ./.github/actions/compile-environments
-      #   with:
-      #     cluster: platform
-      #     tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
-      #     helm-version: ${{ steps.tool-versions.outputs.helm-version }}
-      #
-      # - name: Create pull request
-      #   uses: peter-evans/create-pull-request@v5
-      #   with:
-      #     token: ${{ steps.get_token.outputs.token }}
-      #     add-paths: |
-      #       clusters/platform/
-      #     commit-message: Update Colorful Pandas to v${{ env.VERSION }}
-      #     author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
-      #     branch: actions/deploy-colorful-pandas
-      #     title: Update Colorful Pandas to v${{ env.VERSION }}
-      #     body: Update Colorful Pandas to v${{ env.VERSION }}
-      #     labels: |
-      #       ops
-      #       platform
-      #       colorful-pandas
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ steps.get_token.outputs.token }}
+          add-paths: |
+            clusters/platform/
+          commit-message: Update Colorful Pandas to v${{ env.VERSION }}
+          author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
+          branch: actions/deploy-colorful-pandas
+          title: Update Colorful Pandas to v${{ env.VERSION }}
+          body: Update Colorful Pandas to v${{ env.VERSION }}
+          labels: |
+            ops
+            platform
+            colorful-pandas
