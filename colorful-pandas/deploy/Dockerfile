@@ -36,8 +36,21 @@ RUN mix do compile, release colorful_pandas
 
 FROM ${RUNNER_IMAGE}
 
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install --no-install-recommends -y \
+        ca-certificates locales openssl && \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 WORKDIR /app
 
 COPY --from=builder /app/_build/prod/rel/colorful_pandas /app
 
-CMD ["/app/bin/colorful-pandas", "start"]
+CMD ["/app/bin/server"]
