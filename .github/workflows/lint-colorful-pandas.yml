@@ -21,8 +21,8 @@ jobs:
         id: deps-cache
         with:
           path: |
-            service/deps/
-            service/_build/
+            colorful-pandas/deps/
+            colorful-pandas/_build/
           key: mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             mix-
@@ -48,8 +48,8 @@ jobs:
       - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
-            service/deps/
-            service/_build/
+            colorful-pandas/deps/
+            colorful-pandas/_build/
           key: mix-${{ github.sha }}
           restore-keys: |
             mix-${{ hashFiles('**/mix.lock') }}
