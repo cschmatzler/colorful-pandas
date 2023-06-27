@@ -1,11 +1,8 @@
-name: "Compile environment"
-description: "Compiles an environment using Tanka"
+name: "Compile environments"
+description: "Compiles all environments for a cluster"
 inputs:
   cluster:
     description: "Cluster to compile"
-    required: true
-  env:
-    description: "Environment inside cluster to compile"
     required: true
   tanka-version:
     description: "Tanka version"
@@ -39,8 +36,7 @@ runs:
       shell: bash
       working-directory: clusters/
       run: |
-        mkdir -p ${{ inputs.cluster }}/compiled/${{ inputs.env }}
-        tk export ${{ inputs.cluster }}/compiled/${{ inputs.env }} ${{ inputs.cluster }}/${{ inputs.env }} --merge-strategy replace-envs
+        tk export ${{ inputs.cluster }}/compiled ${{ inputs.cluster }} --merge-strategy=replace-envs
     - name: Sanitize names
       shell: bash
       working-directory: clusters/
@@ -50,5 +46,5 @@ runs:
     - name: Store manifests
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
       with:
-        name: manifests-${{ inputs.cluster }}-${{ inputs.env }}
-        path: clusters/${{ inputs.cluster }}/compiled/${{ inputs.env }}
+        name: manifests-${{ inputs.cluster }}
+        path: clusters/${{ inputs.cluster }}/compiled
