@@ -12,12 +12,12 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
     },
 
     container::
-      container.new('colorful-pandas', $._images.handbook.handbook) +
+      container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
       container.withEnv([
-        envVar.new('SERVER_PORT', $.vars.port),
+        envVar.new('SERVER_PORT', std.toString(self.vars.port)),
       ]) +
       container.withPorts([
-        port.newNamed($.vars.port, 'http'),
+        port.newNamed(self.vars.port, 'http'),
       ]),
 
     deployment: deployment.new(

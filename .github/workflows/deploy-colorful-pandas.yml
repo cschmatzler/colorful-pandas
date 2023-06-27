@@ -59,7 +59,7 @@ jobs:
 
       - name: Update image tag
         run: |
-          sed -i "s/handbook: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/handbook: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
+          sed -i "s/colorfulPandas: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/colorfulPandas: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
 
       - name: Compile docs environment
         uses: ./.github/actions/compile-environment

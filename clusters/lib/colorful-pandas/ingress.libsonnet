@@ -7,7 +7,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       self.service,
       ingressClassName='public',
       host=$._config.colorfulPandas.host,
-      port='colorful-pandas-http'
+      port='http'
     ),
   },
 }
