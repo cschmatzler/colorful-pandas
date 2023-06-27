@@ -30,6 +30,8 @@ spec:
           value: colorful-pandas.com
         - name: PORT
           value: "4000"
+        - name: ENABLE_TELEMETRY
+          value: "true"
         envFrom:
         - secretRef:
             name: colorful-pandas-env
@@ -52,6 +54,8 @@ spec:
           value: colorful-pandas.com
         - name: PORT
           value: "4000"
+        - name: ENABLE_TELEMETRY
+          value: "true"
         envFrom:
         - secretRef:
             name: colorful-pandas-env
