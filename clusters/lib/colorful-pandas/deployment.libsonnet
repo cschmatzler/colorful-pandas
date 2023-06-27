@@ -12,15 +12,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       port: 4000,
     },
 
-    migration_container::
-      container.new('colorful-pandas-migrations', $._images.colorfulPandas.colorfulPandas) +
-      container.withCommand('/app/bin/migrate') +
-      container.withEnvFrom([
-        envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),
-      ]),
-
-    container::
-      container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
+    containerEnv::
       container.withEnv([
         envVar.fromFieldPath('POD_IP', 'status.podIP'),
         envVar.new('SERVICE_NAME', $._config.colorfulPandas.headlessServiceName),
@@ -29,7 +21,16 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
       ]) +
       container.withEnvFrom([
         envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),
-      ]) +
+      ]),
+
+    migration_container::
+      container.new('colorful-pandas-migrations', $._images.colorfulPandas.colorfulPandas) +
+      container.withCommand('/app/bin/migrate') +
+      self.containerEnv,
+
+    container::
+      container.new('colorful-pandas', $._images.colorfulPandas.colorfulPandas) +
+      self.containerEnv +
       container.withPorts([
         port.newNamed(self.vars.port, 'http'),
       ]),
