@@ -54,8 +54,8 @@ jobs:
           file: colorful-pandas/deploy/Dockerfile
           tags: ghcr.io/panda-den/colorful-pandas:latest,ghcr.io/panda-den/colorful-pandas:${{ env.VERSION }}
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/panda-den/colorful-pandas:latest
+          cache-to: type=inline
 
       - name: Update image tag
         run: |
