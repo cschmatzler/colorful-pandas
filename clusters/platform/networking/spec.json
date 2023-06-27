@@ -2,7 +2,7 @@
   "apiVersion": "tanka.dev/v1alpha1",
   "kind": "Environment",
   "metadata": {
-    "name": "prod.colorful-pandas.com/networking"
+    "name": "platform/networking"
   },
   "spec": {
     "apiServer": "cluster.platform.colorful-pandas.com:6443",
