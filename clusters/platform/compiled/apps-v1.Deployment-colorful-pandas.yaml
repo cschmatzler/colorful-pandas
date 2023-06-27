@@ -35,7 +35,7 @@ spec:
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:23.6.27-5be1ef4
+        image: ghcr.io/panda-den/colorful-pandas:23.6.27-e3773e4
         name: colorful-pandas
         ports:
         - containerPort: 4000
