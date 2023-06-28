@@ -65,7 +65,6 @@ config :tailwind,
 
 # User monitoring
 # ---------------
-config :colorful_pandas, :posthog,
-  enabled?: false
+config :colorful_pandas, :posthog, enabled?: false
 
 import_config "#{config_env()}.exs"

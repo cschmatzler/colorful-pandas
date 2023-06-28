@@ -3,7 +3,8 @@ import Config
 # -------------
 # Observability
 # -------------
-config :logger, level: :info
+config :logger, :default_handler, level: :error
+config :logger, :default_formatter, format: "$time $message $metadata"
 
 config :opentelemetry,
   span_processor: :batch,
@@ -12,8 +13,7 @@ config :opentelemetry,
 
 # User monitoring
 # ---------------
-config :colorful_pandas, :posthog,
-  enabled?: true
+config :colorful_pandas, :posthog, enabled?: true
 
 # ---
 # Web

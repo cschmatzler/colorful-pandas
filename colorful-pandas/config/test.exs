@@ -3,7 +3,7 @@ import Config
 # -------
 # Logging
 # -------
-config :logger, level: :warning
+config :logger, :default_handler, level: :warning
 
 # --------
 # Database

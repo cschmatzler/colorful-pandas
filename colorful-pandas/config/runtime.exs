@@ -10,8 +10,8 @@ if System.get_env("ENABLE_TELEMETRY") do
   config :opentelemetry,
     resource: [
       service: [
-        name: "colorful_pandas",
-      ],
+        name: "colorful_pandas"
+      ]
     ]
 
   config :opentelemetry_exporter,
