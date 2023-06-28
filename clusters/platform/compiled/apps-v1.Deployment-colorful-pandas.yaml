@@ -17,6 +17,7 @@ spec:
       labels:
         app.kubernetes.io/instance: colorful-pandas
         app.kubernetes.io/name: colorful-pandas
+        grafana-agent/collect-logs: "true"
     spec:
       containers:
       - env:
@@ -32,6 +33,8 @@ spec:
           value: "4000"
         - name: ENABLE_TELEMETRY
           value: "true"
+        - name: OTLP_ENDPOINT
+          value: grafana-agent-traces.monitoring.svc.cluster.local:4318
         envFrom:
         - secretRef:
             name: colorful-pandas-env
@@ -56,6 +59,8 @@ spec:
           value: "4000"
         - name: ENABLE_TELEMETRY
           value: "true"
+        - name: OTLP_ENDPOINT
+          value: grafana-agent-traces.monitoring.svc.cluster.local:4318
         envFrom:
         - secretRef:
             name: colorful-pandas-env
