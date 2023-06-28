@@ -58,9 +58,13 @@ config :tailwind,
     args: ~w(
       --config=tailwind.config.cjs
       --input=css/app.css
-      --output=../priv/static/assets/css/app.css
+      --output=../priv/static/assets/app.css
     ),
     cd: Path.expand("../assets", __DIR__)
   ]
+
+# User monitoring
+# ---------------
+config :colorful_pandas, :posthog, enabled?: false
 
 import_config "#{config_env()}.exs"

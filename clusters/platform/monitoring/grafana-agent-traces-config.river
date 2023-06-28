@@ -1,0 +1,32 @@
+logging {
+  level  = "debug"
+  format = "logfmt"
+}
+
+// Traces
+// ------
+otelcol.receiver.otlp "traces" {
+  http {}
+
+  output {
+    traces  = [otelcol.processor.batch.traces.input]
+  }
+}
+
+otelcol.processor.batch "traces" {
+  output {
+    traces = [otelcol.exporter.otlphttp.tempo.input]
+  }
+}
+
+otelcol.auth.basic "tempo" {
+  username = env("TEMPO_USERNAME")
+  password = env("TEMPO_PASSWORD")
+}
+
+otelcol.exporter.otlphttp "tempo" {
+  client {
+    endpoint = env("TEMPO_URL")
+    auth = otelcol.auth.basic.tempo.handler
+  }
+}

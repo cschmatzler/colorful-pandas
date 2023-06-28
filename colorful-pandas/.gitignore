@@ -1,5 +1,6 @@
 /deps/
 /_build/
+/priv/static/assets/
 /doc/
 /.elixir-ls/
 /.elixir-tools/

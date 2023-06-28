@@ -61,7 +61,7 @@ jobs:
           private_key: ${{ secrets.APP_KEY }}
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
         with:
           token: ${{ steps.get-token.outputs.token }}
           commit-message: Update `platform` manifests
