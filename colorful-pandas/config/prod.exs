@@ -3,12 +3,17 @@ import Config
 # -------------
 # Observability
 # -------------
-config :logger, level: :info
+config :logger, :default_handler, level: :error
+config :logger, :default_formatter, format: "$time $message $metadata"
 
 config :opentelemetry,
   span_processor: :batch,
   exporter: :otlp,
   sampler: {:parent_based, %{root: {:trace_id_ratio_based, 0.1}}}
+
+# User monitoring
+# ---------------
+config :colorful_pandas, :posthog, enabled?: true
 
 # ---
 # Web

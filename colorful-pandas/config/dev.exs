@@ -3,7 +3,8 @@ import Config
 # -------------
 # Observability
 # -------------
-config :logger, :console, format: "[$level] $message\n", level: :debug
+config :logger, :default_handler, level: :debug
+config :logger, :default_formatter, format: "[$level] $message\n"
 config :opentelemetry, traces_exporter: :none
 
 # --------
