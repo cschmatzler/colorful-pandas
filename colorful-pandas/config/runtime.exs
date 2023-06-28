@@ -29,15 +29,16 @@ if config_env() in [:dev, :prod] do
     url: db_url,
     ssl: true,
     ssl_opts: [
-      verify: :verify_none,
+      cacertfile: CAStore.file_path(),
+      verify: :verify_peer,
       server_name_indication:
         ~r/.*@(.*)\/.*/
         |> Regex.run(db_url, capture: :all_but_first)
         |> List.first()
-        |> to_charlist()
-    ],
-    customize_hostname_check: [
-      match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+        |> to_charlist(),
+      customize_hostname_check: [
+        match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+      ]
     ]
 
   # # Authentication
