@@ -63,4 +63,7 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :colorful_pandas, :posthog,
+  enabled?: false
+
 import_config "#{config_env()}.exs"

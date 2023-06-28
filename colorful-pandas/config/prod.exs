@@ -10,6 +10,11 @@ config :opentelemetry,
   exporter: :otlp,
   sampler: {:parent_based, %{root: {:trace_id_ratio_based, 0.1}}}
 
+# User monitoring
+# ---------------
+config :colorful_pandas, :posthog,
+  enabled?: true
+
 # ---
 # Web
 # ---
