@@ -18,7 +18,7 @@ data:
 
     otelcol.processor.batch "traces" {
       output {
-        traces = [otelcol.exporter.otlphttp.tempo.input]
+        traces = [otelcol.exporter.otlp.tempo.input]
       }
     }
 
@@ -27,7 +27,7 @@ data:
       password = env("TEMPO_PASSWORD")
     }
 
-    otelcol.exporter.otlphttp "tempo" {
+    otelcol.exporter.otlp "tempo" {
       client {
         endpoint = env("TEMPO_URL")
         auth = otelcol.auth.basic.tempo.handler
