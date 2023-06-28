@@ -18,7 +18,8 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
         envVar.new('SERVICE_NAME', $._config.colorfulPandas.headlessServiceName),
         envVar.new('HOST', $._config.colorfulPandas.host),
         envVar.new('PORT', std.toString(self.vars.port)),
-        envVar.new('ENABLE_TELEMETRY', 'true')
+        envVar.new('ENABLE_TELEMETRY', 'true'),
+        envVar.new('OTLP_ENDPOINT', 'grafana-agent-traces.monitoring.svc.cluster.local:4318')
       ]) +
       container.withEnvFrom([
         envFromSource.secretRef.withName($._config.colorfulPandas.envSecretName),
@@ -42,6 +43,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
                   'app.kubernetes.io/instance': 'colorful-pandas',
                 }) +
                 deployment.spec.withReplicas(3) +
+                deployment.spec.template.metadata.withLabelsMixin({"grafana-agent/collect-logs": "true"}) +
                 deployment.spec.template.spec.withInitContainers([self.migration_container]) +
                 deployment.spec.template.spec.withContainers([self.container]),
   },

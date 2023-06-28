@@ -7,23 +7,16 @@ if System.get_env("ENABLE_SERVER") do
 end
 
 if System.get_env("ENABLE_TELEMETRY") do
-  Logger.info("Telemetry enabled")
-
   config :opentelemetry,
     resource: [
       service: [
-        name: "colorful_pandas"
-      ]
-    ],
-    traces_exporter: :otlp
+        name: "colorful_pandas",
+      ],
+    ]
 
   config :opentelemetry_exporter,
     otlp_protocol: :http_protobuf,
-    otlp_endpoint: "https://api.honeycomb.io:443",
-    otlp_headers: [
-      {"x-honeycomb-team", System.fetch_env!("HONEYCOMB_API_KEY")},
-      {"x-honeycomb-dataset", System.fetch_env!("HONEYCOMB_DATASET")}
-    ]
+    otlp_endpoint: System.fetch_env!("OTLP_ENDPOINT")
 end
 
 if config_env() in [:dev, :prod] do
