@@ -68,5 +68,6 @@ apply-terraform-cloud:
   TF_VAR_hcloud_token="op://Colorful Pandas/Hetzner Cloud/credential" \
   TF_VAR_cloudflare_token="op://Colorful Pandas/Cloudflare/credential" \
   TF_VAR_neon_token="op://Colorful Pandas/Neon/credential" \
+  TF_VAR_grafana_cloud_token="op://Colorful Pandas/Grafana Cloud/credential" \
   op run -- \
     terraform -chdir=tooling/terraform-cloud/ apply

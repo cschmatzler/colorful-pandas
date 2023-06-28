@@ -27,6 +27,14 @@ resource "tfe_variable" "neon_token" {
   sensitive       = true
 }
 
+resource "tfe_variable" "grafana_cloud_token" {
+  variable_set_id = tfe_variable_set.api_tokens.id
+  category        = "terraform"
+  key             = "grafana_cloud_token"
+  value           = var.grafana_cloud_token
+  sensitive       = true
+}
+
 resource "tfe_variable_set" "sops" {
   organization = tfe_organization.colorful_pandas.name
   name         = "SOPS"

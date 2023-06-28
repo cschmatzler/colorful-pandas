@@ -28,6 +28,12 @@ variable "neon_token" {
   sensitive   = true
 }
 
+variable "grafana_cloud_token" {
+  description = "Grafana Cloud API Token"
+  type        = string
+  sensitive   = true
+}
+
 variable "sops_age_key" {
   description = "SOPS age key"
   type        = string
