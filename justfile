@@ -4,7 +4,7 @@ default:
 
 # Setup development environment
 setup-dev:
-  cd service && \
+  cd colorful-pandas && \
   mix local.rebar --if-missing && \
   mix local.hex --if-missing && \
   mix deps.get && \
@@ -12,22 +12,22 @@ setup-dev:
 
 # Format all the things
 fmt:
-  cd service && mix format
+  cd colorful-pandas && mix format
   terraform fmt -recursive .
 
 # Run the development server
 run-dev-server:
-  cd service && \
-  DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
+  cd colorful-pandas && \
+  DB_URL="op://Colorful Pandas/Neon main/url" \
   GITHUB_CLIENT_ID="op://Colorful Pandas - Local/GitHub OAuth/username" \
   GITHUB_CLIENT_SECRET="op://Colorful Pandas - Local/GitHub OAuth/credential" \
   op run -- \
     sh -c 'mix ecto.migrate && iex -S mix phx.server'
 
 run-dev-server-with-telemetry user:
-  cd service && \
+  cd colorful-pandas && \
   ENABLE_TELEMETRY="true" \
-  DB_URL="op://Colorful Pandas/local.colorful-pandas.com/url" \
+  DB_URL="op://Colorful Pandas/Neon main/url" \
   HONEYCOMB_API_KEY="op://Colorful Pandas/honeycomb-local/credential" \
   HONEYCOMB_DATASET="colorful-pandas-{{ user }}" \
   GITHUB_CLIENT_ID="op://Colorful Pandas/GitHub OAuth/username" \
