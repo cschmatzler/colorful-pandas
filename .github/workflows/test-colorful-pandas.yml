@@ -21,7 +21,7 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         id: deps-cache
         with:
           path: |
@@ -58,7 +58,7 @@ jobs:
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
           path: |
             colorful-pandas/deps/
