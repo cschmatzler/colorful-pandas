@@ -2,11 +2,11 @@ local k = import 'k.libsonnet',
       cm = k.core.v1.configMap;
 
 {
-  grafanaAgentTraces:
+  grafanaAgent:
     // Config
     {
       grafanaAgent+: {
-        config: cm.new('grafana-agent-traces-config', { 'config.river': importstr 'grafana-agent-traces-config.river' }),
+        config: cm.new('grafana-agent-config', { 'config.river': importstr 'grafana-agent-config.river' }),
       },
     } +
     // ExternalSecret
@@ -16,7 +16,7 @@ local k = import 'k.libsonnet',
       local es = eslib.nogroup.v1beta1.externalSecret,
       grafanaAgent+: {
         externalSecrets+: {
-          env: es.new('grafana-agent-traces-env') +
+          env: es.new('grafana-agent-env') +
                esutil.onepasswordStore() +
                es.spec.withData([
                  esutil.data('TEMPO_URL', 'Grafana Cloud', 'TEMPO_URL'),
@@ -31,10 +31,10 @@ local k = import 'k.libsonnet',
     {
       _config+:: {
         grafanaAgent+: {
-          name: 'grafana-agent-traces',
+          name: 'grafana-agent',
           namespace: 'monitoring',
-          configMapName: 'grafana-agent-traces-config',
-          envSecretName: 'grafana-agent-traces-env',
+          configMapName: 'grafana-agent-config',
+          envSecretName: 'grafana-agent-env',
           extraValues: {
             agent: {
               extraPorts: [

@@ -4,10 +4,6 @@ local helm = tanka.helm.new(std.thisFile);
 {
   grafanaAgent+: {
     values:: {
-      controller: {
-        type: $._config.grafanaAgent.type,
-        replicas: $._config.grafanaAgent.replicas,
-      },
       agent: {
                configMap:
                  {
