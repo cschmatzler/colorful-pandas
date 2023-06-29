@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: grafana-agent-traces
+    app.kubernetes.io/instance: grafana-agent
     app.kubernetes.io/managed-by: Helmraiser
     app.kubernetes.io/name: grafana-agent
     app.kubernetes.io/version: v0.33.2
     helm.sh/chart: grafana-agent-0.14.0
-  name: grafana-agent-traces
+  name: grafana-agent
   namespace: monitoring
 spec:
   ports:
@@ -24,6 +24,6 @@ spec:
     protocol: TCP
     targetPort: 4318
   selector:
-    app.kubernetes.io/instance: grafana-agent-traces
+    app.kubernetes.io/instance: grafana-agent
     app.kubernetes.io/name: grafana-agent
   type: ClusterIP
