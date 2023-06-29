@@ -22,10 +22,6 @@ defmodule ColorfulPandas.Web.Pages.Landing do
           <p class="mt-6 text-lg leading-8 text-moss/80">
             ... or something.
           </p>
-
-          <p class="mt-6 text-sm leading-8 text-moss/60">
-            Version <%= to_string(Application.spec(:colorful_pandas, :vsn)) %>
-          </p>
         </div>
       </div>
     </div>
