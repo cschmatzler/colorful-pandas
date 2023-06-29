@@ -20,7 +20,7 @@ defmodule ColorfulPandas.Web.Pages.Landing do
             Stuff.
           </h1>
           <p class="mt-6 text-lg leading-8 text-moss/80">
-            ... or something.
+            ... and more.
           </p>
         </div>
       </div>

@@ -14,8 +14,12 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and deploy image
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    name: Build and deploy image ${{matrix.runs-on}}
+    strategy:
+          fail-fast: true # In case one of the jobs fails, the other jobs will be cancelled
+          matrix:
+            runs-on: [ buildjet-2vcpu-ubuntu-2204, buildjet-4vcpu-ubuntu-2204, buildjet-8vcpu-ubuntu-2204, buildjet-16vcpu-ubuntu-2204 ]
+    runs-on: ${{matrix.runs-on}}
     steps:
       - name: Get app token
         id: get_token
