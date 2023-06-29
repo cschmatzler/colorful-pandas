@@ -28,13 +28,13 @@ requires:
     version: 1.13.4
   - chart: external-dns/external-dns
     # renovate: datasource=helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns versioning=helm
-    version: 1.12.1
+    version: 1.13.0
   - chart: external-secrets/external-secrets
     # renovate: datasource=helm depName=external-secrets registryUrl=https://charts.external-secrets.io versioning=helm
     version: 0.9.0
   - chart: grafana/grafana-agent
     # renovate: datasource=helm depName=grafana-agent registryUrl=https://grafana.github.io/helm-charts versioning=helm
-    version: 0.14.0
+    version: 0.16.0
   - chart: hcloud/hcloud-cloud-controller-manager
     # renovate: datasource=helm depName=hcloud-cloud-controller-manager registryUrl=https://charts.hetzner.cloud versioning=helm
     version: v1.16.0
