@@ -14,12 +14,8 @@ concurrency:
 
 jobs:
   deploy:
-    name: Build and deploy image ${{matrix.runs-on}}
-    strategy:
-          fail-fast: true # In case one of the jobs fails, the other jobs will be cancelled
-          matrix:
-            runs-on: [ buildjet-2vcpu-ubuntu-2204, buildjet-4vcpu-ubuntu-2204, buildjet-8vcpu-ubuntu-2204, buildjet-16vcpu-ubuntu-2204 ]
-    runs-on: ${{matrix.runs-on}}
+    name: Build and deploy image
+    runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
       - name: Get app token
         id: get_token
@@ -60,8 +56,8 @@ jobs:
           file: colorful-pandas/deploy/Dockerfile
           tags: ghcr.io/panda-den/colorful-pandas:latest,ghcr.io/panda-den/colorful-pandas:${{ env.VERSION }}
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/panda-den/colorful-pandas:buildcache
+          cache-to: type=registry,ref=ghcr.io/panda-den/colorful-pandas:buildcache,mode=max
 
       - name: Update image tag
         run: |
