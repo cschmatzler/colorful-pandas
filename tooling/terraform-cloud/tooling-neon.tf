@@ -1,7 +1,7 @@
 resource "tfe_workspace" "neon" {
   organization       = tfe_organization.colorful_pandas.name
   project_id         = tfe_project.colorful_pandas.id
-  name               = "neon"
+  name               = "tooling-neon"
   auto_apply         = true
   allow_destroy_plan = false
   terraform_version  = "1.5.1"

@@ -1,7 +1,7 @@
 resource "tfe_workspace" "grafana_cloud" {
   organization       = tfe_organization.colorful_pandas.name
   project_id         = tfe_project.colorful_pandas.id
-  name               = "grafana-cloud"
+  name               = "tooling-grafana-cloud"
   auto_apply         = true
   allow_destroy_plan = false
   terraform_version  = "1.5.1"

@@ -10,7 +10,7 @@ terraform {
     organization = "Colorful-Pandas"
 
     workspaces {
-      name = "neon"
+      name = "tooling-neon"
     }
   }
 }
