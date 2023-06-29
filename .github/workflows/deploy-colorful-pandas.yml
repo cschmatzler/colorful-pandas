@@ -1,7 +1,6 @@
 name: Deploy Colorful Pandas
 on:
   workflow_dispatch:
-  merge_group:
   push:
     branches:
       - main

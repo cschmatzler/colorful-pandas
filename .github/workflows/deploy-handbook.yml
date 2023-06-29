@@ -1,7 +1,6 @@
 name: Deploy Handbook
 on:
   workflow_dispatch:
-  merge_group:
   push:
     branches:
       - main
