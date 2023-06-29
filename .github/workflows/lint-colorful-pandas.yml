@@ -1,5 +1,6 @@
 name: Lint Colorful Pandas
 on:
+  merge_group:
   pull_request:
     paths:
       - colorful-pandas/**

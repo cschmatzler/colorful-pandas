@@ -1,5 +1,6 @@
 name: Test
 on:
+  merge_group:
   pull_request:
 
 concurrency:

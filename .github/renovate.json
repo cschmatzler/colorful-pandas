@@ -4,6 +4,8 @@
   "username": "astronaut-panda[bot]",
   "gitAuthor": "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>",
   "dependencyDashboard": true,
+  "platformAutomerge": true,
+  "prHourlyLimit": 0,
   "allowedPostUpgradeCommands": [".*"],
   "labels": [
     "renovate"
@@ -53,6 +55,11 @@
           "clusters/lib/charts/**"
         ]
       }
+    },
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     }
   ]
 }
