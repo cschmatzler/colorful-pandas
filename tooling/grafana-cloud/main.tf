@@ -16,7 +16,8 @@ terraform {
 }
 
 provider "grafana" {
-  cloud_api_key = var.grafana_cloud_token
+  url = "https://pandaden.grafana.net/"
+  auth = var.grafana_cloud_token
 }
 
 resource "grafana_dashboard" "kubelet" {
