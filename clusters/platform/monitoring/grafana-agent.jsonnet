@@ -19,6 +19,9 @@ local k = import 'k.libsonnet',
           env: es.new('grafana-agent-env') +
                esutil.onepasswordStore() +
                es.spec.withData([
+                 esutil.data('PROMETHEUS_URL', 'Grafana Cloud', 'PROMETHEUS_URL'),
+                 esutil.data('PROMETHEUS_USERNAME', 'Grafana Cloud', 'PROMETHEUS_USERNAME'),
+                 esutil.data('PROMETHEUS_PASSWORD', 'Grafana Cloud', 'PROMETHEUS_PASSWORD'),
                  esutil.data('TEMPO_URL', 'Grafana Cloud', 'TEMPO_URL'),
                  esutil.data('TEMPO_USERNAME', 'Grafana Cloud', 'TEMPO_USERNAME'),
                  esutil.data('TEMPO_PASSWORD', 'Grafana Cloud', 'TEMPO_PASSWORD'),

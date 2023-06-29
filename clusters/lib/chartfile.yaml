@@ -17,6 +17,8 @@ repositories:
     url: https://charts.jetstack.io
   - name: onepassword
     url: https://1password.github.io/connect-helm-charts
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
 requires:
   - chart: bitnami/contour
     # renovate: datasource=helm depName=contour registryUrl=https://charts.bitnami.com/bitnami versioning=helm
@@ -42,3 +44,9 @@ requires:
   - chart: onepassword/connect
     # renovate: datasource=helm depName=connect registryUrl=https://1password.github.io/connect-helm-charts versioning=helm
     version: 1.11.0
+  - chart: prometheus-community/kube-state-metrics
+    # renovate: datasource=helm depName=kube-state-metrics registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
+    version: 5.8.1
+  - chart: prometheus-community/prometheus-node-exporter
+    # renovate: datasource=helm depName=prometheus-node-exporter registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
+    version: 4.18.1
