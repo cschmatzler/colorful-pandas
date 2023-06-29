@@ -4,5 +4,5 @@ tanka:
   - clusters/**/spec.json
   - clusters/**/*.{jsonnet, libsonnet}
   # These are handled by other workflows.
-  - '!clusters/platform/default/colorful-pandas.jsonnet'
-  - '!clusters/platform/docs/handbook.jsonnet'
+  - '!(clusters)/platform/default/colorful-pandas.jsonnet'
+  - '!(clusters)/platform/docs/handbook.jsonnet'
