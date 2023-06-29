@@ -5,6 +5,7 @@
   "gitAuthor": "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>",
   "dependencyDashboard": true,
   "platformAutomerge": true,
+  "automergeType": "branch",
   "prHourlyLimit": 0,
   "allowedPostUpgradeCommands": [".*"],
   "labels": [

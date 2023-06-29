@@ -1,6 +1,9 @@
 name: Test Colorful Pandas
 on:
   merge_group:
+  push:
+    branches:
+      - renovate/**
   pull_request:
     paths:
       - colorful-pandas/**
