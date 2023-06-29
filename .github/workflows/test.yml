@@ -10,7 +10,7 @@ concurrency:
 jobs:
   playwright:
     name: Playwright
-    runs-on: ubuntu-22.04
+    runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
