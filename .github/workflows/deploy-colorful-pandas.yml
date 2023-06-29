@@ -71,6 +71,7 @@ jobs:
           helm-version: ${{ steps.tool-versions.outputs.helm-version }}
 
       - name: Create pull request
+        id: create-pr
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
         with:
           token: ${{ steps.get_token.outputs.token }}
@@ -85,3 +86,8 @@ jobs:
             ops
             platform
             colorful-pandas
+
+      - name: Set pull request to auto-merge
+        run: gh pr merge --merge --auto "${{ steps.create-pr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ steps.get_token.outputs.token }}
