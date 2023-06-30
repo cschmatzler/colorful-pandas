@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    hcloud = {
+      source  = "hetznercloud/hcloud"
+      version = ">= 1.0.0"
+    }
+  }
+}
+
 locals {
   name = "${var.node_location}-${random_string.slug.id}"
 }
