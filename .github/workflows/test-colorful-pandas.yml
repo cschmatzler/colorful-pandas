@@ -43,7 +43,7 @@ jobs:
           version-type: strict
 
       - name: Cache
-        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: deps-cache
         with:
           path: |
@@ -82,7 +82,7 @@ jobs:
           version-type: strict
 
       - name: Cache
-        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
             colorful-pandas/deps/
@@ -140,7 +140,7 @@ jobs:
           version-type: strict
 
       - name: Cache
-        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: deps-cache
         with:
           path: |
@@ -185,7 +185,7 @@ jobs:
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Setup node
-        uses: buildjet/setup-node@c7d4af42cfb6551248967ed0e51379dbae4cdefd # v3
+        uses: actions/setup-node@c7d4af42cfb6551248967ed0e51379dbae4cdefd # v3
         with:
           node-version-file: .tool-versions
 
@@ -196,7 +196,7 @@ jobs:
           version-type: strict
 
       - name: Cache
-        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
             colorful-pandas/deps/
@@ -206,7 +206,7 @@ jobs:
             mix-${{ hashFiles('**/mix.lock') }}
 
       - name: Cache Playwright binaries
-        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: playwright-cache
         with:
           key: playwright
