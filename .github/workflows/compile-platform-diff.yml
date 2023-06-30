@@ -1,4 +1,4 @@
-name: Compile platform manifests and create pull request
+name: Add platform manifest changes to PR
 on:
   workflow_dispatch:
   pull_request:
