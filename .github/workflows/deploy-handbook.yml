@@ -12,7 +12,7 @@ concurrency:
 jobs:
   check-condition:
     name: Check whether workflow should run
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     outputs:
       changes: ${{ steps.changes.outputs.deploy-handbook }}
     steps:
@@ -31,7 +31,7 @@ jobs:
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     steps:
       - name: Get app token
         id: app-token

@@ -12,7 +12,7 @@ env:
 jobs:
   check-condition:
     name: Check whether workflow should run
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     outputs:
       changes: ${{ steps.changes.outputs.test-colorful-pandas }}
     steps:
@@ -31,7 +31,7 @@ jobs:
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -69,7 +69,7 @@ jobs:
 
   lint:
     name: Lint Colorful Pandas
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     needs: compile
     steps:
       - name: Checkout
@@ -118,7 +118,7 @@ jobs:
   test:
     name: Test Colorful Pandas
     needs: compile
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     env:
       POSTGRES_HOST: localhost
     services:
@@ -168,7 +168,7 @@ jobs:
 
   playwright:
     name: Playwright
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04R
     needs: compile
     env:
       POSTGRES_HOST: localhost
