@@ -75,7 +75,7 @@ jobs:
             const botComment = comments.find(comment => {
               return comment.user.type === 'Bot' && comment.body.includes('Platform Diff')
             });
-            const output = `#### Platform Diff
+            const output = `#### This pull request will change the compiled platform manifests as follows:
             \`\`\`
             ${{ steps.diff.outputs.diff }}
             \`\`\`
