@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - colorful-pandas/**
 
 env:
   MIX_ENV: test
