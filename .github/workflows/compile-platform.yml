@@ -12,7 +12,7 @@ concurrency:
 jobs:
   check-condition:
     name: Check whether workflow should run
-    runs-on: ubuntu-22.04R
+    runs-on: ubuntu-22.04
     outputs:
       changes: ${{ steps.changes.outputs.compile-platform }}
     steps:
@@ -31,7 +31,7 @@ jobs:
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
-    runs-on: ubuntu-22.04R
+    runs-on: ubuntu-22.04
     steps:
       - name: Get app token
         id: app-token
