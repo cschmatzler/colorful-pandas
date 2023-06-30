@@ -28,8 +28,15 @@ defmodule ColorfulPandas.Web.Storybook.Field do
       },
       %Variation{
         id: :text_with_error,
-        attributes: %{type: "text", id: "name", name: "name", value: "Not A Panda", label: "Name", errors: ["Name must include reference to a panda"]}
-      },
+        attributes: %{
+          type: "text",
+          id: "name",
+          name: "name",
+          value: "Not A Panda",
+          label: "Name",
+          errors: ["Name must include reference to a panda"]
+        }
+      }
     ]
   end
 end
