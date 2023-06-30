@@ -1,12 +1,10 @@
 name: Lint Colorful Pandas
 on:
-  merge_group:
   push:
     branches:
       - renovate/**
+  merge_group:
   pull_request:
-    paths:
-      - colorful-pandas/**
 
 env:
   MIX_ENV: test
