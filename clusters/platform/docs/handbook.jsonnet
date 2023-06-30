@@ -7,7 +7,7 @@
   },
   _config+:: {
     handbook+: {
-      host: 'handbook.colorful-pandas.com',
+      host: 'handbook-test.colorful-pandas.com',
     },
   },
 }
