@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE="hexpm/elixir:1.14.5-erlang-26.0.2-debian-buster-20230612-slim"
+ARG BUILDER_IMAGE="hexpm/elixir:1.15.0-erlang-26.0.2-debian-buster-20230612-slim"
 ARG RUNNER_IMAGE="debian:buster-20230612-slim"
 
 # Builder
