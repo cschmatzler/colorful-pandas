@@ -76,10 +76,10 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('Platform Diff')
             });
             const output = `#### Platform Diff
-                \`\`\`
-                ${{ steps.diff.outputs.diff }}
-                \`\`\`
-                `;
+            \`\`\`
+            ${{ steps.diff.outputs.diff }}
+            \`\`\`
+            `;
             // 3. Delete previous comment so PR timeline makes sense
             if (botComment) {
               github.rest.issues.deleteComment({
