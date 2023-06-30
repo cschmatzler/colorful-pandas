@@ -4,15 +4,15 @@ defmodule ColorfulPandas.Web.Components.Field do
 
   import ColorfulPandas.Web.Components.Helpers
 
-  attr(:id, :any, default: nil)
-  attr(:type, :string, default: "text", values: ~w(submit text))
-  attr(:name, :any)
-  attr(:value, :any)
-  attr(:class, :string, default: nil)
-  attr(:rest, :global)
-  attr(:label, :string)
-  attr(:label_class, :string, default: nil)
-  attr(:errors, :list, default: [])
+  attr :id, :string, default: nil, doc: "Input element `id`"
+  attr :type, :string, default: "text", values: ~w(submit text email), doc: "Input element `type`"
+  attr :name, :string, default: nil, doc: "Input element `name`"
+  attr :value, :string, default: nil, doc: "Input element `value`"
+  attr :class, :string, default: nil, doc: "Extra input element classes"
+  attr :rest, :global
+  attr :label, :string, default: nil, doc: "Label"
+  attr :label_class, :string, default: nil, doc: "Extra label element classes"
+  attr :errors, :list, default: [], doc: "Errors"
 
   def field(%{type: "hidden"} = assigns) do
     ~H"""
@@ -68,10 +68,10 @@ defmodule ColorfulPandas.Web.Components.Field do
     """
   end
 
-  attr(:for, :string, default: nil)
-  attr(:class, :string, default: nil)
-  attr(:rest, :global)
-  slot(:inner_block, required: true)
+  attr :for, :string, default: nil
+  attr :class, :string, default: nil
+  attr :rest, :global
+  slot :inner_block, required: true
 
   def field_label(assigns) do
     ~H"""
@@ -85,7 +85,7 @@ defmodule ColorfulPandas.Web.Components.Field do
     """
   end
 
-  slot(:inner_block, required: true)
+  slot :inner_block, required: true
 
   def field_error(assigns) do
     ~H"""
