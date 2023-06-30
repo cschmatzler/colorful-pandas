@@ -1,4 +1,4 @@
-name: Build Colorful Pandas image, create pull request and set to auto-merge
+name: Deploy Colorful Pandas
 on:
   workflow_dispatch:
   push:
