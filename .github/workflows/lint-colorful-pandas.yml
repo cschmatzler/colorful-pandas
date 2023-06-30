@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - renovate/**
-  merge_group:
   pull_request:
+  merge_group:
 
 env:
   MIX_ENV: test
@@ -33,12 +33,15 @@ jobs:
     if: needs.check-condition.outputs.changes == 'true'
     runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-      - uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - name: Setup BEAM
+        uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - name: Cache
+        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: deps-cache
         with:
           path: |
@@ -47,26 +50,32 @@ jobs:
           key: mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             mix-
-      - run: mix deps.get
-        working-directory: colorful-pandas/
+      - name: Get dependencies
         if: steps.deps-cache.outputs.cache-hit != 'true'
-      - run: mix deps.compile
         working-directory: colorful-pandas/
+        run: mix deps.get
+      - name: Compile dependencies
         if: steps.deps-cache.outputs.cache-hit != 'true'
-      - run: mix compile --warnings-as-errors
         working-directory: colorful-pandas/
+        run: mix deps.compile
+      - name: Compile project
+        working-directory: colorful-pandas/
+        run: mix compile --warnings-as-errors
 
   lint:
     name: Lint Colorful Pandas
     runs-on: buildjet-2vcpu-ubuntu-2204
     needs: compile
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-      - uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      - name: Setup BEAM
+        uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+      - name: Cache
+        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
             colorful-pandas/deps/
@@ -74,15 +83,21 @@ jobs:
           key: mix-${{ github.sha }}
           restore-keys: |
             mix-${{ hashFiles('**/mix.lock') }}
-      - run: mix deps.unlock --check-unused
+      - name: Check for unused dependencies
         working-directory: colorful-pandas/
-      - run: mix hex.audit
+        run: mix deps.unlock --check-unused
+      - name: Check for deprecated dependencies
         working-directory: colorful-pandas/
-      - run: mix format --check-formatted
+        run: mix hex.audit
+      - name: Check formatting
         working-directory: colorful-pandas/
-      - run: mix credo
+        run: mix format --check-formatted
+      - name: Run Credo
         working-directory: colorful-pandas/
-      - run: mix excellent_migrations.check_safety
+        run: mix credo
+      - name: Check migrations
         working-directory: colorful-pandas/
-      - run: mix sobelow --config
+        run: mix excellent_migrations.check_safety
+      - name: Run static analysis
         working-directory: colorful-pandas/
+        run: mix sobelow --config
