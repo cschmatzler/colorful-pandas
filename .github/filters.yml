@@ -7,9 +7,6 @@ compile-platform:
 colorful-pandas: &colorful-pandas
   - colorful-pandas/**
 
-lint-colorful-pandas:
-  - *colorful-pandas
-
 test-colorful-pandas:
   - *colorful-pandas
 
