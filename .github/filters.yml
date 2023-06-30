@@ -1,5 +1,23 @@
-tanka:
+compile-platform:
   - clusters/lib/**/*.libsonnet
   - clusters/lib/chartfile.yaml
-  - clusters/**/spec.json
-  - clusters/**/*.{jsonnet, libsonnet}
+  - clusters/platform/**/spec.json
+  - clusters/platform/**/*.{jsonnet, libsonnet}
+
+colorful-pandas: &colorful-pandas
+  - colorful-pandas/**
+
+lint-colorful-pandas:
+  - *colorful-pandas
+
+test-colorful-pandas:
+  - *colorful-pandas
+
+deploy-colorful-pandas:
+  - *colorful-pandas
+
+handbook: &handbook
+  - handbook/**
+
+deploy-handbook:
+  - *handbook

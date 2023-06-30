@@ -4,20 +4,37 @@ on:
   push:
     branches:
       - main
-    paths:
-      - handbook/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  check-condition:
+    name: Check whether workflow should run
+    runs-on: buildjet-2vcpu-ubuntu-2204
+    outputs:
+      changes: ${{ steps.changes.outputs.deploy-handbook }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Check for file changes
+        uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        with:
+          list-files: json
+          filters: .github/filters.yml
+
+  deploy-handbook:
     name: Build and deploy image
+    needs:
+      - check-condition
+    if: needs.check-condition.outputs.changes == 'true'
     runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
       - name: Get app token
-        id: get_token
+        id: app-token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
         with:
           app_id: ${{ secrets.APP_ID }}
@@ -26,13 +43,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
         with:
-          token: ${{ steps.get_token.outputs.token }}
-
-      - name: Get tool versions
-        id: tool-versions
-        run: |
-          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
-          echo "helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@16c0bc4a6e6ada2cfd8afd41d22d95379cf7c32a # v2
@@ -66,9 +77,9 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
         with:
-          token: ${{ steps.get_token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token }}
           add-paths: |
-            clusters/platform/
+            clusters/platform/docs/handbook.jsonnet
           commit-message: Update Handbook to v${{ env.VERSION }}
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/deploy-handbook
@@ -82,4 +93,4 @@ jobs:
       - name: Set pull request to auto-merge
         run: gh pr merge --squash --auto "${{ steps.create-pr.outputs.pull-request-number }}"
         env:
-          GH_TOKEN: ${{ steps.get_token.outputs.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}

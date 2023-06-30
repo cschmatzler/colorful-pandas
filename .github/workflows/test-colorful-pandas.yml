@@ -1,27 +1,49 @@
 name: Test Colorful Pandas
 on:
-  merge_group:
   push:
     branches:
       - renovate/**
   pull_request:
-    paths:
-      - colorful-pandas/**
+  merge_group:
 
 env:
   MIX_ENV: test
 
 jobs:
+  check-condition:
+    name: Check whether workflow should run
+    runs-on: buildjet-2vcpu-ubuntu-2204
+    outputs:
+      changes: ${{ steps.changes.outputs.test-colorful-pandas }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Check for file changes
+        uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        with:
+          list-files: json
+          filters: .github/filters.yml
+
   compile:
     name: Compile
+    needs:
+      - check-condition
+    if: needs.check-condition.outputs.changes == 'true'
     runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-      - uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Setup BEAM
+        uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+
+      - name: Cache
+        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: deps-cache
         with:
           path: |
@@ -30,17 +52,23 @@ jobs:
           key: mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             mix-
-      - run: mix deps.get
-        working-directory: colorful-pandas/
+
+      - name: Get dependencies
         if: steps.deps-cache.outputs.cache-hit != 'true'
-      - run: mix deps.compile
         working-directory: colorful-pandas/
+        run: mix deps.get
+
+      - name: Compile dependencies
         if: steps.deps-cache.outputs.cache-hit != 'true'
-      - run: mix compile --warnings-as-errors
         working-directory: colorful-pandas/
+        run: mix deps.compile
+
+      - name: Compile project
+        working-directory: colorful-pandas/
+        run: mix compile --warnings-as-errors
 
   test:
-    name: Test
+    name: Test Colorful Pandas
     needs: compile
     runs-on: buildjet-2vcpu-ubuntu-2204
     env:
@@ -52,25 +80,40 @@ jobs:
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
+
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-      - uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Setup BEAM
+        uses: erlef/setup-beam@61e01a43a562a89bfc54c7f9a378ff67b03e4a21 # v1
         with:
           version-file: .tool-versions
           version-type: strict
-      - uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+
+      - name: Cache
+        uses: buildjet/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
+        id: deps-cache
         with:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ github.sha }}
+          key: mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            mix-${{ hashFiles('**/mix.lock') }}
-      - run: mix ecto.drop
+            mix-
+
+      - name: Drop database
         working-directory: colorful-pandas/
-      - run: mix ecto.create
+        run: mix ecto.drop
+
+      - name: Create database
         working-directory: colorful-pandas/
-      - run: mix ecto.migrate
+        run: mix ecto.create
+
+      - name: Run migrations
         working-directory: colorful-pandas/
-      - run: mix test
+        run: mix ecto.migrate
+
+      - name: Run tests
         working-directory: colorful-pandas/
+        run: mix test

@@ -1,24 +1,20 @@
-name: Compile platform
+name: Compile platform manifests and create pull request
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-    paths:
-      - clusters/lib/**
-      - clusters/platform/**
-      - "!clusters/platform/compiled/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  detect-changes:
-    name: Detect changed files
+  check-condition:
+    name: Check whether workflow should run
     runs-on: buildjet-2vcpu-ubuntu-2204
     outputs:
-      changes: ${{ steps.changes.outputs.tanka }}
+      changes: ${{ steps.changes.outputs.compile-platform }}
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
@@ -30,40 +26,40 @@ jobs:
           list-files: json
           filters: .github/filters.yml
 
-  compile:
-    name: Compile
+  compile-platform:
+    name: Compile platform manifests and create pull request
     needs:
-      - detect-changes
-    if: needs.detect-changes.outputs.changes == 'true'
+      - check-condition
+    if: needs.check-condition.outputs.changes == 'true'
     runs-on: buildjet-2vcpu-ubuntu-2204
     steps:
-      - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-
-      - name: Get tool versions
-        id: tool-versions
-        run: |
-          echo "tanka-version=$(awk '/^tanka / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
-          echo "helm-version=$(awk '/^helm / { print $2 }' .tool-versions)" >> $GITHUB_OUTPUT
-
-      - name: Compile Kubernetes manifests
-        uses: ./.github/actions/compile-environments
-        with:
-          cluster: platform
-          tanka-version: ${{ steps.tool-versions.outputs.tanka-version }}
-          helm-version: ${{ steps.tool-versions.outputs.helm-version }}
-
       - name: Get app token
-        id: get-token
+        id: app-token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_KEY }}
 
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Get tool versions
+        id: tool-versions
+        uses: marocchino/tool-versions-action@v1
+
+      - name: Compile Kubernetes manifests
+        uses: ./.github/actions/compile-environments
+        with:
+          cluster: platform
+          tanka-version: ${{ steps.tool-versions.outputs.tanka }}
+          helm-version: ${{ steps.tool-versions.outputs.helm }}
+
       - name: Create pull request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
         with:
-          token: ${{ steps.get-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: Update `platform` manifests
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/compile-clusters
