@@ -8,6 +8,7 @@
   _config+:: {
     handbook+: {
       host: 'handbook.colorful-pandas.com',
+      foo: 'bar',
     },
   },
 }
