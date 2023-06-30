@@ -25,7 +25,7 @@ jobs:
           filters: .github/filters.yml
 
   compile-platform:
-    name: Compile platform manifests and create pull request
+    name: Compile platform manifests and comment diff in PR
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
