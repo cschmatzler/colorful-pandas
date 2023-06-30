@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: external-dns
     app.kubernetes.io/managed-by: Helmraiser
     app.kubernetes.io/name: external-dns
-    app.kubernetes.io/version: 0.13.2
-    helm.sh/chart: external-dns-1.12.1
+    app.kubernetes.io/version: 0.13.5
+    helm.sh/chart: external-dns-1.13.0
   name: external-dns
   namespace: networking
 spec:
