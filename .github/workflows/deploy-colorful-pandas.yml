@@ -1,4 +1,4 @@
-name: Build Colorful Pandas image, create pull request and set to auto-merge
+name: Deploy Colorful Pandas
 on:
   workflow_dispatch:
   push:
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   check-condition:
     name: Check whether workflow should run
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04
     outputs:
       changes: ${{ steps.changes.outputs.deploy-colorful-pandas }}
     steps:
@@ -31,7 +31,7 @@ jobs:
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-22.04
     steps:
       - name: Get app token
         id: app-token
