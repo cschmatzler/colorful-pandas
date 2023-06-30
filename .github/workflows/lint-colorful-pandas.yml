@@ -57,7 +57,7 @@ jobs:
         working-directory: colorful-pandas/
 
   lint:
-    name: Lint
+    name: Lint Colorful Pandas
     runs-on: buildjet-2vcpu-ubuntu-2204
     needs: compile
     steps:
