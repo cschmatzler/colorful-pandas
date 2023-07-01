@@ -49,7 +49,7 @@ jobs:
 
       - name: Get tool versions
         id: tool-versions
-        uses: marocchino/tool-versions-action@v1
+        uses: marocchino/tool-versions-action@608d0ecb8f01e467223f0a854ead7d3fc784b540 # v1
 
       - name: Compile Kubernetes manifests
         uses: ./.github/actions/compile-environments
