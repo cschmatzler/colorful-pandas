@@ -2,7 +2,6 @@ defmodule ColorfulPandas.Web.Components.Field do
   @moduledoc false
   use ColorfulPandas.Web, :component
 
-  import ColorfulPandas.Web.Components.Helpers
   import ColorfulPandas.Web.Components.Input
 
   attr :id, :string, required: true, doc: "Input element `id`"
@@ -28,11 +27,10 @@ defmodule ColorfulPandas.Web.Components.Field do
     ~H"""
     <label
       for={@for}
-      class={
-        build_class([
+      class={[
           "block text-sm font-medium leading-6 text-gray-900",
           @class
-        ])
+        ]
       }
     >
       <%= render_slot(@inner_block) %>

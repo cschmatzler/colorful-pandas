@@ -3,7 +3,6 @@ defmodule ColorfulPandas.Web.Components.Input do
   use ColorfulPandas.Web, :component
 
   import ColorfulPandas.Web.Components.Button
-  import ColorfulPandas.Web.Components.Helpers
 
   attr :type, :string, default: "text", values: ~w(hidden email text), doc: "`type`"
   attr :value, :string, default: nil, doc: "`value`"

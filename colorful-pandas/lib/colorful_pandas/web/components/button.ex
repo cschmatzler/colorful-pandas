@@ -3,8 +3,6 @@ defmodule ColorfulPandas.Web.Components.Button do
 
   use ColorfulPandas.Web, :component
 
-  import ColorfulPandas.Web.Components.Helpers
-
   attr :type, :string, default: "button", values: ~w(submit button), doc: "`type`"
   attr :variant, :string, default: "primary", values: ~w(primary secondary)
   attr :label, :string, default: nil, doc: "Label"
@@ -15,13 +13,12 @@ defmodule ColorfulPandas.Web.Components.Button do
     ~H"""
     <button
       type={@type}
-      class={
-        build_class([
+      class={[
           "rounded-sm px-6 py-1.5 text-sm font-semibold text-white shadow-sm",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
           variant_class(@variant),
           @class
-        ])
+        ]
       }
       {@rest}
     >
@@ -30,7 +27,7 @@ defmodule ColorfulPandas.Web.Components.Button do
     """
   end
 
-  defp variant_class("primary"), do: build_class(["bg-teal", "hover:bg-teal/80", "focus-visible:outline-teal"])
+  defp variant_class("primary"), do: ["bg-teal", "hover:bg-teal/80", "focus-visible:outline-teal"]
 
   defp variant_class(_), do: ""
 end
