@@ -1,4 +1,4 @@
-name: Store Colorful Pandas cache
+name: Update Colorful Pandas cache
 on:
   push:
     branches:
@@ -27,7 +27,7 @@ jobs:
           filters: .github/filters.yml
 
   compile:
-    name: Compile
+    name: Compile and push cache
     needs:
       - check-condition
     if: needs.check-condition.outputs.changes == 'true'
@@ -49,7 +49,7 @@ jobs:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ hashFiles('**/mix.lock') }}
+          key: mix-${{ hashFiles('**/mix.lock') }}-${{ github.run_id }}
           restore-keys: |
             mix-
 

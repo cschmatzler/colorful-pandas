@@ -10,7 +10,7 @@ defmodule ColorfulPandas.Web.Storybook.Input do
     [
       %Variation{
         id: :with_placeholder,
-        attributes: %{placeholder: "Your name"}
+        attributes: %{placeholder: "Jake Peralta"}
       },
       %Variation{
         id: :with_value,
