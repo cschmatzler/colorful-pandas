@@ -2,42 +2,38 @@ defmodule ColorfulPandas.Web.Components.Input do
   @moduledoc false
   use ColorfulPandas.Web, :component
 
+  import ColorfulPandas.Web.Components.Button
   import ColorfulPandas.Web.Components.Helpers
 
-  attr :id, :string
-  attr :name, :string
-  attr :label, :string
-  attr :value, :string
-  attr :type, :string, default: "text", values: ~w(submit text)
-  attr :class, :string, default: nil
-  attr :rest, :global, include: ~w()
+  attr :type, :string, default: "text", values: ~w(hidden email text), doc: "`type`"
+  attr :value, :string, default: nil, doc: "`value`"
+  attr :class, :string, default: nil, doc: "Extra classes"
+  attr :rest, :global
+
+  def input(%{type: "hidden"} = assigns) do
+    ~H"""
+    <input type="hidden" value={Phoenix.HTML.Form.normalize_value(@type, @value)} {@rest} />
+    """
+  end
 
   def input(%{type: "submit"} = assigns) do
     ~H"""
-    <input
-      id={@id}
-      type="submit"
-      name={@name}
-      value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-      class={
-        build_class([
-          "rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-          @class
-        ])
-      }
-      {@rest}
-    />
+    <.button type="submit" label={@value} {@rest} />
     """
   end
 
   def input(assigns) do
     ~H"""
     <input
-      id={@id}
       type={@type}
-      name={@name}
       value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-      class={@class}
+      class={[
+        "block w-full rounded-sm border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300",
+        "placeholder:text-gray-400",
+        "focus:ring-2 focus:ring-inset focus:ring-chestnut",
+        "sm:text-sm sm:leading-8",
+        @class
+      ]}
       {@rest}
     />
     """

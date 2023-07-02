@@ -12,8 +12,8 @@ module.exports = {
       },
       colors: {
         "cool-gray": "#283D3B",
-        cobalt: "#197278",
-        "french-gray": "#EDDDD4",
+        teal: "#197278",
+        "rose": "#EDDDD4",
         "crimson-red": "#C44536",
         chestnut: "#772E25"
       },
