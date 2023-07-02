@@ -19,6 +19,14 @@ defmodule ColorfulPandas.Web.Storybook.Field do
           value: "Not A Panda",
           errors: ["Name must include reference to a panda"]
         }
+      },
+      %Variation{
+        id: :with_multiple_errors,
+        attributes: %{
+          label: "Name",
+          value: "Not A Panda",
+          errors: ["Name must include reference to a panda", "Name is already in use"]
+        }
       }
     ]
   end
