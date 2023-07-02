@@ -45,6 +45,7 @@ defmodule ColorfulPandas.Web.Components.Field do
 
   defp errors(%{errors: [error]} = assigns) do
     assigns = assign(assigns, :error, error)
+
     ~H"""
     <p class="text-crimson-red mt-3 text-sm">
       <%= @error %>
