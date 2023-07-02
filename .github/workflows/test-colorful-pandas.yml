@@ -49,7 +49,7 @@ jobs:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ hashFiles('**/mix.lock') }}
+          key: mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             mix-
 
@@ -87,9 +87,9 @@ jobs:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ github.sha }}
+          key: mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            mix-${{ hashFiles('**/mix.lock') }}
+            mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
 
       - name: Check for unused dependencies
         working-directory: colorful-pandas/
@@ -146,9 +146,9 @@ jobs:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ hashFiles('**/mix.lock') }}
+          key: mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            mix-
+            mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
 
       - name: Drop database
         working-directory: colorful-pandas/
@@ -201,9 +201,9 @@ jobs:
           path: |
             colorful-pandas/deps/
             colorful-pandas/_build/
-          key: mix-${{ github.sha }}
+          key: mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            mix-${{ hashFiles('**/mix.lock') }}
+            mix-${{ github.head_ref }}-${{ hashFiles('**/mix.lock') }}
 
       # - name: Cache Playwright binaries
       #   uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
