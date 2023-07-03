@@ -6,10 +6,11 @@ defmodule ColorfulPandas.Web.Components.Input do
 
   attr :label, :string, default: nil, doc: "Label"
   attr :type, :string, default: "text", values: ~w(hidden email text), doc: "`type`"
+
   attr :field, :any, doc: "Form field"
   attr :name, :string, doc: "`name`"
-  attr :id, :string, doc: "`id`"
-  attr :value, :string, default: nil, doc: "`value`"
+  attr :id, :string, default: nil, doc: "`id`"
+  attr :value, :string, doc: "`value`"
   attr :class, :string, default: nil, doc: "Extra classes"
   attr :errors, :list, default: [], doc: "List of error messages"
   attr :rest, :global

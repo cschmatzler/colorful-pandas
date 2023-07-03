@@ -51,11 +51,11 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
       nil ->
         case Auth.get_signup_flow_with_oauth(provider, uid) do
           %Auth.SignupFlow{} = signup_flow ->
-            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+            redirect(conn, to: ~p"/auth/signup/#{signup_flow.id}/details")
 
           nil ->
             {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name)
-            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+            redirect(conn, to: ~p"/auth/signup/#{signup_flow.id}/details")
         end
     end
   end

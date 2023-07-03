@@ -49,6 +49,14 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
+  def update_signup_flow(%SignupFlow{} = flow, email, name) do
+    flow
+    |> change(%{email: email, name: name})
+    |> validate_required([:email, :name])
+    |> Repo.update()
+  end
+
+  @impl ColorfulPandas.Auth
   def create_identity(provider, uid, email, name, image_url) do
     %{
       provider: provider,

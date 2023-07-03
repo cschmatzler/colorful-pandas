@@ -14,7 +14,7 @@ defmodule ColorfulPandas.Web.Components.Button do
     <button
       type={@type}
       class={[
-        "rounded-sm px-6 py-1.5 text-sm font-semibold text-white shadow-sm",
+        "rounded-sm px-6 py-2.5 text-sm font-semibold text-white shadow-sm",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
         variant_class(@variant),
         @class
