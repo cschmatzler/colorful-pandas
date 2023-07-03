@@ -28,15 +28,15 @@ defmodule ColorfulPandas.Web.Storybook.Input do
       },
       %Variation{
         id: :with_label,
-        attributes: %{id: "name", name: "name", label: "Name"}
+        attributes: %{id: "name", name: "name", label: "Name", value: ""}
       },
       %Variation{
         id: :with_placeholder,
-        attributes: %{id: "name", name: "name", label: "Name", placeholder: "Your name"}
+        attributes: %{id: "name", name: "name", placeholder: "Your name", value: ""}
       },
       %Variation{
         id: :with_value,
-        attributes: %{id: "name", name: "name", label: "Name", value: "Mister Panda"}
+        attributes: %{id: "name", name: "name", value: "Mister Panda"}
       },
       %Variation{
         id: :with_type,
@@ -44,7 +44,6 @@ defmodule ColorfulPandas.Web.Storybook.Input do
           type: "email",
           id: "email",
           name: "email",
-          label: "E-mail address",
           value: "astronaut@panda-den.com"
         }
       },
@@ -53,7 +52,6 @@ defmodule ColorfulPandas.Web.Storybook.Input do
         attributes: %{
           id: "name",
           name: "name",
-          label: "Name",
           value: "Not A Panda",
           errors: ["Name must include reference to a panda"]
         }
@@ -63,7 +61,6 @@ defmodule ColorfulPandas.Web.Storybook.Input do
         attributes: %{
           id: "name",
           name: "name",
-          label: "Name",
           value: "Not A Panda",
           errors: ["Name must include reference to a panda", "Name is already in use"]
         }
