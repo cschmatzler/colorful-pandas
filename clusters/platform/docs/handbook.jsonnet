@@ -2,7 +2,7 @@
 {
   _images+:: {
     handbook: {
-      handbook: 'ghcr.io/panda-den/handbook:23.6.30-b9a973',
+      handbook: 'ghcr.io/panda-den/handbook:23.7.3-725c3c2',
     },
   },
   _config+:: {
