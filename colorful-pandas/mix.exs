@@ -38,7 +38,7 @@ defmodule ColorfulPandas.MixProject do
       {:boundary, "~> 0.9", runtime: false},
       {:castore, "~> 1.0"},
       {:carbonite, "~> 0.9"},
-      {:corsica, "~> 1.3"},
+      {:corsica, "~> 2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.9"},
       {:esbuild, "~> 0.7"},
