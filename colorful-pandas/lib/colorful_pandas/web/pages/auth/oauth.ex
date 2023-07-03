@@ -46,6 +46,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
 
     redirect(conn, to: ~p"/auth/signup?flow=1")
 
+<<<<<<< Updated upstream
     # case Auth.get_identity_with_oauth(provider, uid) do
     #   %Auth.Identity{} = identity ->
     #     ColorfulPandas.Web.Auth.start_session(conn, identity)
@@ -60,11 +61,36 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
     #         redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
     #     end
   end
+||||||| Stash base
+      nil ->
+        case Auth.get_signup_flow_with_oauth(provider, uid) do
+          %Auth.SignupFlow{} = signup_flow ->
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+=======
+      nil ->
+        case Auth.get_signup_flow_with_oauth(provider, uid) do
+          %Auth.SignupFlow{} = signup_flow ->
+            redirect(conn, to: ~p"/auth/signup/#{signup_flow.id}/details")
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
   @doc """
   Ends an authenticated session.
   """
   def logout(conn, _params) do
     ColorfulPandas.Web.Auth.end_session(conn)
+||||||| Stash base
+          nil ->
+            {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name)
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+        end
+    end
+=======
+          nil ->
+            {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name)
+            redirect(conn, to: ~p"/auth/signup/#{signup_flow.id}/details")
+        end
+    end
+>>>>>>> Stashed changes
   end
 end

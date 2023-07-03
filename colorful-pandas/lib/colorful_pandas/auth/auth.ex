@@ -49,6 +49,9 @@ defmodule ColorfulPandas.Auth do
               invite_id :: binary() | nil
             ) :: {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
+  @callback update_signup_flow(flow :: SignupFlow.t(), email :: String.t(), name :: String.t()) ::
+              {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
+
   @doc """
   Creates a new identity.
   """

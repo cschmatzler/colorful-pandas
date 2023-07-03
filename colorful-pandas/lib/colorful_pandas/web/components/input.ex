@@ -5,7 +5,19 @@ defmodule ColorfulPandas.Web.Components.Input do
   import ColorfulPandas.Web.Components.Button
 
   attr :type, :string, default: "text", values: ~w(hidden email text), doc: "`type`"
+<<<<<<< Updated upstream
   attr :value, :string, default: nil, doc: "`value`"
+||||||| Stash base
+  attr :field, :any, doc: "Form field"
+  attr :name, :string, doc: "`name`"
+  attr :id, :string, doc: "`id`"
+  attr :value, :string, default: nil, doc: "`value`"
+=======
+  attr :field, :any, doc: "Form field"
+  attr :name, :string, doc: "`name`"
+  attr :id, :string, default: nil, doc: "`id`"
+  attr :value, :string, doc: "`value`"
+>>>>>>> Stashed changes
   attr :class, :string, default: nil, doc: "Extra classes"
   attr :rest, :global
 
@@ -23,6 +35,7 @@ defmodule ColorfulPandas.Web.Components.Input do
 
   def input(assigns) do
     ~H"""
+<<<<<<< Updated upstream
     <input
       type={@type}
       value={Phoenix.HTML.Form.normalize_value(@type, @value)}
@@ -35,6 +48,79 @@ defmodule ColorfulPandas.Web.Components.Input do
       ]}
       {@rest}
     />
+||||||| Stash base
+    <div class="w-full" phx-feedback-for={@name}>
+      <div class="flex items-center justify-between">
+        <label for={@id} class="block text-sm font-medium leading-6 text-gray-900">
+          <%= @label %>
+        </label>
+        <%= if length(@errors) > 0 do %>
+          <.icon name="phosphor-warning" class="text-crimson-red" />
+        <% end %>
+      </div>
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "block w-full rounded-sm border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300",
+          "placeholder:text-gray-400",
+          "focus:ring-chestnut focus:ring-2 focus:ring-inset",
+          "sm:text-sm sm:leading-8",
+          @class
+        ]}
+        {@rest}
+      />
+      <ul
+        :if={length(@errors) > 0}
+        class={[
+          "mt-3 list-inside space-y-1",
+          if(length(@errors) > 1, do: "list-decimal", else: "")
+        ]}
+      >
+        <li :for={error <- @errors} class="text-crimson-red text-sm">
+          <%= error %>
+        </li>
+      </ul>
+    </div>
+=======
+    <div class="w-full" phx-feedback-for={@name}>
+      <div class="flex items-center justify-between">
+        <label for={@id} class="block text-sm font-medium leading-6 text-gray-900">
+          <%= @label %>
+        </label>
+        <%= if length(@errors) > 0 do %>
+          <.icon name="phosphor-warning" class="text-crimson-red" />
+        <% end %>
+      </div>
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "mt-1 block w-full rounded-sm border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300",
+          "placeholder:text-gray-400",
+          "focus:ring-chestnut focus:ring-2 focus:ring-inset",
+          "sm:text-sm sm:leading-8",
+          @class
+        ]}
+        {@rest}
+      />
+      <ul
+        :if={length(@errors) > 0}
+        class={[
+          "mt-3 list-inside space-y-1",
+          if(length(@errors) > 1, do: "list-decimal", else: "")
+        ]}
+      >
+        <li :for={error <- @errors} class="text-crimson-red text-sm">
+          <%= error %>
+        </li>
+      </ul>
+    </div>
+>>>>>>> Stashed changes
     """
   end
 end
