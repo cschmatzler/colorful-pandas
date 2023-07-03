@@ -7,7 +7,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
 
   use ColorfulPandas.Web.Page, :controller
 
-  # alias ColorfulPandas.Auth
+  alias ColorfulPandas.Auth
 
   plug Ueberauth
 
@@ -40,31 +40,23 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
     |> redirect(to: ColorfulPandas.Web.Auth.signed_out_path())
   end
 
-  def callback(%{assigns: %{ueberauth_auth: _auth}} = conn, _params) do
-    # provider = to_string(auth.provider)
-    # uid = to_string(auth.uid)
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    provider = to_string(auth.provider)
+    uid = to_string(auth.uid)
 
-    redirect(conn, to: ~p"/auth/signup?flow=1")
+    case Auth.get_identity_with_oauth(provider, uid) do
+      %Auth.Identity{} = identity ->
+        ColorfulPandas.Web.Auth.start_session(conn, identity)
 
-    # case Auth.get_identity_with_oauth(provider, uid) do
-    #   %Auth.Identity{} = identity ->
-    #     ColorfulPandas.Web.Auth.start_session(conn, identity)
-    #
-    #   nil ->
-    #     case Auth.get_signup_flow(provider, uid) do
-    #       %Auth.SignupFlow{} = signup_flow ->
-    #         redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
-    #
-    #       nil ->
-    #         {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name, "")
-    #         redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
-    #     end
-  end
+      nil ->
+        case Auth.get_signup_flow_with_oauth(provider, uid) do
+          %Auth.SignupFlow{} = signup_flow ->
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
 
-  @doc """
-  Ends an authenticated session.
-  """
-  def logout(conn, _params) do
-    ColorfulPandas.Web.Auth.end_session(conn)
+          nil ->
+            {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name)
+            redirect(conn, to: ~p"/auth/signup?flow=#{signup_flow.id}")
+        end
+    end
   end
 end

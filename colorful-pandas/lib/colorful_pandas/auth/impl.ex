@@ -32,7 +32,14 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
-  def create_signup_flow(provider, uid, email, name, invite_id) do
+  def get_signup_flow_with_oauth(provider, uid) do
+    provider
+    |> SignupFlow.with_oauth_query(uid)
+    |> Repo.one()
+  end
+
+  @impl ColorfulPandas.Auth
+  def create_signup_flow(provider, uid, email, name, invite_id \\ nil) do
     %SignupFlow{}
     |> change(%{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id})
     |> validate_required([:provider, :uid, :email, :name])

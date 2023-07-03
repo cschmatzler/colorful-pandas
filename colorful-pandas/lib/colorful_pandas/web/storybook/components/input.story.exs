@@ -9,20 +9,58 @@ defmodule ColorfulPandas.Web.Storybook.Input do
   def variations do
     [
       %Variation{
+        id: :with_form_field,
+        template: """
+        <.form :let={f} for={to_form(%{"name" => "Panda"})} class="w-full">
+          <.lsb-variation field={f["name"]} />
+        </.form>
+        """,
+        attributes: %{label: "Name"}
+      },
+      %Variation{
+        id: :with_form_field_and_error,
+        template: """
+        <.form :let={f} for={to_form(%{"name" => "Panda"}, errors: %{"name" => "Must be at least 354 characters."})} class="w-full">
+          <.lsb-variation field={f["name"]} />
+        </.form>
+        """,
+        attributes: %{label: "Name"}
+      },
+      %Variation{
+        id: :with_label,
+        attributes: %{id: "name", name: "name", label: "Name"}
+      },
+      %Variation{
         id: :with_placeholder,
-        attributes: %{placeholder: "Your name"}
+        attributes: %{id: "name", name: "name", label: "Name", placeholder: "Your name"}
       },
       %Variation{
         id: :with_value,
-        attributes: %{value: "Mister Panda"}
+        attributes: %{id: "name", name: "name", label: "Name", value: "Mister Panda"}
       },
       %Variation{
         id: :with_type,
-        attributes: %{type: "email", value: "astronaut@panda-den.com"}
+        attributes: %{type: "email", id: "email", name: "email", label: "E-mail address", value: "astronaut@panda-den.com"}
       },
       %Variation{
-        id: :submit,
-        attributes: %{type: "submit", value: "Continue"}
+        id: :with_error,
+        attributes: %{
+          id: "name",
+          name: "name",
+          label: "Name",
+          value: "Not A Panda",
+          errors: ["Name must include reference to a panda"]
+        }
+      },
+      %Variation{
+        id: :with_multiple_errors,
+        attributes: %{
+          id: "name",
+          name: "name",
+          label: "Name",
+          value: "Not A Panda",
+          errors: ["Name must include reference to a panda", "Name is already in use"]
+        }
       }
     ]
   end

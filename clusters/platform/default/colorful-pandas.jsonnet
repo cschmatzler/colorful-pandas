@@ -18,6 +18,8 @@
                 esutil.data('LIVEVIEW_SIGNING_SALT', 'Colorful Pandas', 'LIVEVIEW_SIGNING_SALT'),
                 esutil.data('HONEYCOMB_API_KEY', 'Colorful Pandas', 'HONEYCOMB_API_KEY'),
                 esutil.data('HONEYCOMB_DATASET', 'Colorful Pandas', 'HONEYCOMB_DATASET'),
+                esutil.data('GITHUB_CLIENT_ID', 'GitHub OAuth', 'GITHUB_CLIENT_ID'),
+                esutil.data('GITHUB_CLIENT_SECRET', 'GitHub OAuth', 'GITHUB_CLIENT_SECRET'),
               ]),
     },
   },
@@ -32,7 +34,7 @@
   _config+:: {
     colorfulPandas+: {
       host: 'colorful-pandas.com',
-      envSecretName: $.vars.envSecretName
+      envSecretName: $.vars.envSecretName,
     },
   },
 }
