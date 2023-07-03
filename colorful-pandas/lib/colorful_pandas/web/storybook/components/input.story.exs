@@ -32,11 +32,11 @@ defmodule ColorfulPandas.Web.Storybook.Input do
       },
       %Variation{
         id: :with_placeholder,
-        attributes: %{id: "name", name: "name",  placeholder: "Your name", value: ""}
+        attributes: %{id: "name", name: "name", placeholder: "Your name", value: ""}
       },
       %Variation{
         id: :with_value,
-        attributes: %{id: "name", name: "name",  value: "Mister Panda"}
+        attributes: %{id: "name", name: "name", value: "Mister Panda"}
       },
       %Variation{
         id: :with_type,
