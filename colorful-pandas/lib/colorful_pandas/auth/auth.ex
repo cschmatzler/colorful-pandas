@@ -23,6 +23,8 @@ defmodule ColorfulPandas.Auth do
 
   @callback get_signup_flow(id :: non_neg_integer()) :: SignupFlow.t() | nil
 
+  @callback get_signup_flow_with_oauth(provider :: String.t(), uid :: String.t()) :: SignupFlow.t() | nil
+
   @doc """
   Fetches a identity with OAuth provider and external UID.
 
@@ -41,12 +43,20 @@ defmodule ColorfulPandas.Auth do
   @doc """
   Creates a new signup flow.
   """
+
+  @callback create_signup_flow(
+              oauth_provider :: String.t(),
+              uid :: String.t(),
+              email :: String.t(),
+              name :: String.t() | nil
+            ) :: {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
+
   @callback create_signup_flow(
               oauth_provider :: String.t(),
               uid :: String.t(),
               email :: String.t(),
               name :: String.t() | nil,
-              invite_id :: binary() | nil
+              invite_id :: binary()
             ) :: {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
   @doc """

@@ -3,21 +3,17 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
 
   use ColorfulPandas.Web.Page, :live_view
 
+  import ColorfulPandas.Web.Components.Input
   import Ecto.Changeset
 
   alias ColorfulPandas.Auth
   alias ColorfulPandas.Auth.SignupFlow
 
-  @form_schema [
-    email: [:string, required: true],
-    name: [:string, required: true]
-  ]
-
   @impl Phoenix.LiveView
   def mount(params, _session, socket) do
     with flow_id when not is_nil(flow_id) <- Map.get(params, "flow"),
          %SignupFlow{} = flow <- Auth.get_signup_flow(flow_id) do
-      form = @form_schema |> changeset(Map.from_struct(flow), :update) |> to_form(as: "signup")
+      form = schema() |> changeset(Map.from_struct(flow), :update) |> to_form(as: "signup")
       socket = assign(socket, flow: flow, form: form)
 
       {:ok, socket}
@@ -27,7 +23,12 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     end
   end
 
-  defp changeset(schema, data, _action) do
+  defp schema do
+    [email: [:string, required: true], name: [:string, required: true]]
+  end
+
+  # TODO: Make this reusable
+  defp changeset(schema, data, action \\ :validate) do
     types = schema |> Enum.map(fn {field, [type | _]} -> {field, type} end) |> Map.new()
 
     required =
@@ -38,12 +39,12 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     {%{}, types}
     |> cast(data, Map.keys(types))
     |> validate_required(required)
-    |> Map.put(:action, :validate)
+    |> Map.put(:action, action)
   end
 
   @impl Phoenix.LiveView
   def handle_event(_event, params, socket) do
-    form = @form_schema |> changeset(params, :update) |> to_form(as: "signup")
+    form = schema() |> changeset(params) |> to_form(as: "signup")
     socket = assign(socket, :form, form)
 
     {:noreply, socket}
@@ -52,10 +53,9 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.form class="flex flex-col" for={@form} phx-change="update-flow">
-      <input type="email" name="email" value={@form[:email].value} />
-      <%= Keyword.get(@form.errors, :email) %>
-      <input type="text" name="name" value={@form[:name].value} />
+    <.form for={@form} phx-change="update-flow" class="flex flex-col">
+      <.input field={@form[:email]} label="Email address" />
+      <.input field={@form[:name]} label="Name" />
     </.form>
     """
   end

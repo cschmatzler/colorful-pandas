@@ -1,6 +1,5 @@
 .lsb-sandbox {
-  font-family: inherit !important;
-  @apply px-4 py-2 w-full;
+  @apply px-4 py-2 w-full font-sans;
 }
 
 .lsb-whitespace-pre-line {
