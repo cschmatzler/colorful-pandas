@@ -9,8 +9,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   alias ColorfulPandas.Auth
   alias ColorfulPandas.Auth.SignupFlow
 
-  @form_schema []
-
   @impl Phoenix.LiveView
   def mount(params, _session, socket) do
     with flow_id when not is_nil(flow_id) <- Map.get(params, "flow"),
@@ -41,12 +39,12 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     {%{}, types}
     |> cast(data, Map.keys(types))
     |> validate_required(required)
-    |> Map.put(:action, :validate)
+    |> Map.put(:action, action)
   end
 
   @impl Phoenix.LiveView
   def handle_event(_event, params, socket) do
-    form = schema() |> changeset(params, :update) |> to_form(as: "signup")
+    form = schema() |> changeset(params) |> to_form(as: "signup")
     socket = assign(socket, :form, form)
 
     {:noreply, socket}
