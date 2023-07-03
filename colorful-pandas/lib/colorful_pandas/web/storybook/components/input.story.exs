@@ -40,7 +40,13 @@ defmodule ColorfulPandas.Web.Storybook.Input do
       },
       %Variation{
         id: :with_type,
-        attributes: %{type: "email", id: "email", name: "email", label: "E-mail address", value: "astronaut@panda-den.com"}
+        attributes: %{
+          type: "email",
+          id: "email",
+          name: "email",
+          label: "E-mail address",
+          value: "astronaut@panda-den.com"
+        }
       },
       %Variation{
         id: :with_error,

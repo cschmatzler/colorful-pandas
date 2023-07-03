@@ -8,7 +8,7 @@ defmodule ColorfulPandas.Web.Components.Input do
   attr :type, :string, default: "text", values: ~w(hidden email text), doc: "`type`"
   attr :field, :any, doc: "Form field"
   attr :name, :string, doc: "`name`"
-  attr :id, :string,  doc: "`id`"
+  attr :id, :string, doc: "`id`"
   attr :value, :string, default: nil, doc: "`value`"
   attr :class, :string, default: nil, doc: "Extra classes"
   attr :errors, :list, default: [], doc: "List of error messages"
