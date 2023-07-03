@@ -17,7 +17,7 @@ defmodule ColorfulPandas.Web.Components.Input do
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
-    |> assign(:errors, IO.inspect(field.errors))
+    |> assign(:errors, field.errors)
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> input()
