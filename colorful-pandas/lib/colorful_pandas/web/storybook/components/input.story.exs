@@ -20,7 +20,7 @@ defmodule ColorfulPandas.Web.Storybook.Input do
       %Variation{
         id: :with_form_field_and_error,
         template: """
-        <.form :let={f} for={to_form(%{"name" => "Panda"}, errors: %{"name" => "Must be at least 354 characters."})} class="w-full">
+        <.form :let={f} for={to_form(%{"name" => "Panda"}, errors: %{"name" => {"Must be at least 354 characters.", []}})} class="w-full">
           <.lsb-variation field={f["name"]} />
         </.form>
         """,
