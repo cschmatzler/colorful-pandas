@@ -62,7 +62,7 @@ apply-terraform-cloud:
   AWS_ACCESS_KEY_ID="op://Colorful Pandas/Terraform S3/username" \
   AWS_SECRET_ACCESS_KEY="op://Colorful Pandas/Terraform S3/credential" \
   TF_VAR_terraform_cloud_token="op://Colorful Pandas/Terraform Cloud/credential" \
-  TF_VAR_github_oauth_token="op://Colorful Pandas/GitHub OAuth/credential" \
+  TF_VAR_github_oauth_token="op://Colorful Pandas/GitHub Terraform Cloud PAT/credential" \
   TF_VAR_sops_age_key="op://Colorful Pandas/SOPS/SOPS_AGE_KEY" \
   TF_VAR_sops_age_recipients="op://Colorful Pandas/SOPS/SOPS_AGE_RECIPIENTS" \
   TF_VAR_hcloud_token="op://Colorful Pandas/Hetzner Cloud/credential" \
