@@ -15,6 +15,10 @@ defmodule ColorfulPandas.Auth.SignupFlow do
     field :email, :string
     field :name, :string
 
+    # If the `organization_name` field is present without an `OrganizationInvite`, a new organization will be created
+    # with the new account as its only member and administrator.
+    # If both are present, the invite takes precedence and no new organization is created.
+    field :organization_name, :string
     belongs_to :invite, OrganizationInvite
 
     timestamps()

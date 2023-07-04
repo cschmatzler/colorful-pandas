@@ -9,7 +9,6 @@ defmodule ColorfulPandas.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      compilers: Mix.compilers() ++ [:boundary],
       releases: [
         colorful_pandas: [
           applications: [

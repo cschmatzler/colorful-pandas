@@ -6,6 +6,7 @@ defmodule ColorfulPandas.Auth.Impl do
   @behaviour ColorfulPandas.Auth
 
   import Ecto.Changeset
+  import Ecto.Query
 
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Session
@@ -13,8 +14,10 @@ defmodule ColorfulPandas.Auth.Impl do
   alias ColorfulPandas.Repo
 
   @impl ColorfulPandas.Auth
-  def get_signup_flow(id) do
-    Repo.get(SignupFlow, id)
+  def get_signup_flow(id, opts \\ []) do
+    preload = Keyword.get(opts, :preload, [])
+
+    Repo.one(from(sf in SignupFlow, where: sf.id == ^id, preload: ^preload))
   end
 
   @impl ColorfulPandas.Auth
