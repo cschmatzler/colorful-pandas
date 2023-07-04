@@ -6,10 +6,10 @@ compile-platform:
 
 colorful-pandas: &colorful-pandas
   - colorful-pandas/**
-  - .tool-versions
 
 test-colorful-pandas:
   - *colorful-pandas
+  - .tool-versions
 
 deploy-colorful-pandas:
   - *colorful-pandas
