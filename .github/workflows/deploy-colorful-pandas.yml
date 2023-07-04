@@ -13,18 +13,8 @@ concurrency:
 
 jobs:
   deploy-colorful-pandas:
-    name: ${{matrix.runs-on}} - Build Colorful Pandas image, create pull request and set to auto-merge
-    strategy:
-      fail-fast: true
-      matrix:
-        runs-on:
-          [
-            buildjet-2vcpu-ubuntu-2204,
-            buildjet-4vcpu-ubuntu-2204,
-            buildjet-2vcpu-ubuntu-2204-arm,
-            buildjet-4vcpu-ubuntu-2204-arm,
-          ]
-    runs-on: ${{matrix.runs-on}}
+    name: Build Colorful Pandas image, create pull request and set to auto-merge
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - name: Get app token
         id: app-token

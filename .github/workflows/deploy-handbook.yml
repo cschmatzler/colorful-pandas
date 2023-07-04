@@ -14,7 +14,7 @@ concurrency:
 jobs:
   deploy-handbook:
     name: Build and deploy image
-    runs-on: ubuntu-22.04
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - name: Get app token
         id: app-token
