@@ -18,7 +18,7 @@ defmodule ColorfulPandas.Web.Components.Input do
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
-    |> assign(:errors, field.errors)
+    |> assign(:errors, Enum.map(field.errors, &elem(&1, 0)))
     |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> input()
@@ -47,10 +47,9 @@ defmodule ColorfulPandas.Web.Components.Input do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-sm border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300",
+          "block w-full rounded-sm border-0 py-1.5 text-sm leading-8 text-gray-900 ring-1 ring-inset ring-gray-300",
           "placeholder:text-gray-400",
           "focus:ring-chestnut focus:ring-2 focus:ring-inset",
-          "sm:text-sm sm:leading-8",
           @class
         ]}
         {@rest}

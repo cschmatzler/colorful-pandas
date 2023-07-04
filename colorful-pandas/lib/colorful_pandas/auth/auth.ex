@@ -21,7 +21,7 @@ defmodule ColorfulPandas.Auth do
   alias ColorfulPandas.Auth.Sessions
   alias ColorfulPandas.Auth.SignupFlow
 
-  @callback get_signup_flow(id :: non_neg_integer()) :: SignupFlow.t() | nil
+  @callback get_signup_flow(id :: non_neg_integer(), opts: keyword()) :: SignupFlow.t() | nil
 
   @callback get_signup_flow_with_oauth(provider :: String.t(), uid :: String.t()) :: SignupFlow.t() | nil
 
@@ -38,11 +38,6 @@ defmodule ColorfulPandas.Auth do
   Returns `nil` if the token does not exist or is expired.
   """
   @callback get_identity_with_session_token(token :: binary()) :: Identity.t() | nil
-
-  # TODO:
-  @doc """
-  Creates a new signup flow.
-  """
 
   @callback create_signup_flow(
               oauth_provider :: String.t(),
