@@ -30,6 +30,20 @@ defmodule ColorfulPandas.Web.Auth do
   @doc "Path to redirect to when unauthenticated."
   def signed_out_path, do: ~p"/"
 
+  def on_mount(:mount_user, _params, session, socket) do
+    socket = mount_user(session, socket)
+
+    {:cont, socket}
+  end
+
+  def on_mount(:require_session, _params, _session, socket) do
+    if Map.get(socket.assigns, :user) do
+      {:cont, socket}
+    else
+      {:halt, Phoenix.LiveView.redirect(socket, to: signed_out_path())}
+    end
+  end
+
   @doc "Adds a session token to the current session."
   def put_token_in_session(conn, token) do
     conn
@@ -82,5 +96,17 @@ defmodule ColorfulPandas.Web.Auth do
 
   defp write_session_cookie(conn, token) do
     put_resp_cookie(conn, @session_cookie, token, @session_options)
+  end
+
+  defp mount_user(session, socket) do
+    case session do
+      %{"session_token" => token} ->
+        Phoenix.Component.assign_new(socket, :user, fn ->
+          Auth.get_identity_with_session_token(token)
+        end)
+
+      %{} ->
+        Phoenix.Component.assign_new(socket, :user, fn -> nil end)
+    end
   end
 end

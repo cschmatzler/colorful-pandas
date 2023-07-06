@@ -6,6 +6,7 @@ defmodule ColorfulPandas.Repo.Migrations.AddOrganizationInvites do
       add :token, :binary, null: false
       add :created_by_id, references(:identities), null: false
       add :organization_id, references(:organizations), null: false
+      add :accepted_at, :utc_datetime, null: true
       timestamps()
     end
   end

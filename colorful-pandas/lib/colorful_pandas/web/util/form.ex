@@ -5,7 +5,7 @@ defmodule ColorfulPandas.Web.Util.Form do
   def changeset(data, schema, action \\ nil) do
     types = schema |> Enum.map(fn {field, [type | _]} -> {field, type} end) |> Map.new()
 
-    required = filter_field(schema, :required)
+    required = get_setting(schema, :required)
 
     {%{}, types}
     |> cast(data, Map.keys(types))
@@ -13,7 +13,7 @@ defmodule ColorfulPandas.Web.Util.Form do
     |> Map.put(:action, action)
   end
 
-  defp filter_field(schema, field) do
+  defp get_setting(schema, field) do
     schema
     |> Enum.filter(fn {_, [_ | opts]} -> opts |> Map.new() |> Map.get(field, false) end)
     |> Enum.map(fn {k, _} -> k end)

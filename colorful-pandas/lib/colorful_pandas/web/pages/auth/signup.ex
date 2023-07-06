@@ -10,7 +10,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   alias ColorfulPandas.Auth
 
   @details_schema [email: [:string, required: true], name: [:string, required: true]]
-  @new_organization_schema [name: [:string, required: true]]
+  @new_organization_schema [organization_name: [:string, required: true]]
 
   @impl Phoenix.LiveView
   def mount(_params, session, socket) do
@@ -48,26 +48,27 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     assign(socket, assigns)
   end
 
-  defp handle_action_params(:new_organization, _params, socket) do
-    form = %{} |> changeset(@new_organization_schema) |> to_form(as: "organization")
+  defp handle_action_params(:new_organization, _params, %{assigns: %{flow: flow}} = socket) do
+    form = flow |> Map.from_struct() |> changeset(@new_organization_schema) |> to_form(as: "organization")
 
     assigns = [form: form]
     assign(socket, assigns)
   end
 
-  defp handle_action_params(:verify, _params, socket) do
-    if Map.get(socket.assigns, :new_organization) do
-      socket
-    else
+  defp handle_action_params(:verify, _params, %{assigns: %{flow: flow}} = socket) do
+    if is_nil(flow.invite) and is_nil(flow.organization_name) do
       push_patch(socket, to: ~p"/auth/signup/new_organization")
+    else
+      socket
     end
   end
 
   @impl Phoenix.LiveView
   def handle_event("submit-details", %{"details" => data}, %{assigns: %{flow: flow}} = socket) do
+    # TODO: refactor and make smaller
     case changeset(data, @details_schema, :validate) do
       %Ecto.Changeset{valid?: true} = changeset ->
-        {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes.email, changeset.changes.name)
+        {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes)
         assign(socket, :flow, flow)
 
         if flow.invite do
@@ -84,11 +85,11 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     end
   end
 
-  def handle_event("submit-organization", %{"organization" => data}, socket) do
+  def handle_event("submit-organization", %{"organization" => data}, %{assigns: %{flow: flow}} = socket) do
     case changeset(data, @new_organization_schema, :validate) do
       %Ecto.Changeset{valid?: true} = changeset ->
-        assigns = [new_organization: changeset.changes]
-        socket = socket |> assign(assigns) |> push_patch(to: ~p"/auth/signup/verify")
+        {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes)
+        socket = socket |> assign(flow: flow) |> push_patch(to: ~p"/auth/signup/verify")
 
         {:noreply, socket}
 
@@ -100,8 +101,11 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     end
   end
 
-  def handle_event("create-account", _params, socket) do
-    {:noreply, socket}
+  def handle_event("create-account", _params, %{assigns: %{flow: flow}} = socket) do
+    {:ok, _} = Auth.create_identity_from_flow(flow)
+
+    # NOTE: We are just redirecting back to the OAuth provider from here - might be room for efficiency improvements at some point.
+    {:noreply, redirect(socket, to: ~p"/auth/oauth/#{flow.provider}")}
   end
 
   @impl Phoenix.LiveView
@@ -133,7 +137,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
           <.details :if={@live_action == :details} form={@form} />
           <.invite :if={@live_action == :invite} invite={@invite} />
           <.new_organization :if={@live_action == :new_organization} form={@form} />
-          <.verify :if={@live_action == :verify} flow={@flow} new_organization={@new_organization} />
+          <.verify :if={@live_action == :verify} flow={@flow} />
         </div>
       </div>
     </main>
@@ -144,11 +148,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     ~H"""
     <.form for={@form} phx-submit="submit-details" class="space-y-4">
       <div>
-        <.input
-          field={@form[:email]}
-          label="Email address"
-          placeholder="astronaut@colorful-pandas.com"
-        />
+        <.input field={@form[:email]} label="Email address" placeholder="astronaut@colorful-pandas.com" />
       </div>
       <div>
         <.input field={@form[:name]} label="Name" placeholder="Astronaut Panda" />
@@ -172,7 +172,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     ~H"""
     <.form for={@form} phx-submit="submit-organization" class="space-y-4">
       <div>
-        <.input field={@form[:name]} label="Name" placeholder="Panda Den" />
+        <.input field={@form[:organization_name]} label="Name" placeholder="Panda Den" />
       </div>
       <div>
         <.button type="submit" label="Continue" class="w-full mt-6" />
@@ -195,7 +195,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
       <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Organization</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-          <%= @new_organization.name %>
+          <%= @flow.organization_name %>
         </dd>
       </div>
     </dl>

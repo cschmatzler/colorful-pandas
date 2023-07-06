@@ -17,6 +17,7 @@ defmodule ColorfulPandas.Auth do
     otp_app: :template,
     default: ColorfulPandas.Auth.Impl
 
+  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Sessions
   alias ColorfulPandas.Auth.SignupFlow
@@ -54,20 +55,13 @@ defmodule ColorfulPandas.Auth do
               invite_id :: binary()
             ) :: {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
-  @callback update_signup_flow(flow :: SignupFlow.t(), email :: String.t(), name :: String.t()) ::
+  @callback update_signup_flow(flow :: SignupFlow.t(), changes :: map()) ::
               {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
   @doc """
   Creates a new identity.
   """
-  @callback create_identity(
-              provider :: String.t(),
-              uid :: String.t(),
-              email :: String.t(),
-              name :: String.t(),
-              image_url :: String.t() | nil
-            ) ::
-              {:ok, Identity.t()} | {:error, Ecto.Changeset.t()}
+  @callback create_identity_from_flow(flow :: SignupFlow.t()) :: {:ok, Identity.t()} | {:error, Ecto.Changeset.t()}
 
   @doc """
   Creates a new session token for a identity.
@@ -78,4 +72,6 @@ defmodule ColorfulPandas.Auth do
   Deletes a session token.
   """
   @callback delete_session(token :: binary()) :: :ok
+
+  @callback list_organizations() :: list(Organization.t())
 end

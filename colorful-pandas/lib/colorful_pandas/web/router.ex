@@ -47,9 +47,19 @@ defmodule ColorfulPandas.Web.Router do
     get "/:provider/callback", OAuth, :callback
   end
 
-  scope "/" do
+  scope "/admin", ColorfulPandas.Web.Pages.Admin do
     pipe_through :browser
 
+    live_session :admin,
+      on_mount: [
+        {ColorfulPandas.Web.Auth, :mount_user},
+        {ColorfulPandas.Web.Auth, :require_session}
+      ] do
+      live "/organizations", Organizations, as: :organizations
+    end
+  end
+
+  scope "/admin" do
     live_storybook("/storybook", backend_module: ColorfulPandas.Web.Storybook)
   end
 

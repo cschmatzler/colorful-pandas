@@ -11,11 +11,11 @@ module.exports = {
         sans: ["Manrope", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        "cool-gray": "#283D3B",
         teal: "#197278",
-        "rose": "#EDDDD4",
-        "crimson-red": "#C44536",
-        chestnut: "#772E25"
+        chestnut: "#772E25",
+        black: "#051923",
+        "light-blue": "#EDF6F9",
+        "green": "#C1DBB3",
       },
       borderRadius: {
         md: "0.25rem",

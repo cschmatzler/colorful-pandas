@@ -9,6 +9,8 @@ defmodule ColorfulPandas.Auth.Impl do
   import Ecto.Query
 
   alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Organization
+  alias ColorfulPandas.Auth.OrganizationInvite
   alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
@@ -52,24 +54,38 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
-  def update_signup_flow(%SignupFlow{} = flow, email, name) do
+  def update_signup_flow(%SignupFlow{} = flow, changes) do
     flow
-    |> change(%{email: email, name: name})
+    |> change(changes)
+    |> validate_length(:email, max: 256)
+    |> validate_length(:name, max: 64)
+    |> validate_length(:organization_name, max: 128)
     |> validate_required([:email, :name])
     |> Repo.update()
   end
 
   @impl ColorfulPandas.Auth
-  def create_identity(provider, uid, email, name, image_url) do
-    %{
-      provider: provider,
-      uid: uid,
-      email: email,
-      name: name,
-      image_url: image_url
-    }
-    |> Identity.changeset()
-    |> Repo.insert()
+  def create_identity_from_flow(%SignupFlow{invite: %OrganizationInvite{} = invite} = flow) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :identity,
+      Identity.changeset(%{provider: flow.provider, uid: flow.uid, email: flow.email, name: flow.name, organization_id: invite.organization_id})
+    )
+    |> Ecto.Multi.update(:invite, fn _ ->
+      change(invite, %{accepted_at: DateTime.utc_now()})
+    end)
+    |> Ecto.Multi.delete(:signup_flow, flow)
+    |> Repo.transaction()
+  end
+
+  def create_identity_from_flow(%SignupFlow{invite: nil} = flow) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:organization, Organization.changeset(%{name: flow.organization_name}))
+    |> Ecto.Multi.insert(:identity, fn %{organization: organization} ->
+      Identity.changeset(%{provider: flow.provider, uid: flow.uid, email: flow.email, name: flow.name, organization_id: organization.id})
+    end)
+    |> Ecto.Multi.delete(:signup_flow, flow)
+    |> Repo.transaction()
   end
 
   @impl ColorfulPandas.Auth
@@ -86,5 +102,10 @@ defmodule ColorfulPandas.Auth.Impl do
     |> Repo.delete_all()
 
     :ok
+  end
+
+  @impl ColorfulPandas.Auth
+  def list_organizations() do
+    Repo.all(Organization)
   end
 end

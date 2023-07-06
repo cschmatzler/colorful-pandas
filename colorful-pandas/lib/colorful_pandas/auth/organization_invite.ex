@@ -13,6 +13,7 @@ defmodule ColorfulPandas.Auth.OrganizationInvite do
     belongs_to :created_by, Identity
     belongs_to :organization, Organization
 
-    timestamps(updated_at: false)
+    field :accepted_at, :utc_datetime
+    timestamps updated_at: false
   end
 end
