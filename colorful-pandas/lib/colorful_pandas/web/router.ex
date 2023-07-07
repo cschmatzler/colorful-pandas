@@ -25,7 +25,10 @@ defmodule ColorfulPandas.Web.Router do
   scope "/", ColorfulPandas.Web.Pages do
     pipe_through :browser
 
-    live_session :landing do
+    live_session :landing,
+      on_mount: [
+        {ColorfulPandas.Web.Auth, :mount_user}
+      ] do
       live "/", Landing, :index, as: :landing
     end
   end

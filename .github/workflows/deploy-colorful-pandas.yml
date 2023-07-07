@@ -14,7 +14,7 @@ concurrency:
 jobs:
   deploy-colorful-pandas:
     name: Build Colorful Pandas image, create pull request and set to auto-merge
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     steps:
       - name: Get app token
         id: app-token
@@ -28,10 +28,14 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
+      - name: Get tool versions
+        id: tool-versions
+        uses: marocchino/tool-versions-action@608d0ecb8f01e467223f0a854ead7d3fc784b540 # v1
+
       - name: Setup Earthly
         uses: earthly/actions-setup@v1
         with:
-          version: v0.7.11
+          version: v${{ steps.outputs.tool-versions.earthly }}
 
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
@@ -40,11 +44,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set environment
+      - name: Set version
         run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Build and push image
-        run: earthly -P --push --ci --remote-cache=ghcr.io/panda-den/colorful-pandas:cache +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
+        run: earthly --org panda-den --sat github-actions --push --no-output +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
 
       - name: Update image tag
         run: |
