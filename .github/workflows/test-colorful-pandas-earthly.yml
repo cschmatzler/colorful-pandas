@@ -32,7 +32,7 @@ jobs:
     # needs:
     #   - check-condition
     # if: needs.check-condition.outputs.changes == 'true'
-    runs-on: ubuntu-22.04
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
