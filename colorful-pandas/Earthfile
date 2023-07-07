@@ -1,5 +1,4 @@
 VERSION 0.7
-PROJECT panda-den/colorful-pandas
 
 ARG --global ELIXIR_BASE=1.15.2-erlang-26.0.2-alpine-3.17.4
 
