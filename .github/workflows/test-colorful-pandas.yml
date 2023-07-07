@@ -10,42 +10,13 @@ on:
       - colorful-pandas/**
   merge_group:
 
-env:
-  MIX_ENV: test
-
 jobs:
-  check-condition:
-    name: Check whether workflow should run
-    runs-on: ubuntu-22.04
-    outputs:
-      changes: ${{ steps.changes.outputs.test-colorful-pandas }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-
-      - name: Check for file changes
-        uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
-        id: changes
-        with:
-          list-files: json
-          filters: .github/filters.yml
-
   test:
     name: Test
-    needs:
-      - check-condition
-    if: needs.check-condition.outputs.changes == 'true'
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
-
-      - name: Log into GHCR
-        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Earthly
         uses: earthly/actions-setup@v1
@@ -53,4 +24,4 @@ jobs:
           version: v0.7.11
 
       - name: Run Earthly
-        run: earthly -P --ci --remote-cache=ghcr.io/panda-den/colorful-pandas:cache +test-colorful-pandas
+        run: earthly --sat test-colorful-pandas -P --ci +test-colorful-pandas
