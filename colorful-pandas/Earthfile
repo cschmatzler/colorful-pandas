@@ -93,7 +93,7 @@ deploy:
 
   CMD ["/colorful-pandas/bin/server"]
 
-  SAVE IMAGE ghcr.io/panda-den/colorful-pandas:$VERSION
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:$VERSION
 
 update-buildcache:
   BUILD +test
