@@ -24,4 +24,4 @@ jobs:
           version: v0.7.11
 
       - name: Run Earthly
-        run: earthly --sat test-colorful-pandas -P --ci +test-colorful-pandas
+        run: earthly --org panda-den --sat test-colorful-pandas -P --ci +test-colorful-pandas
