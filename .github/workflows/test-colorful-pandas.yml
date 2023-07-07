@@ -18,12 +18,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
+      - name: Get tool versions
+        id: tool-versions
+        uses: marocchino/tool-versions-action@608d0ecb8f01e467223f0a854ead7d3fc784b540 # v1
+
       - name: Setup Earthly
         uses: earthly/actions-setup@v1
         with:
-          version: v0.7.11
+          version: v${{ steps.tool-versions.outputs.earthly }}
 
       - name: Run Earthly
-        run: earthly --org panda-den --sat test-colorful-pandas -P --ci +test-colorful-pandas
+        run: earthly --sat github-actions --no-output -P +test-colorful-pandas
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
