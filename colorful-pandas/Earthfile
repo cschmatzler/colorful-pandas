@@ -28,6 +28,8 @@ compile:
 
   RUN mix compile --warnings-as-errors
 
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:compile-$ENV
+
 test:
   FROM +compile --ENV=test
 

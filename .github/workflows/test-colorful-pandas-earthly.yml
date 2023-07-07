@@ -1,0 +1,57 @@
+name: Test Colorful Pandas
+on:
+  push:
+    branches:
+      - renovate/**
+      - main
+  pull_request:
+  merge_group:
+
+env:
+  MIX_ENV: test
+
+jobs:
+  # check-condition:
+  #   name: Check whether workflow should run
+  #   runs-on: ubuntu-22.04
+  #   outputs:
+  #     changes: ${{ steps.changes.outputs.test-colorful-pandas }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+  #
+  #     - name: Check for file changes
+  #       uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+  #       id: changes
+  #       with:
+  #         list-files: json
+  #         filters: .github/filters.yml
+
+  test:
+    name: Test
+    # needs:
+    #   - check-condition
+    # if: needs.check-condition.outputs.changes == 'true'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Setup Earthly
+        uses: earthly/actions-setup@v1
+        with:
+          version: v0.7.11
+
+      - name: Put back the git branch into git (Earthly uses it for tagging)
+        run: |
+          branch=""
+          if [ -n "$GITHUB_HEAD_REF" ]; then
+            branch="$GITHUB_HEAD_REF"
+          else
+            branch="${GITHUB_REF##*/}"
+          fi
+          git checkout -b "$branch" || true
+
+      - name: Run Earthly
+        run: earthly -P --use-inline-cache --save-inline-cache +test-colorful-pandas
+
