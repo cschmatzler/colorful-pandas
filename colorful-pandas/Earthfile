@@ -1,0 +1,55 @@
+VERSION 0.7
+PROJECT panda-den/colorful-pandas
+
+ARG --global ELIXIR_BASE=1.15.2-erlang-26.0.2-alpine-3.17.4
+
+setup-base:
+  FROM hexpm/elixir:$ELIXIR_BASE
+
+  RUN apk add --no-progress --update git build-base postgresql-client
+
+  ENV ELIXIR_ASSERT_TIMEOUT=10000
+
+  WORKDIR /colorful-pandas
+
+  COPY mix.exs .
+  COPY mix.lock .
+  RUN mix local.rebar --force
+  RUN mix local.hex --force
+  RUN mix deps.get
+
+compile:
+  FROM +setup-base
+
+  ARG ENV=test
+  ENV MIX_ENV=$ENV
+
+  RUN mix deps.compile
+  COPY --dir config lib ./
+
+  RUN mix compile --warnings-as-errors
+
+test:
+  FROM +compile --ENV=test
+
+  DO github.com/earthly/lib+INSTALL_DIND
+
+  COPY docker-compose.test.yml .
+  COPY --dir test .
+
+  WITH DOCKER --compose docker-compose.test.yml
+    RUN while ! pg_isready --host=localhost --port=5432 --username=postgres; do sleep 1; done ;\
+      mix test
+  END
+
+lint:
+  FROM +compile --ENV=test
+
+  COPY .credo.exs .formatter.exs .sobelow-conf .
+
+  RUN mix deps.unlock --check-unused
+  RUN mix hex.audit
+  RUN mix format --check-formatted
+  RUN mix credo
+  RUN mix excellent_migrations.check_safety
+  RUN mix sobelow --config

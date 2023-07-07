@@ -105,7 +105,7 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
-  def list_organizations() do
+  def list_organizations do
     Repo.all(Organization)
   end
 end

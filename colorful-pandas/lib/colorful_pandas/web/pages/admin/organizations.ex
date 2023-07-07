@@ -3,6 +3,7 @@ defmodule ColorfulPandas.Web.Pages.Admin.Organizations do
   use Phoenix.LiveView
 
   import ColorfulPandas.Web.Components.Sidebar
+
   alias ColorfulPandas.Auth
 
   @impl Phoenix.LiveView

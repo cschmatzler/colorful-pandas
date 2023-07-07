@@ -17,8 +17,8 @@ defmodule ColorfulPandas.Auth do
     otp_app: :template,
     default: ColorfulPandas.Auth.Impl
 
-  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Sessions
   alias ColorfulPandas.Auth.SignupFlow
 
