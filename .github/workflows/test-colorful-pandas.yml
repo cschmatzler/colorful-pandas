@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - renovate/**
+    paths:
+      - colorful-pandas/
   pull_request:
+    paths:
+      - colorful-pandas/
   merge_group:
 
 env:
