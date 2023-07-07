@@ -44,8 +44,6 @@ test:
       mix test
   END
 
-  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:test
-
 lint:
   FROM +compile --ENV=test
 
@@ -57,5 +55,3 @@ lint:
   RUN mix credo
   RUN mix excellent_migrations.check_safety
   RUN mix sobelow --config
-
-  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:lint
