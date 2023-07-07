@@ -17,6 +17,8 @@ setup-base:
   RUN mix local.hex --force
   RUN mix deps.get
 
+  SAVE IMAGE --cache-hint
+
 compile:
   FROM +setup-base
 
