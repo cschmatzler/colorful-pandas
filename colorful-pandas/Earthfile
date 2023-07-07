@@ -1,26 +1,21 @@
 VERSION 0.7
 
-ARG --global ELIXIR_BASE=hexpm/elixir:1.15.2-erlang-26.0.2-debian-bookworm-20230612-slim
-ARG --global DEPLOY_BASE=debian:bookworm-20230612-slim
+ARG --global ELIXIR_BASE=hexpm/elixir:1.15.2-erlang-26.0.2-alpine-3.18.2
+ARG --global DEPLOY_BASE=alpine:3.18.2
 
 setup-base:
   FROM $ELIXIR_BASE
 
-  RUN apt-get update && apt-get upgrade -y && \
-    apt-get install --no-install-recommends -y \
-        build-essential git jq postgresql-client python3 && \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
+  RUN apk add --no-cache build-base git
 
   ENV ELIXIR_ASSERT_TIMEOUT=10000
 
   WORKDIR /colorful-pandas
 
-  COPY mix.exs .
-  COPY mix.lock .
-  RUN mix local.rebar --force
-  RUN mix local.hex --force
+  COPY mix.exs mix.lock .
+
+  RUN mix do local.rebar --force, \
+             local.hex --force
   RUN mix deps.get
 
 compile:
@@ -30,21 +25,30 @@ compile:
   ENV MIX_ENV=$ENV
 
   RUN mix deps.compile
+
   COPY --dir config lib ./
 
   RUN mix compile --warnings-as-errors
 
-test:
+test-image:
   FROM +compile --ENV=test
 
-  COPY docker-compose.test.yml .
   COPY --dir priv test .
 
-  WITH DOCKER --compose docker-compose.test.yml
+test:
+  FROM earthly/dind:alpine
+
+  RUN apk add postgresql-client
+
+  COPY docker-compose.test.yml .
+
+  WITH DOCKER \
+      --compose docker-compose.test.yml \
+      --load colorful-pandas:latest=+test-image
     RUN while ! pg_isready --host=localhost --port=5432 --username=postgres; do sleep 1; done ;\
-      mix ecto.create && \
-      mix ecto.migrate && \
-      mix test
+      docker run --network host colorful-pandas mix ecto.create && \
+      docker run --network host colorful-pandas mix ecto.migrate && \
+      docker run --network host colorful-pandas mix test
   END
 
 lint:
@@ -64,36 +68,28 @@ release:
 
   COPY --dir assets rel priv .
 
-  RUN mix tailwind.install --if-missing
-  RUN mix esbuild.install --if-missing
-  RUN mix tailwind default --minify
-  RUN mix esbuild default --minify
-  RUN mix phx.digest
+  RUN mix do tailwind.install --if-missing, \
+              esbuild.install --if-missing
+  RUN mix do tailwind default --minify, \
+            esbuild default --minify, \
+            phx.digest
   RUN mix release colorful_pandas
 
   SAVE ARTIFACT _build/prod/rel/colorful_pandas
 
 deploy:
   ARG --required VERSION
+  ARG HOME=/opt/colorful-pandas
 
   FROM $DEPLOY_BASE
 
-  RUN apt-get update && apt-get upgrade -y && \
-    apt-get install --no-install-recommends -y \
-        ca-certificates locales openssl && \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
-
-  RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
-
-  ENV LANG=en_US.UTF-8
-  ENV LANGUAGE=en_US:en
-  ENV LC_ALL=en_US.UTF-8
+  RUN apk add --no-cache libstdc++ ncurses openssl && \
+    adduser --system --shell /bin/false --home ${HOME} colorful-pandas
 
   WORKDIR /colorful-pandas
+  USER colorful-pandas
 
-  COPY +release/colorful_pandas .
+  COPY --chown=colorful-pandas:0 +release/colorful_pandas .
 
   CMD ["/colorful-pandas/bin/server"]
 
