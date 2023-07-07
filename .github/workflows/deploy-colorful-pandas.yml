@@ -14,7 +14,7 @@ concurrency:
 jobs:
   deploy-colorful-pandas:
     name: Build Colorful Pandas image, create pull request and set to auto-merge
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04
     steps:
       - name: Get app token
         id: app-token
@@ -44,7 +44,7 @@ jobs:
         run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Build and push image
-        run: earthly -P --push --ci --remote-cache=ghcr.io/panda-den/colorful-pandas:cache +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
+        run: earthly --sat deploy-colorful-pandas -P --push +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
 
       - name: Update image tag
         run: |
