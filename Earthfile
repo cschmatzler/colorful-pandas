@@ -1,10 +1,13 @@
 VERSION 0.7
 PROJECT panda-den/colorful-pandas
 
-test-colorful-pandas:
-  FROM ./colorful-pandas+test
+update-colorful-pandas-buildcache:
+  BUILD --platform linux/arm64 ./colorful-pandas+update-buildcache
 
-lint-colorful-pandas:
-  PIPELINE
-  TRIGGER pr main
-  FROM ./colorful-pandas+lint
+test-colorful-pandas:
+  BUILD --platform linux/arm64 ./colorful-pandas+lint
+  BUILD --platform linux/arm64 ./colorful-pandas+test
+
+deploy-colorful-pandas:
+  ARG --required VERSION
+  BUILD --platform linux/arm64 ./colorful-pandas+deploy --VERSION=$VERSION

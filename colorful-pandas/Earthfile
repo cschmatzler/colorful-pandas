@@ -1,11 +1,17 @@
 VERSION 0.7
 
-ARG --global ELIXIR_BASE=1.15.2-erlang-26.0.2-alpine-3.17.4
+ARG --global ELIXIR_BASE=hexpm/elixir:1.15.2-erlang-26.0.2-debian-bookworm-20230612-slim
+ARG --global DEPLOY_BASE=debian:bookworm-20230612-slim
 
 setup-base:
-  FROM hexpm/elixir:$ELIXIR_BASE
+  FROM $ELIXIR_BASE
 
-  RUN apk add --no-progress --update git build-base postgresql-client
+  RUN apt-get update && apt-get upgrade -y && \
+    apt-get install --no-install-recommends -y \
+        build-essential git jq postgresql-client python3 && \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
   ENV ELIXIR_ASSERT_TIMEOUT=10000
 
@@ -31,13 +37,13 @@ compile:
 test:
   FROM +compile --ENV=test
 
-  DO github.com/earthly/lib+INSTALL_DIND
-
   COPY docker-compose.test.yml .
-  COPY --dir test .
+  COPY --dir priv test .
 
   WITH DOCKER --compose docker-compose.test.yml
     RUN while ! pg_isready --host=localhost --port=5432 --username=postgres; do sleep 1; done ;\
+      mix ecto.create && \
+      mix ecto.migrate && \
       mix test
   END
 
@@ -52,3 +58,49 @@ lint:
   RUN mix credo
   RUN mix excellent_migrations.check_safety
   RUN mix sobelow --config
+
+release:
+  FROM +compile --ENV=prod
+
+  COPY --dir assets rel priv .
+
+  RUN mix tailwind.install --if-missing
+  RUN mix esbuild.install --if-missing
+  RUN mix tailwind default --minify
+  RUN mix esbuild default --minify
+  RUN mix phx.digest
+  RUN mix compile
+  RUN mix release colorful_pandas
+
+  SAVE ARTIFACT _build/prod/rel/colorful_pandas
+
+deploy:
+  ARG --required VERSION
+
+  FROM $DEPLOY_BASE
+
+  RUN apt-get update && apt-get upgrade -y && \
+    apt-get install --no-install-recommends -y \
+        ca-certificates locales openssl && \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
+
+  RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+
+  ENV LANG=en_US.UTF-8
+  ENV LANGUAGE=en_US:en
+  ENV LC_ALL=en_US.UTF-8
+
+  WORKDIR /colorful-pandas
+
+  COPY +release/colorful_pandas .
+
+  CMD ["/colorful-pandas/bin/server"]
+
+  SAVE IMAGE ghcr.io/panda-den/colorful-pandas:$VERSION
+
+update-buildcache:
+  BUILD +test
+  BUILD +lint
+  BUILD +release
