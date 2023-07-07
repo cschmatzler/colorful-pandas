@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Colorful Pandas"
   text: ""
-  tagline: "Elevator music 🎵"
+  tagline: "Anytime soon..."
   actions:
     - theme: primary
       text: Engineering
