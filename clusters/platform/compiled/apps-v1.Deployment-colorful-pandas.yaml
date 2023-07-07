@@ -45,7 +45,7 @@ spec:
           name: http
       initContainers:
       - command:
-        - /app/bin/migrate
+        - /colorful-pandas/bin/migrate
         env:
         - name: POD_IP
           valueFrom:
