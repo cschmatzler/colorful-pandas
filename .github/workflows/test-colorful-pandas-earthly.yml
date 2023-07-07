@@ -1,4 +1,4 @@
-name: Test Colorful Pandas
+name: EARTHLY - Test Colorful Pandas
 on:
   push:
     branches:
@@ -54,4 +54,3 @@ jobs:
 
       - name: Run Earthly
         run: earthly -P --use-inline-cache --save-inline-cache +test-colorful-pandas
-
