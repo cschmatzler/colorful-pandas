@@ -34,10 +34,12 @@ test:
   DO github.com/earthly/lib+INSTALL_DIND
 
   COPY docker-compose.test.yml .
-  COPY --dir test .
+  COPY --dir priv test .
 
   WITH DOCKER --compose docker-compose.test.yml
     RUN while ! pg_isready --host=localhost --port=5432 --username=postgres; do sleep 1; done ;\
+      mix ecto.create && \
+      mix ecto.migrate && \
       mix test
   END
 
