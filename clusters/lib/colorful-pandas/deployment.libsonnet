@@ -27,7 +27,7 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
 
     migration_container::
       container.new('migrations', $._images.colorfulPandas.colorfulPandas) +
-      container.withCommand('/app/bin/migrate') +
+      container.withCommand('/colorful-pandas/bin/migrate') +
       self.containerEnv,
 
     container::

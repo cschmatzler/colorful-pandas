@@ -1,0 +1,26 @@
+VERSION 0.7
+
+build:
+  FROM node:20.3.1-alpine3.17
+
+  WORKDIR /handbook
+
+  COPY package.json package-lock.json .
+  RUN npm ci
+
+  COPY index.md .
+  COPY --dir .vitepress engineering .
+  RUN npm run build
+
+  SAVE ARTIFACT .vitepress/dist/
+
+deploy:
+  ARG --required VERSION
+
+  FROM nginx:1.25.1-alpine3.17
+
+  RUN adduser --system --shell /bin/false --home /opt/handbook handbook
+
+  COPY --chown=handbook:0 +build/dist/ /usr/share/nginx/html
+
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:handbook

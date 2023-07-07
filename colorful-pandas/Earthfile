@@ -79,12 +79,11 @@ release:
 
 deploy:
   ARG --required VERSION
-  ARG HOME=/opt/colorful-pandas
 
   FROM $DEPLOY_BASE
 
   RUN apk add --no-cache libstdc++ ncurses openssl && \
-    adduser --system --shell /bin/false --home ${HOME} colorful-pandas
+    adduser --system --shell /bin/false --home /opt/colorful-pandas colorful-pandas
 
   WORKDIR /colorful-pandas
   USER colorful-pandas
