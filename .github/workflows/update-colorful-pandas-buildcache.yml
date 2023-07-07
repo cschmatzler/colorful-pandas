@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - colorful-pandas/**
 
 concurrency:
   group: ${{ github.workflow }}
