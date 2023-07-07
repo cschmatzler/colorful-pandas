@@ -112,7 +112,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   def render(assigns) do
     ~H"""
     <main class={["bg-white flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
-      <div class={["-mt-60", "sm:mx-auto sm:w-full sm:max-w-sm"]}>
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 class="text-teal mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
           Create your account
         </h2>
