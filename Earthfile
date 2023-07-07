@@ -11,3 +11,7 @@ test-colorful-pandas:
 deploy-colorful-pandas:
   ARG --required VERSION
   BUILD --platform linux/arm64 ./colorful-pandas+deploy --VERSION=$VERSION
+
+deploy-handbook:
+  ARG --required VERSION
+  BUILD --platform linux/arm64 ./handbook+deploy --VERSION=$VERSION
