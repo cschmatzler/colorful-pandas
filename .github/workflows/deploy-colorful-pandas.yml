@@ -35,7 +35,7 @@ jobs:
       - name: Setup Earthly
         uses: earthly/actions-setup@v1
         with:
-          version: v${{ steps.outputs.tool-versions.earthly }}
+          version: v${{ steps.tool-versions.outputs.earthly }}
 
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
