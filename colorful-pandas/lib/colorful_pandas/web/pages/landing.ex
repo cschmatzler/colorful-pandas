@@ -17,11 +17,8 @@ defmodule ColorfulPandas.Web.Pages.Landing do
       <div class="py-48 sm:py-64 lg:pb-40">
         <div class="mx-auto max-w-2xl text-center">
           <h1 class="text-4xl font-bold tracking-tight text-moss sm:text-6xl">
-            Stuff.
+            Pandas.
           </h1>
-          <p class="mt-6 text-lg leading-8 text-moss/80">
-            ... or something. Woop woop.
-          </p>
 
           <.link href={~p"/auth/oauth/github"}>Sign up</.link>
 
