@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - clusters/lib/
-      - clusters/platform/
-      - "!clusters/platform/compiled/"
+      - clusters/lib/**
+      - clusters/platform/**
+      - "!clusters/platform/compiled/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}

@@ -4,10 +4,10 @@ on:
     branches:
       - renovate/**
     paths:
-      - colorful-pandas/
+      - colorful-pandas/**
   pull_request:
     paths:
-      - colorful-pandas/
+      - colorful-pandas/**
   merge_group:
 
 env:

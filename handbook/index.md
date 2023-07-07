@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Colorful Pandas"
   text: ""
-  tagline: "Anytime soon..."
+  tagline: "Anytime..."
   actions:
     - theme: primary
       text: Engineering
