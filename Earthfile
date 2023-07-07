@@ -5,4 +5,6 @@ test-colorful-pandas:
   FROM ./colorful-pandas+test
 
 lint-colorful-pandas:
+  PIPELINE
+  TRIGGER pr main
   FROM ./colorful-pandas+lint
