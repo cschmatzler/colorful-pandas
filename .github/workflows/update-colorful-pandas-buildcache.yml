@@ -1,0 +1,28 @@
+name: Test Colorful Pandas
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-cache:
+    name: Update cache
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+
+      - name: Log into GHCR
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Earthly
+        uses: earthly/actions-setup@v1
+        with:
+          version: v0.7.11
+
+      - name: Run Earthly
+        run: earthly -P --ci --push --max-remote-cache --remote-cache=ghcr.io/panda-den/colorful-pandas:cache +update-colorful-pandas-buildcache

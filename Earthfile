@@ -1,6 +1,9 @@
 VERSION 0.7
 PROJECT panda-den/colorful-pandas
 
+update-colorful-pandas-buildcache:
+  BUILD --platform linux/arm64 ./colorful-pandas+update-buildcache
+
 test-colorful-pandas:
   BUILD --platform linux/arm64 ./colorful-pandas+lint
   BUILD --platform linux/arm64 ./colorful-pandas+test

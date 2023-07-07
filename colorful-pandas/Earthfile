@@ -1,14 +1,14 @@
 VERSION 0.7
 
-ARG --global ELIXIR_BASE=hexpm/elixir:1.15.2-erlang-26.0.2-debian-buster-20230612-slim
-ARG --global DEPLOY_BASE=debian:buster-20230612-slim
+ARG --global ELIXIR_BASE=hexpm/elixir:1.15.2-erlang-26.0.2-debian-bookworm-20230612-slim
+ARG --global DEPLOY_BASE=debian:bookworm-20230612-slim
 
 setup-base:
   FROM $ELIXIR_BASE
 
   RUN apt-get update && apt-get upgrade -y && \
     apt-get install --no-install-recommends -y \
-        build-essential git && \
+        build-essential git jq postgresql-client python3 && \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
@@ -36,8 +36,6 @@ compile:
 
 test:
   FROM +compile --ENV=test
-
-  DO github.com/earthly/lib+INSTALL_DIND
 
   COPY docker-compose.test.yml .
   COPY --dir priv test .
@@ -101,3 +99,8 @@ deploy:
   CMD ["/colorful-pandas/bin/server"]
 
   SAVE IMAGE ghcr.io/panda-den/colorful-pandas:$VERSION
+
+update-buildcache:
+  BUILD +test
+  BUILD +lint
+  BUILD +release
