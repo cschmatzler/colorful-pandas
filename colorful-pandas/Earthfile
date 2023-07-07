@@ -28,7 +28,7 @@ compile:
 
   RUN mix compile --warnings-as-errors
 
-  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:compile-$ENV
+  SAVE IMAGE --cache-hint
 
 test:
   FROM +compile --ENV=test
