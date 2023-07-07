@@ -49,6 +49,8 @@ jobs:
 
       - name: Build and push image
         run: earthly --org panda-den --sat github-actions --push --no-output +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
+        env:
+          EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
       - name: Update image tag
         run: |
