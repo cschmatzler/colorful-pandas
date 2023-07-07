@@ -42,15 +42,7 @@ jobs:
         run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Build and push image
-        uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
-        with:
-          platforms: linux/arm64
-          context: colorful-pandas/
-          file: colorful-pandas/deploy/Dockerfile
-          tags: ghcr.io/panda-den/colorful-pandas:latest,ghcr.io/panda-den/colorful-pandas:${{ env.VERSION }}
-          push: true
-          cache-from: type=registry,ref=ghcr.io/panda-den/colorful-pandas:buildcache
-          cache-to: type=registry,ref=ghcr.io/panda-den/colorful-pandas:buildcache,mode=max
+        run: earthly -P --push --ci --remote-cache=ghcr.io/panda-den/colorful-pandas:cache +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
 
       - name: Update image tag
         run: |
