@@ -1,6 +1,6 @@
 VERSION 0.7
 
-ARG --global ELIXIR_BASE=1.15.2-erlang-26.0.2-alpine-3.17.4
+ARG --global ELIXIR_BASE=1.15.2-erlang-26.0.2-alpine-3.18.2
 
 setup-base:
   FROM hexpm/elixir:$ELIXIR_BASE
@@ -8,6 +8,7 @@ setup-base:
   RUN apk add --no-progress --update git build-base postgresql-client
 
   ENV ELIXIR_ASSERT_TIMEOUT=10000
+  ENV ERL_FLAGS="+JPperf true +JMsingle true"
 
   WORKDIR /colorful-pandas
 
@@ -16,8 +17,6 @@ setup-base:
   RUN mix local.rebar --force
   RUN mix local.hex --force
   RUN mix deps.get
-
-  SAVE IMAGE --cache-hint
 
 compile:
   FROM +setup-base
@@ -29,8 +28,6 @@ compile:
   COPY --dir config lib ./
 
   RUN mix compile --warnings-as-errors
-
-  SAVE IMAGE --cache-hint
 
 test:
   FROM +compile --ENV=test
@@ -47,6 +44,8 @@ test:
       mix test
   END
 
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:test
+
 lint:
   FROM +compile --ENV=test
 
@@ -58,3 +57,5 @@ lint:
   RUN mix credo
   RUN mix excellent_migrations.check_safety
   RUN mix sobelow --config
+
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:lint

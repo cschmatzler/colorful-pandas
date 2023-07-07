@@ -60,4 +60,4 @@ jobs:
           git checkout -b "$branch" || true
 
       - name: Run Earthly
-        run: earthly -P --ci --push --remote-cache=ghcr.io/panda-den/colorful-pandas:build-cache +test-colorful-pandas
+        run: earthly -P --use-inline-cache --save-inline-cache --push +test-colorful-pandas
