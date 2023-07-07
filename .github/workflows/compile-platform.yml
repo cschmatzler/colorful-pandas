@@ -5,8 +5,9 @@ on:
     branches:
       - main
     paths:
-      - clusters/**
-      - "!clusters/**/compiled/**"
+      - clusters/lib/
+      - clusters/platform/
+      - "!clusters/platform/compiled/"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
