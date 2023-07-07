@@ -48,7 +48,7 @@ jobs:
         run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Build and push image
-        run: earthly --sat github-actions --push --no-output +deploy-handbook --VERSION=${{ env.VERSION }}
+        run: earthly --org panda-den --sat github-actions --push --no-output +deploy-handbook --VERSION=${{ env.VERSION }}
 
       - name: Update image tag
         run: |

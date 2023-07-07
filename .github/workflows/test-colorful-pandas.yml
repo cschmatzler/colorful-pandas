@@ -28,6 +28,6 @@ jobs:
           version: v${{ steps.tool-versions.outputs.earthly }}
 
       - name: Run Earthly
-        run: earthly --sat github-actions --no-output -P +test-colorful-pandas
+        run: earthly --org panda-den --sat github-actions --no-output -P +test-colorful-pandas
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
