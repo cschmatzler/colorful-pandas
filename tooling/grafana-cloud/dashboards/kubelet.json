@@ -2,43 +2,18 @@
   "annotations": {
     "list": [
       {
-        "builtIn": 1,
+        "builtIn": 0,
         "datasource": {
           "type": "grafana",
           "uid": "-- Grafana --"
         },
         "enable": true,
-        "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
         "type": "dashboard"
-      },
-      {
-        "datasource": {
-          "uid": "${lokids}"
-        },
-        "enable": true,
-        "expr": "{job!=\"\", cluster=\"$cluster\"} |= \"sourcecomponent=kubelet\" |~ \"sourcehost=$instance\" |~ \"reason=(Created|Killing|BackOff|SystemOOM|Started)\" | logfmt",
-        "iconColor": "blue",
-        "name": "K8s events",
-        "tagKeys": "reason,type",
-        "target": {
-          "limit": 100,
-          "matchAny": false,
-          "tags": [],
-          "type": "dashboard"
-        },
-        "textFormat": "{{kind}}: {{name}} in namespace: {{namespace}} on node: {{sourcehost}}",
-        "titleFormat": "{{msg}}"
       }
     ]
   },
-  "editable": false,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 19,
-  "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
