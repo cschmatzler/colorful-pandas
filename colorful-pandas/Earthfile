@@ -8,17 +8,21 @@ setup-base:
 
   RUN apk add --no-cache build-base git
 
-  ENV ELIXIR_ASSERT_TIMEOUT=10000
-
   WORKDIR /colorful-pandas
 
-  COPY mix.exs mix.lock .
   RUN mix do local.rebar --force, \
              local.hex --force
+
+deps:
+  FROM +setup-base
+
+  COPY mix.exs mix.lock .
   RUN mix deps.get
 
+  SAVE ARTIFACT /colorful-pandas/deps AS LOCAL deps
+
 compile:
-  FROM +setup-base
+  FROM +deps
 
   ARG ENV=test
   ENV MIX_ENV=$ENV
@@ -28,8 +32,12 @@ compile:
   COPY --dir config lib ./
   RUN mix compile --warnings-as-errors
 
+  SAVE ARTIFACT _build/$ENV AS LOCAL _build/$ENV
+
 test-image:
   FROM +compile --ENV=test
+
+  ENV ELIXIR_ASSERT_TIMEOUT=10000
 
   COPY --dir priv test .
 
@@ -58,7 +66,9 @@ lint:
   RUN mix sobelow --config
 
 release:
-  FROM +compile --ENV=prod
+  ARG ENV=prod
+
+  FROM +compile --ENV=$ENV
 
   COPY --dir assets priv .
   RUN mix do tailwind.install --if-missing, \
@@ -70,7 +80,7 @@ release:
   COPY --dir rel .
   RUN mix release colorful_pandas
 
-  SAVE ARTIFACT _build/prod/rel/colorful_pandas
+  SAVE ARTIFACT _build/$ENV/rel/colorful_pandas AS LOCAL _build/$ENV/rel/colorful_pandas
 
 deploy:
   ARG --required VERSION
