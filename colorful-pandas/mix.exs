@@ -41,7 +41,7 @@ defmodule ColorfulPandas.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.9"},
       {:esbuild, "~> 0.7"},
-      {:ex_doc, "~> 0.29", runtime: false},
+      {:ex_doc, "~> 0.30", runtime: false},
       {:excellent_migrations, "~> 0.1", only: [:dev, :test], runtime: false},
       {:finch, "~> 0.16"},
       {:gettext, "~> 0.22"},
