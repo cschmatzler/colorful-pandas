@@ -13,7 +13,6 @@ setup-base:
   WORKDIR /colorful-pandas
 
   COPY mix.exs mix.lock .
-
   RUN mix do local.rebar --force, \
              local.hex --force
   RUN mix deps.get
@@ -27,7 +26,6 @@ compile:
   RUN mix deps.compile
 
   COPY --dir config lib ./
-
   RUN mix compile --warnings-as-errors
 
 test-image:
@@ -41,21 +39,17 @@ test:
   RUN apk add postgresql-client
 
   COPY docker-compose.test.yml .
-
   WITH DOCKER \
       --compose docker-compose.test.yml \
       --load colorful-pandas:latest=+test-image
     RUN while ! pg_isready --host=localhost --port=5432 --username=postgres; do sleep 1; done ;\
-      docker run --network host colorful-pandas mix ecto.create && \
-      docker run --network host colorful-pandas mix ecto.migrate && \
-      docker run --network host colorful-pandas mix test
+      docker run --network host colorful-pandas sh -c "mix ecto.create && mix ecto.migrate && mix test"
   END
 
 lint:
   FROM +compile --ENV=test
 
   COPY .credo.exs .formatter.exs .sobelow-conf .
-
   RUN mix deps.unlock --check-unused
   RUN mix hex.audit
   RUN mix format --check-formatted
@@ -66,13 +60,14 @@ lint:
 release:
   FROM +compile --ENV=prod
 
-  COPY --dir assets rel priv .
-
+  COPY --dir assets priv .
   RUN mix do tailwind.install --if-missing, \
               esbuild.install --if-missing
   RUN mix do tailwind default --minify, \
             esbuild default --minify, \
             phx.digest
+
+  COPY --dir rel .
   RUN mix release colorful_pandas
 
   SAVE ARTIFACT _build/prod/rel/colorful_pandas
@@ -85,11 +80,11 @@ deploy:
   RUN apk add --no-cache libstdc++ ncurses openssl && \
     adduser --system --shell /bin/false --home /opt/colorful-pandas colorful-pandas
 
-  WORKDIR /colorful-pandas
+  WORKDIR /opt/colorful-pandas
   USER colorful-pandas
 
   COPY --chown=colorful-pandas:0 +release/colorful_pandas .
 
-  CMD ["/colorful-pandas/bin/server"]
+  CMD ["/opt/colorful-pandas/bin/server"]
 
   SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:$VERSION
