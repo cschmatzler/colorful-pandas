@@ -31,7 +31,7 @@ requires:
     version: 1.13.0
   - chart: external-secrets/external-secrets
     # renovate: datasource=helm depName=external-secrets registryUrl=https://charts.external-secrets.io versioning=helm
-    version: 0.9.0
+    version: 0.9.1
   - chart: grafana/grafana-agent
     # renovate: datasource=helm depName=grafana-agent registryUrl=https://grafana.github.io/helm-charts versioning=helm
     version: 0.16.0
@@ -46,7 +46,7 @@ requires:
     version: 1.11.0
   - chart: prometheus-community/kube-state-metrics
     # renovate: datasource=helm depName=kube-state-metrics registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
-    version: 5.8.1
+    version: 5.8.2
   - chart: prometheus-community/prometheus-node-exporter
     # renovate: datasource=helm depName=prometheus-node-exporter registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
     version: 4.18.1
