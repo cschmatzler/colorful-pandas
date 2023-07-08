@@ -61,7 +61,7 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('compiled platform manifests')
             });
             const output = `#### This pull request will change the compiled platform manifests as follows:
-            \`\`\`
+            \`\`\`diff
             ${{ steps.diff.outputs.diff }}
             \`\`\`
             `;
