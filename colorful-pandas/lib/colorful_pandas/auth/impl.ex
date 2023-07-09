@@ -45,6 +45,26 @@ defmodule ColorfulPandas.Auth.Impl do
     |> Repo.update()
   end
 
+  # OrganizationInvite
+  # ------------------
+  @impl ColorfulPandas.Auth
+  def get_organization_invite_by_token(token, opts \\ []) do
+    preload = Keyword.get(opts, :preload, [])
+
+    OrganizationInvite.with_token_query(token)
+    |> preload(^preload)
+    |> Repo.one()
+  end
+
+  @impl ColorfulPandas.Auth
+  def create_organization_invite(%Organization{id: id} = organization, %Identity{organization_id: id} = created_by) do
+    token = OrganizationInvite.generate_token()
+
+    %{token: token, organization_id: organization.id, created_by_id: created_by.id}
+    |> OrganizationInvite.changeset()
+    |> Repo.insert()
+  end
+
   # Organization
   # ------------
 

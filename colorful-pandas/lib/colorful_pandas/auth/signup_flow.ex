@@ -37,7 +37,7 @@ defmodule ColorfulPandas.Auth.SignupFlow do
           updated_at: DateTime.t() | nil
         }
 
-  @cast ~w(provider uid email name organization_name invite_id)
+  @cast ~w(provider uid email name organization_name invite_id)a
   @required ~w(provider uid email name)a
   def changeset(%SignupFlow{} = signup_flow \\ %SignupFlow{}, attrs) do
     signup_flow

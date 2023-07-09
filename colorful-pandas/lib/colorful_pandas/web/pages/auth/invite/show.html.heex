@@ -1,0 +1,10 @@
+<main class={["bg-white flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="text-teal mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
+      You were invited!
+    </h2>
+    <p class="mt-6 text-center text-gray-600">
+      <%= @invite.created_by.name %> invited you to join <span class="font-bold whitespace-nowrap"><%= @invite.organization.name %>!</span>
+    </p>
+  </div>
+</main>

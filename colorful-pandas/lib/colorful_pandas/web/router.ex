@@ -36,8 +36,8 @@ defmodule ColorfulPandas.Web.Router do
   scope "/auth", ColorfulPandas.Web.Pages.Auth do
     pipe_through :browser
 
+    get "/signup/invite", Invite, :show
     live "/signup/details", Signup, :details, as: :signup
-    live "/signup/invite", Signup, :invite, as: :signup
     live "/signup/new_organization", Signup, :new_organization, as: :signup
     live "/signup/verify", Signup, :verify, as: :signup
     delete "/session", Session, :logout

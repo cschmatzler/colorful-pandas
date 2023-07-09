@@ -50,7 +50,7 @@ defmodule ColorfulPandas.Auth.Identity do
   @doc """
   Builds a changeset for a identity.
   """
-  @cast ~w(provider uid email name image_url role organization_id)
+  @cast ~w(provider uid email name image_url role organization_id)a
   @required ~w(provider uid email name organization_id)a
   def changeset(%Identity{} = identity \\ %Identity{}, attrs) do
     identity

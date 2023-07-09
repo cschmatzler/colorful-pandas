@@ -35,6 +35,13 @@ defmodule ColorfulPandas.Auth do
   @callback update_signup_flow(flow :: SignupFlow.t(), changes :: map()) ::
               {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
+  # OrganizationInvite
+  # ------------
+  @callback get_organization_invite_by_token(token :: binary(), opts :: keyword()) :: OrganizationInvite.t() | nil
+
+  @callback create_organization_invite(organization :: Organization.t(), created_by :: Identity.t()) ::
+              {:ok, OrganizationInvite.t()} | {:error, Ecto.Changeset.t()}
+
   # Organization
   # ------------
   @callback list_organizations() :: list(Organization.t())

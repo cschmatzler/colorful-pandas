@@ -39,6 +39,7 @@ defmodule ColorfulPandas.MixProject do
       {:carbonite, "~> 0.9"},
       {:corsica, "~> 2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:crockford_base32, "~> 0.4"},
       {:ecto_sql, "~> 3.9"},
       {:esbuild, "~> 0.7"},
       {:ex_doc, "~> 0.30", runtime: false},
