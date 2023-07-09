@@ -68,6 +68,7 @@
     },
     {
       "description": "Automerge all updates",
+      "matchUpdateTypes": ["pinDigest", "pin", "minor", "patch"],
       "automerge": true
     }
   ]
