@@ -38,7 +38,7 @@ jobs:
           version: v${{ steps.tool-versions.outputs.earthly }}
 
       - name: Compile Kubernetes manifests
-        run: earthly --org panda-den --sat github-actions --no-output +compile-cluster-manifests --CLUSTER=platform
+        run: earthly --org panda-den --sat github-actions +compile-cluster-manifests --CLUSTER=platform
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
