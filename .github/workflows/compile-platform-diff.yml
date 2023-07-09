@@ -32,12 +32,15 @@ jobs:
         id: tool-versions
         uses: marocchino/tool-versions-action@608d0ecb8f01e467223f0a854ead7d3fc784b540 # v1
 
-      - name: Compile Kubernetes manifests
-        uses: ./.github/actions/compile-environments
+      - name: Setup Earthly
+        uses: earthly/actions-setup@v1
         with:
-          cluster: platform
-          tanka-version: ${{ steps.tool-versions.outputs.tanka }}
-          helm-version: ${{ steps.tool-versions.outputs.helm }}
+          version: v${{ steps.tool-versions.outputs.earthly }}
+
+      - name: Compile Kubernetes manifests
+        run: earthly --org panda-den --sat github-actions --no-output +compile-cluster-manifests --CLUSTER=platform
+        env:
+          EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
       - name: Get diff
         id: diff

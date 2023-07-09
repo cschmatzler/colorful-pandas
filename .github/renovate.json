@@ -1,13 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "repositories": ["panda-den/colorful-pandas"],
+  "repositories": [
+    "panda-den/colorful-pandas"
+  ],
   "username": "astronaut-panda[bot]",
   "gitAuthor": "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>",
   "dependencyDashboard": true,
-  "platformAutomerge": true,
-  "automergeType": "pr",
+  "automergeType": "branch",
   "prHourlyLimit": 0,
-  "allowedPostUpgradeCommands": [".*"],
+  "allowedPostUpgradeCommands": [
+    ".*"
+  ],
   "labels": [
     "renovate"
   ],
@@ -16,6 +19,13 @@
     "**/node_modules/**",
     "**/vendor/**"
   ],
+  "docker": {
+    "fileMatch": [
+      "(^|/)Earthfile$",
+      "(^|/|\\.)Dockerfile$",
+      "(^|/)Dockerfile[^/]*$"
+    ]
+  },
   "regexManagers": [
     {
       "fileMatch": [
@@ -47,9 +57,8 @@
       "groupName": "Chartfile",
       "postUpgradeTasks": {
         "commands": [
-          "curl -sL -o- https://get.helm.sh/helm-v$(awk '/^helm / { print $2 }' .tool-versions)-linux-amd64.tar.gz | tar xz --strip-components=1 -C /usr/local/bin/ linux-amd64/helm && chmod +x /usr/local/bin/helm",
-          "curl -sL -o /usr/local/bin/tk https://github.com/grafana/tanka/releases/download/v$(awk '/^tanka / { print $2 }' .tool-versions)/tk-linux-amd64 && chmod +x /usr/local/bin/tk",
-          "cd clusters/lib/ && tk tool charts vendor --prune"
+          "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap --with-autocomplete'",
+          "earthly +vendor-cluster-charts"
         ],
         "fileFilters": [
           "clusters/lib/chartfile.yaml",
@@ -58,8 +67,7 @@
       }
     },
     {
-      "description": "Automerge non-major updates",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "description": "Automerge all updates",
       "automerge": true
     }
   ]

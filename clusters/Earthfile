@@ -1,0 +1,22 @@
+VERSION 0.7
+
+vendor-charts:
+  FROM grafana/tanka:0.25.0
+
+  COPY lib/chartfile.yaml .
+  RUN tk tool charts vendor
+
+  SAVE ARTIFACT charts AS LOCAL lib/charts
+
+compile-manifests:
+  ARG --required CLUSTER
+
+  FROM grafana/tanka:0.25.0
+
+  COPY jsonnetfile.json jsonnetfile.lock.json .
+  RUN jb install
+
+  COPY --dir lib $CLUSTER .
+  RUN tk export $CLUSTER/compiled $CLUSTER --merge-strategy=replace-envs --recursive
+
+  SAVE ARTIFACT $CLUSTER/compiled AS LOCAL $CLUSTER/compiled
