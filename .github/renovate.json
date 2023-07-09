@@ -19,7 +19,7 @@
     "**/node_modules/**",
     "**/vendor/**"
   ],
-  "docker": {
+  "dockerfile": {
     "fileMatch": [
       "(^|/)Earthfile$",
       "(^|/|\\.)Dockerfile$",
