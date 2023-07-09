@@ -15,25 +15,13 @@ defmodule ColorfulPandas.Auth.Impl do
   alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
 
+  # Signup
+  # ------
   @impl ColorfulPandas.Auth
   def get_signup_flow(id, opts \\ []) do
     preload = Keyword.get(opts, :preload, [])
 
     Repo.one(from(sf in SignupFlow, where: sf.id == ^id, preload: ^preload))
-  end
-
-  @impl ColorfulPandas.Auth
-  def get_identity_with_oauth(provider, uid) do
-    provider
-    |> Identity.with_oauth_query(uid)
-    |> Repo.one()
-  end
-
-  @impl ColorfulPandas.Auth
-  def get_identity_with_session_token(token) do
-    token
-    |> Session.identity_with_token_query()
-    |> Repo.one()
   end
 
   @impl ColorfulPandas.Auth
@@ -45,32 +33,48 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @impl ColorfulPandas.Auth
   def create_signup_flow(provider, uid, email, name, invite_id \\ nil) do
-    %SignupFlow{}
-    |> change(%{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id})
-    |> validate_required([:provider, :uid, :email, :name])
-    |> unsafe_validate_unique([:provider, :uid], ColorfulPandas.Repo)
-    |> unique_constraint([:provider, :uid])
+    %{provider: provider, uid: uid, email: email, name: name, invite_id: invite_id}
+    |> SignupFlow.changeset()
     |> Repo.insert()
   end
 
   @impl ColorfulPandas.Auth
   def update_signup_flow(%SignupFlow{} = flow, changes) do
     flow
-    |> change(changes)
-    |> validate_length(:email, max: 256)
-    |> validate_length(:name, max: 64)
-    |> validate_length(:organization_name, max: 128)
-    |> validate_required([:email, :name])
+    |> SignupFlow.changeset(changes)
     |> Repo.update()
+  end
+
+  # Organization
+  # ------------
+
+  @impl ColorfulPandas.Auth
+  def list_organizations do
+    Repo.all(Organization)
+  end
+
+  # Identity
+  # --------
+  @impl ColorfulPandas.Auth
+  def get_identity_with_oauth(provider, uid) do
+    provider
+    |> Identity.with_oauth_query(uid)
+    |> Repo.one()
+  end
+
+  @impl ColorfulPandas.Auth
+  def get_identity_with_session_token(token) do
+    token
+    |> Identity.with_session_token_query()
+    |> Repo.one()
   end
 
   @impl ColorfulPandas.Auth
   def create_identity_from_flow(%SignupFlow{invite: %OrganizationInvite{} = invite} = flow) do
+    identity_changes = %{provider: flow.provider, uid: flow.uid, email: flow.email, name: flow.name, organization_id: invite.organization_id}
+
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :identity,
-      Identity.changeset(%{provider: flow.provider, uid: flow.uid, email: flow.email, name: flow.name, organization_id: invite.organization_id})
-    )
+    |> Ecto.Multi.insert(:identity, Identity.changeset(identity_changes))
     |> Ecto.Multi.update(:invite, fn _ ->
       change(invite, %{accepted_at: DateTime.utc_now()})
     end)
@@ -88,6 +92,8 @@ defmodule ColorfulPandas.Auth.Impl do
     |> Repo.transaction()
   end
 
+  # Session
+  # -------
   @impl ColorfulPandas.Auth
   def create_session!(identity_id) do
     identity_id
@@ -102,10 +108,5 @@ defmodule ColorfulPandas.Auth.Impl do
     |> Repo.delete_all()
 
     :ok
-  end
-
-  @impl ColorfulPandas.Auth
-  def list_organizations do
-    Repo.all(Organization)
   end
 end

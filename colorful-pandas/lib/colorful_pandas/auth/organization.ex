@@ -28,10 +28,11 @@ defmodule ColorfulPandas.Auth.Organization do
   @doc """
   Builds a changeset for an organization.
   """
-  @spec changeset(Organization.t(), map()) :: Ecto.Changeset.t()
+  @cast ~w(name)a
+  @required ~w(name)a
   def changeset(%Organization{} = organization \\ %Organization{}, attrs) do
     organization
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, @cast)
+    |> validate_required(@required)
   end
 end

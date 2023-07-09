@@ -1,8 +1,5 @@
 defmodule ColorfulPandas.Auth.Session do
-  @moduledoc """
-  A session token.
-  """
-
+  @moduledoc false
   use Ecto.Schema
 
   import Ecto.Query
@@ -56,18 +53,4 @@ defmodule ColorfulPandas.Auth.Session do
     )
   end
 
-  @doc """
-  Builds a query for fetching a identity with the given token string.
-
-  Only returns a identity if the token has not expired, i.e. it has been created within the last
-  `@session_validity_in_days` days.
-  """
-  def identity_with_token_query(token) do
-    from(t in Session,
-      where: t.token == ^token,
-      where: t.inserted_at >= ago(@token_validity_in_days, "day"),
-      join: u in assoc(t, :identity),
-      select: u
-    )
-  end
 end

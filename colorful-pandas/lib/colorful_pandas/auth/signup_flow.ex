@@ -2,6 +2,7 @@ defmodule ColorfulPandas.Auth.SignupFlow do
   @moduledoc false
   use Ecto.Schema
 
+  import Ecto.Changeset
   import Ecto.Query
 
   alias ColorfulPandas.Auth.OrganizationInvite
@@ -36,7 +37,16 @@ defmodule ColorfulPandas.Auth.SignupFlow do
           updated_at: DateTime.t() | nil
         }
 
-  @spec with_oauth_query(String.t(), String.t()) :: Ecto.Query.t()
+  @cast ~w(provider uid email name organization_name invite_id)
+  @required ~w(provider uid email name)a
+  def changeset(%SignupFlow{} = signup_flow \\ %SignupFlow{}, attrs) do
+    signup_flow
+    |> cast(attrs, @cast)
+    |> validate_required(@required)
+    |> unsafe_validate_unique([:provider, :uid], ColorfulPandas.Repo)
+    |> unique_constraint([:provider, :uid])
+  end
+
   def with_oauth_query(provider, uid) do
     from(u in SignupFlow,
       where: u.provider == ^provider,

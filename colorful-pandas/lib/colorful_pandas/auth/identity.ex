@@ -18,6 +18,7 @@ defmodule ColorfulPandas.Auth.Identity do
 
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Organization
+  alias ColorfulPandas.Auth.Session
 
   @schema_prefix "auth"
   @timestamps_opts [type: :utc_datetime]
@@ -49,11 +50,12 @@ defmodule ColorfulPandas.Auth.Identity do
   @doc """
   Builds a changeset for a identity.
   """
-  @spec changeset(Identity.t(), map()) :: Ecto.Changeset.t()
+  @cast ~w(provider uid email name image_url role organization_id)
+  @required ~w(provider uid email name organization_id)a
   def changeset(%Identity{} = identity \\ %Identity{}, attrs) do
     identity
-    |> cast(attrs, [:provider, :uid, :email, :name, :image_url, :role, :organization_id])
-    |> validate_required([:provider, :uid, :email, :name, :organization_id])
+    |> cast(attrs, @cast)
+    |> validate_required(@required)
     |> unsafe_validate_unique([:provider, :uid], ColorfulPandas.Repo)
     |> unique_constraint([:provider, :uid])
   end
@@ -66,6 +68,17 @@ defmodule ColorfulPandas.Auth.Identity do
     from(u in Identity,
       where: u.provider == ^provider,
       where: u.uid == ^uid
+    )
+  end
+
+  @doc """
+  """
+  def with_session_token_query(token) do
+    from(t in Session,
+      where: t.token == ^token,
+      where: t.inserted_at >= ago(^Session.token_validity_in_days, "day"),
+      join: u in assoc(t, :identity),
+      select: u
     )
   end
 end
