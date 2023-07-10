@@ -52,5 +52,4 @@ defmodule ColorfulPandas.Auth.Session do
       where: t.token == ^token
     )
   end
-
 end

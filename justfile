@@ -21,8 +21,10 @@ run-dev-server:
   DB_URL="op://Colorful Pandas/Neon main/url" \
   GITHUB_CLIENT_ID="op://Colorful Pandas - Local/GitHub OAuth/username" \
   GITHUB_CLIENT_SECRET="op://Colorful Pandas - Local/GitHub OAuth/credential" \
+  GOOGLE_CLIENT_ID="op://Colorful Pandas - Local/Google OAuth/username" \
+  GOOGLE_CLIENT_SECRET="op://Colorful Pandas - Local/Google OAuth/credential" \
   op run -- \
-    sh -c 'mix ecto.migrate && iex -S mix phx.server'
+    fish -c 'mix ecto.migrate && iex -S mix phx.server'
 
 run-dev-server-with-telemetry user:
   cd colorful-pandas && \

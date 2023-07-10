@@ -10,7 +10,7 @@ defmodule ColorfulPandas.Auth.Impl do
 
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Organization
-  alias ColorfulPandas.Auth.OrganizationInvite
+  alias ColorfulPandas.Auth.Invite
   alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
@@ -45,29 +45,35 @@ defmodule ColorfulPandas.Auth.Impl do
     |> Repo.update()
   end
 
-  # OrganizationInvite
+  # Invite
   # ------------------
   @impl ColorfulPandas.Auth
-  def get_organization_invite_by_token(token, opts \\ []) do
+  def get_invite_by_token(token, opts \\ []) do
     preload = Keyword.get(opts, :preload, [])
 
-    OrganizationInvite.with_token_query(token)
+    token
+    |> Invite.with_token_query()
     |> preload(^preload)
     |> Repo.one()
   end
 
   @impl ColorfulPandas.Auth
-  def create_organization_invite(%Organization{id: id} = organization, %Identity{organization_id: id} = created_by) do
-    token = OrganizationInvite.generate_token()
+  def create_invite(%Organization{id: id} = organization, %Identity{organization_id: id} = created_by) do
+    token = Invite.generate_token()
 
     %{token: token, organization_id: organization.id, created_by_id: created_by.id}
-    |> OrganizationInvite.changeset()
+    |> Invite.changeset()
     |> Repo.insert()
+  end
+
+  @impl ColorfulPandas.Auth
+  def is_invite_valid?(%Invite{} = invite) do
+    DateTime.after?(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day))
+      or invite.accepted_at
   end
 
   # Organization
   # ------------
-
   @impl ColorfulPandas.Auth
   def list_organizations do
     Repo.all(Organization)
@@ -90,13 +96,13 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
-  def create_identity_from_flow(%SignupFlow{invite: %OrganizationInvite{} = invite} = flow) do
+  def create_identity_from_flow(%SignupFlow{invite: %Invite{} = invite} = flow) do
     identity_changes = %{provider: flow.provider, uid: flow.uid, email: flow.email, name: flow.name, organization_id: invite.organization_id}
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:identity, Identity.changeset(identity_changes))
     |> Ecto.Multi.update(:invite, fn _ ->
-      change(invite, %{accepted_at: DateTime.utc_now()})
+      change(invite, %{accepted_at: DateTime.truncate(DateTime.utc_now(), :second)})
     end)
     |> Ecto.Multi.delete(:signup_flow, flow)
     |> Repo.transaction()

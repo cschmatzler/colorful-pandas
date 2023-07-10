@@ -38,16 +38,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     assign(socket, assigns)
   end
 
-  defp handle_action_params(:invite, _params, %{assigns: %{flow: %{invite: nil}}} = socket) do
-    push_patch(socket, to: ~p"/auth/signup/new_organization")
-  end
-
-  defp handle_action_params(:invite, _params, %{assigns: %{flow: %{invite: invite}}} = socket) do
-    assigns = [invite: invite]
-
-    assign(socket, assigns)
-  end
-
   defp handle_action_params(:new_organization, _params, %{assigns: %{flow: flow}} = socket) do
     form = flow |> Map.from_struct() |> changeset(@new_organization_schema) |> to_form(as: "organization")
 
@@ -57,7 +47,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
 
   defp handle_action_params(:verify, _params, %{assigns: %{flow: flow}} = socket) do
     if is_nil(flow.invite) and is_nil(flow.organization_name) do
-      push_patch(socket, to: ~p"/auth/signup/new_organization")
+      push_patch(socket, to: ~p"/signup/new_organization")
     else
       socket
     end
@@ -72,9 +62,9 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
         assign(socket, :flow, flow)
 
         if flow.invite do
-          {:noreply, push_patch(socket, to: ~p"/auth/signup/invite")}
+          {:noreply, push_patch(socket, to: ~p"/signup/verify")}
         else
-          {:noreply, push_patch(socket, to: ~p"/auth/signup/new_organization")}
+          {:noreply, push_patch(socket, to: ~p"/signup/new_organization")}
         end
 
       changeset ->
@@ -89,7 +79,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     case changeset(data, @new_organization_schema, :validate) do
       %Ecto.Changeset{valid?: true} = changeset ->
         {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes)
-        socket = socket |> assign(flow: flow) |> push_patch(to: ~p"/auth/signup/verify")
+        socket = socket |> assign(flow: flow) |> push_patch(to: ~p"/signup/verify")
 
         {:noreply, socket}
 
@@ -120,9 +110,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
           <span :if={@live_action == :details}>
             We have already pre-filled some information from your login provider - feel free to edit it as you see fit.
           </span>
-          <span :if={@live_action == :invite}>
-            You were invited to join <span class="font-bold"><%= @invite.organization.name %></span>.
-          </span>
           <span :if={@live_action == :new_organization}>
             You are signing up without an invite to an existing organization - create a new one here.<br />
             Or, if you belong to an organization already using Colorful Pandas, ask your administrator to invite you.
@@ -135,7 +122,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
       <div class={["mt-12", "sm:mx-auto sm:w-full sm:max-w-[480px]"]}>
         <div class={["bg-slate-100 px-6 py-8 smooth-shadow", "sm:rounded-lg sm:p-12"]}>
           <.details :if={@live_action == :details} form={@form} />
-          <.invite :if={@live_action == :invite} invite={@invite} />
           <.new_organization :if={@live_action == :new_organization} form={@form} />
           <.verify :if={@live_action == :verify} flow={@flow} />
         </div>
@@ -157,14 +143,6 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
         <.button type="submit" label="Continue" class="w-full mt-6" />
       </div>
     </.form>
-    """
-  end
-
-  defp invite(assigns) do
-    ~H"""
-    <p class="text-center">
-      Invited by Christoph Schmatzler <.button label="Join" class="w-full mt-6" />
-    </p>
     """
   end
 
@@ -195,7 +173,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
       <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Organization</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-          <%= @flow.organization_name %>
+          <%= @flow.invite.organization.name || @flow.organization_name %>
         </dd>
       </div>
     </dl>

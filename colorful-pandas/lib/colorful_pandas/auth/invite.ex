@@ -1,4 +1,4 @@
-defmodule ColorfulPandas.Auth.OrganizationInvite do
+defmodule ColorfulPandas.Auth.Invite do
   @moduledoc false
   use Ecto.Schema
 
@@ -6,15 +6,15 @@ defmodule ColorfulPandas.Auth.OrganizationInvite do
   import Ecto.Query
 
   alias ColorfulPandas.Auth.Identity
+  alias ColorfulPandas.Auth.Invite
   alias ColorfulPandas.Auth.Organization
-  alias ColorfulPandas.Auth.OrganizationInvite
 
   @token_size 64
   @token_validity_in_days 7
 
   @schema_prefix "auth"
   @timestamps_opts [type: :utc_datetime]
-  schema "organization_invites" do
+  schema "invites" do
     field :token, :string
 
     belongs_to :organization, Organization
@@ -32,15 +32,14 @@ defmodule ColorfulPandas.Auth.OrganizationInvite do
 
   @cast ~w(token created_by_id organization_id accepted_at)a
   @required ~w(token created_by_id organization_id)a
-  def changeset(%OrganizationInvite{} = organization_invite \\ %OrganizationInvite{}, attrs) do
-    organization_invite
+  def changeset(%Invite{} = invite \\ %Invite{}, attrs) do
+    invite
     |> cast(attrs, @cast)
     |> validate_required(@required)
   end
 
   def with_token_query(token) do
-    from(t in OrganizationInvite,
+    from t in Invite,
       where: t.token == ^token
-    )
   end
 end

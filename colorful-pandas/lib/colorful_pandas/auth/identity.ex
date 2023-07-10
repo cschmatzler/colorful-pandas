@@ -76,7 +76,7 @@ defmodule ColorfulPandas.Auth.Identity do
   def with_session_token_query(token) do
     from(t in Session,
       where: t.token == ^token,
-      where: t.inserted_at >= ago(^Session.token_validity_in_days, "day"),
+      where: t.inserted_at >= ago(^Session.token_validity_in_days(), "day"),
       join: u in assoc(t, :identity),
       select: u
     )

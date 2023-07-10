@@ -13,6 +13,7 @@ defmodule ColorfulPandas.Auth do
 
   # Signup
   # ------
+  @callback get_signup_flow(id :: non_neg_integer()) :: SignupFlow.t() | nil
   @callback get_signup_flow(id :: non_neg_integer(), opts: keyword()) :: SignupFlow.t() | nil
 
   @callback get_signup_flow_with_oauth(provider :: String.t(), uid :: String.t()) :: SignupFlow.t() | nil
@@ -35,12 +36,13 @@ defmodule ColorfulPandas.Auth do
   @callback update_signup_flow(flow :: SignupFlow.t(), changes :: map()) ::
               {:ok, SignupFlow.t()} | {:error, Ecto.Changeset.t()}
 
-  # OrganizationInvite
+  # Invite
   # ------------
-  @callback get_organization_invite_by_token(token :: binary(), opts :: keyword()) :: OrganizationInvite.t() | nil
+  @callback get_invite_by_token(token :: binary(), opts :: keyword()) :: Invite.t() | nil
 
-  @callback create_organization_invite(organization :: Organization.t(), created_by :: Identity.t()) ::
-              {:ok, OrganizationInvite.t()} | {:error, Ecto.Changeset.t()}
+  @callback create_invite(organization :: Organization.t(), created_by :: Identity.t()) ::
+              {:ok, Invite.t()} | {:error, Ecto.Changeset.t()}
+  @callback is_invite_valid?(invite :: Invite.t()) :: boolean()
 
   # Organization
   # ------------

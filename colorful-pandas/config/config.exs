@@ -25,7 +25,8 @@ config :colorful_pandas, Oban,
 config :ueberauth, Ueberauth,
   base_path: "/auth/oauth",
   providers: [
-    github: {Ueberauth.Strategy.Github, []}
+    github: {Ueberauth.Strategy.Github, []},
+    google: {Ueberauth.Strategy.Google, [default_scope: "email profile"]}
   ]
 
 # ---

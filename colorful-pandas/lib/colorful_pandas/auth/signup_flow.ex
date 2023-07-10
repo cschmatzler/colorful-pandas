@@ -5,7 +5,7 @@ defmodule ColorfulPandas.Auth.SignupFlow do
   import Ecto.Changeset
   import Ecto.Query
 
-  alias ColorfulPandas.Auth.OrganizationInvite
+  alias ColorfulPandas.Auth.Invite
   alias ColorfulPandas.Auth.SignupFlow
 
   @schema_prefix "auth"
@@ -16,11 +16,11 @@ defmodule ColorfulPandas.Auth.SignupFlow do
     field :email, :string
     field :name, :string
 
-    # If the `organization_name` field is present without an `OrganizationInvite`, a new organization will be created
+    # If the `organization_name` field is present without an `Invite`, a new organization will be created
     # with the new account as its only member and administrator.
     # If both are present, the invite takes precedence and no new organization is created.
     field :organization_name, :string
-    belongs_to :invite, OrganizationInvite
+    belongs_to :invite, Invite
 
     timestamps()
   end
@@ -31,7 +31,7 @@ defmodule ColorfulPandas.Auth.SignupFlow do
           uid: String.t(),
           email: String.t(),
           name: String.t(),
-          invite: OrganizationInvite.t() | Ecto.Association.AssociationNotLoaded.t() | nil,
+          invite: Invite.t() | Ecto.Association.AssociationNotLoaded.t() | nil,
           invite_id: integer() | nil,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t() | nil

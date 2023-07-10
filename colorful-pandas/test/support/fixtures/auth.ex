@@ -3,10 +3,26 @@ defmodule ColorfulPandas.Fixtures.Auth do
 
   use Boundary, check: [in: false, out: false]
 
+  alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Repo
+
+  def signup_flow_fixture(attrs) do
+    default_attrs = %{
+      provider: "google",
+      uid: "1234",
+      email: "user@example.com",
+      name: "John Doe"
+    }
+
+    attrs = Map.merge(default_attrs, attrs)
+
+    %SignupFlow{}
+    |> SignupFlow.changeset(attrs)
+    |> Repo.insert!()
+  end
 
   def setup_identity(_context) do
     %{identity: identity_fixture()}

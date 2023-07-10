@@ -6,14 +6,14 @@ defmodule ColorfulPandas.Auth.Organization do
 
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Organization
-  alias ColorfulPandas.Auth.OrganizationInvite
+  alias ColorfulPandas.Auth.Invite
 
   @schema_prefix "auth"
   @timestamps_opts [type: :utc_datetime]
   schema "organizations" do
     field :name, :string
 
-    has_many :invites, OrganizationInvite
+    has_many :invites, Invite
     has_many :members, Identity
 
     timestamps()

@@ -56,19 +56,22 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   defp redirect_to_signup_flow(conn, auth) do
     provider = to_string(auth.provider)
     uid = to_string(auth.uid)
+    invite_id = get_session(conn, :invite)
 
     signup_flow =
       case Auth.get_signup_flow_with_oauth(provider, uid) do
         %Auth.SignupFlow{} = signup_flow ->
+          {:ok, signup_flow} = Auth.update_signup_flow(signup_flow, %{invite_id: invite_id || signup_flow.invite_id})
           signup_flow
 
         nil ->
-          {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name)
+          # TODO: Error handling
+          {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name, invite_id)
           signup_flow
       end
 
     conn
     |> put_session(:flow_id, signup_flow.id)
-    |> redirect(to: ~p"/auth/signup/details")
+    |> redirect(to: ~p"/signup/details")
   end
 end

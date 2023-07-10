@@ -8,7 +8,7 @@ defmodule ColorfulPandas.Repo.Migrations.AddSignupFlows do
       add :email, :string, null: false
       add :name, :string, null: true
       add :organization_name, :string, null: true
-      add :invite_id, references(:organization_invites), null: true
+      add :invite_id, references(:invites), null: true
       timestamps()
     end
   end
