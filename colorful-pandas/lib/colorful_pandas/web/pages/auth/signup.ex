@@ -8,20 +8,19 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   import ColorfulPandas.Web.Util.Form
 
   alias ColorfulPandas.Auth
+  alias ColorfulPandas.Auth.SignupFlow
+  alias ColorfulPandas.Web.Auth, as: WebAuth
 
   @details_schema [email: [:string, required: true], name: [:string, required: true]]
-  @new_organization_schema [organization_name: [:string, required: true]]
+  @organization_schema [organization_name: [:string, required: true]]
 
   @impl Phoenix.LiveView
   def mount(_params, session, socket) do
     with flow_id when not is_nil(flow_id) <- Map.get(session, "flow_id"),
-         flow when not is_nil(flow) <-
-           Auth.get_signup_flow(flow_id, preload: [invite: :organization]) do
-      assigns = [flow: flow]
-
-      {:ok, assign(socket, assigns)}
+         %SignupFlow{} = flow <- Auth.get_signup_flow(flow_id, preload: [invite: :organization]) do
+      {:ok, assign(socket, flow: flow)}
     else
-      _ -> {:ok, push_redirect(socket, to: ~p"/")}
+      _ -> {:ok, push_redirect(socket, to: WebAuth.signed_out_path())}
     end
   end
 
@@ -31,23 +30,23 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     {:noreply, socket}
   end
 
-  defp handle_action_params(:details, _params, %{assigns: %{flow: flow}} = socket) do
+  defp handle_action_params(:details, _params, socket) do
+    %{assigns: %{flow: flow}} = socket
     form = flow |> Map.from_struct() |> changeset(@details_schema, :update) |> to_form(as: "details")
 
-    assigns = [form: form]
-    assign(socket, assigns)
+    assign(socket, form: form)
   end
 
-  defp handle_action_params(:new_organization, _params, %{assigns: %{flow: flow}} = socket) do
-    form = flow |> Map.from_struct() |> changeset(@new_organization_schema) |> to_form(as: "organization")
+  defp handle_action_params(:organization, _params, socket) do
+    %{assigns: %{flow: flow}} = socket
+    form = flow |> Map.from_struct() |> changeset(@organization_schema) |> to_form(as: "organization")
 
-    assigns = [form: form]
-    assign(socket, assigns)
+    assign(socket, form: form)
   end
 
   defp handle_action_params(:verify, _params, %{assigns: %{flow: flow}} = socket) do
     if is_nil(flow.invite) and is_nil(flow.organization_name) do
-      push_patch(socket, to: ~p"/signup/new_organization")
+      push_patch(socket, to: ~p"/auth/signup/organization")
     else
       socket
     end
@@ -55,31 +54,14 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
 
   @impl Phoenix.LiveView
   def handle_event("submit-details", %{"details" => data}, %{assigns: %{flow: flow}} = socket) do
-    # TODO: refactor and make smaller
-    case changeset(data, @details_schema, :validate) do
-      %Ecto.Changeset{valid?: true} = changeset ->
-        {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes)
-        assign(socket, :flow, flow)
-
-        if flow.invite do
-          {:noreply, push_patch(socket, to: ~p"/signup/verify")}
-        else
-          {:noreply, push_patch(socket, to: ~p"/signup/new_organization")}
-        end
-
-      changeset ->
-        form = to_form(changeset, as: "details")
-        assigns = [form: form]
-
-        {:noreply, assign(socket, assigns)}
-    end
+    data |> changeset(@details_schema, :validate) |> handle_details_changeset(flow, socket)
   end
 
   def handle_event("submit-organization", %{"organization" => data}, %{assigns: %{flow: flow}} = socket) do
-    case changeset(data, @new_organization_schema, :validate) do
+    case changeset(data, @organization_schema, :validate) do
       %Ecto.Changeset{valid?: true} = changeset ->
         {:ok, flow} = Auth.update_signup_flow(flow, changeset.changes)
-        socket = socket |> assign(flow: flow) |> push_patch(to: ~p"/signup/verify")
+        socket = socket |> assign(flow: flow) |> push_patch(to: ~p"/auth/signup/verify")
 
         {:noreply, socket}
 
@@ -98,21 +80,34 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     {:noreply, redirect(socket, to: ~p"/auth/oauth/#{flow.provider}")}
   end
 
+  defp handle_details_changeset(%Ecto.Changeset{valid?: true} = changeset, flow, socket) do
+    {:ok, updated_flow} = Auth.update_signup_flow(flow, changeset.changes)
+    socket = assign(socket, :flow, updated_flow)
+
+    path = if(updated_flow.invite, do: ~p"/auth/signup/verify", else: ~p"/auth/signup/organization")
+
+    {:noreply, push_patch(socket, to: path)}
+  end
+
+  defp handle_details_changeset(changeset, _flow, socket) do
+    form = to_form(changeset, as: "details")
+    {:noreply, assign(socket, form: form)}
+  end
+
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <main class={["bg-white flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 class="text-teal mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
+    <main class={["bg-light-blue flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
+      <div class="sm:mx-auto sm:w-full sm:max-w-lg">
+        <h2 class="text-teal text-center text-4xl font-bold leading-9 tracking-tight">
           Create your account
         </h2>
-        <p class="mt-6 text-center text-gray-600">
+        <p class="mt-6 px-6 sm:px-0 text-center text-gray-600">
           <span :if={@live_action == :details}>
-            We have already pre-filled some information from your login provider - feel free to edit it as you see fit.
+            We have already pre-filled some information from your login provider.
           </span>
-          <span :if={@live_action == :new_organization}>
-            You are signing up without an invite to an existing organization - create a new one here.<br />
-            Or, if you belong to an organization already using Colorful Pandas, ask your administrator to invite you.
+          <span :if={@live_action == :organization}>
+            You are signing up without an invite to an existing organization.<br /> Create a new one or ask your administrator to invite you.
           </span>
           <span :if={@live_action == :verify}>
             Please verify the following details before creating your account.
@@ -120,9 +115,9 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
         </p>
       </div>
       <div class={["mt-12", "sm:mx-auto sm:w-full sm:max-w-[480px]"]}>
-        <div class={["bg-slate-100 px-6 py-8 smooth-shadow", "sm:rounded-lg sm:p-12"]}>
+        <div class="px-6 sm:px-0">
           <.details :if={@live_action == :details} form={@form} />
-          <.new_organization :if={@live_action == :new_organization} form={@form} />
+          <.organization :if={@live_action == :organization} form={@form} />
           <.verify :if={@live_action == :verify} flow={@flow} />
         </div>
       </div>
@@ -146,7 +141,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
     """
   end
 
-  defp new_organization(assigns) do
+  defp organization(assigns) do
     ~H"""
     <.form for={@form} phx-submit="submit-organization" class="space-y-4">
       <div>

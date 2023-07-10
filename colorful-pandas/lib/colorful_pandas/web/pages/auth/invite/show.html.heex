@@ -8,15 +8,15 @@
         Please ask your organization's administrator to create a new one.
       </p>
     <% else %>
-    <h2 class="text-teal mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
-      You were invited!
-    </h2>
-    <p class="mt-6 text-center text-gray-600">
-      <%= @invite.created_by.name %> invited you to join <span class="font-bold whitespace-nowrap"><%= @invite.organization.name %>!</span>
-    </p>
+      <h2 class="text-teal mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
+        You were invited!
+      </h2>
+      <p class="mt-6 text-center text-gray-600">
+        <%= @invite.created_by.name %> invited you to join <span class="font-bold whitespace-nowrap"><%= @invite.organization.name %>!</span>
+      </p>
 
-    <.link href={~p"/auth/oauth/github"}>Accept with GitHub</.link>
-    <.link href={~p"/auth/oauth/google"}>Accept with Google</.link>
+      <.link href={~p"/auth/oauth/github"}>Accept with GitHub</.link>
+      <.link href={~p"/auth/oauth/google"}>Accept with Google</.link>
     <% end %>
   </div>
 </main>

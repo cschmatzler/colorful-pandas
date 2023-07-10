@@ -9,8 +9,8 @@ defmodule ColorfulPandas.Auth.Impl do
   import Ecto.Query
 
   alias ColorfulPandas.Auth.Identity
-  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Invite
+  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Session
   alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
@@ -68,8 +68,8 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @impl ColorfulPandas.Auth
   def is_invite_valid?(%Invite{} = invite) do
-    DateTime.after?(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day))
-      or invite.accepted_at
+    DateTime.after?(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day)) or
+      invite.accepted_at
   end
 
   # Organization

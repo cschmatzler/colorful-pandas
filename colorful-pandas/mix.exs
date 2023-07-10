@@ -74,7 +74,7 @@ defmodule ColorfulPandas.MixProject do
       {:tesla, "~> 1.7"},
       {:ueberauth, "~> 0.10"},
       {:ueberauth_github, "~> 0.8"},
-{:ueberauth_google, "~> 0.10"}
+      {:ueberauth_google, "~> 0.10"}
     ]
   end
 end

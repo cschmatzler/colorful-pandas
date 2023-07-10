@@ -3,10 +3,10 @@ defmodule ColorfulPandas.Fixtures.Auth do
 
   use Boundary, check: [in: false, out: false]
 
-  alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Auth.Identity
   alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Session
+  alias ColorfulPandas.Auth.SignupFlow
   alias ColorfulPandas.Repo
 
   def signup_flow_fixture(attrs) do

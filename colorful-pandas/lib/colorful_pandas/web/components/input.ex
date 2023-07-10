@@ -47,7 +47,7 @@ defmodule ColorfulPandas.Web.Components.Input do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-sm border-0 py-1.5 text-sm leading-8 text-gray-900 ring-1 ring-inset ring-gray-300",
+          "block w-full rounded-md border-0 py-1.5 text-sm leading-8 text-gray-900 ring-1 ring-inset ring-gray-300",
           "placeholder:text-gray-400",
           "focus:ring-chestnut focus:ring-2 focus:ring-inset",
           @class

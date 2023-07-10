@@ -8,6 +8,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   use ColorfulPandas.Web.Page, :controller
 
   alias ColorfulPandas.Auth
+  alias ColorfulPandas.Web.Auth, as: WebAuth
 
   plug Ueberauth
 
@@ -22,7 +23,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   def request(conn, _params) do
     conn
     |> put_flash(:login_error, true)
-    |> redirect(to: ColorfulPandas.Web.Auth.signed_out_path())
+    |> redirect(to: WebAuth.signed_out_path())
   end
 
   @doc """
@@ -40,13 +41,12 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
     |> redirect(to: ColorfulPandas.Web.Auth.signed_out_path())
   end
 
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    provider = to_string(auth.provider)
-    uid = to_string(auth.uid)
+  def callback(conn, _params) do
+    %{assigns: %{ueberauth_auth: %{provider: provider, uid: uid} = auth}} = conn
 
-    case Auth.get_identity_with_oauth(provider, uid) do
+    case Auth.get_identity_with_oauth(to_string(provider), to_string(uid)) do
       %Auth.Identity{} = identity ->
-        ColorfulPandas.Web.Auth.start_session(conn, identity)
+        WebAuth.start_session(conn, identity)
 
       nil ->
         redirect_to_signup_flow(conn, auth)
@@ -54,24 +54,23 @@ defmodule ColorfulPandas.Web.Pages.Auth.OAuth do
   end
 
   defp redirect_to_signup_flow(conn, auth) do
-    provider = to_string(auth.provider)
-    uid = to_string(auth.uid)
+    %{provider: provider, uid: uid, info: %{email: email, name: name}} = auth
     invite_id = get_session(conn, :invite)
 
     signup_flow =
-      case Auth.get_signup_flow_with_oauth(provider, uid) do
+      case Auth.get_signup_flow_with_oauth(to_string(provider), to_string(uid)) do
         %Auth.SignupFlow{} = signup_flow ->
           {:ok, signup_flow} = Auth.update_signup_flow(signup_flow, %{invite_id: invite_id || signup_flow.invite_id})
           signup_flow
 
         nil ->
           # TODO: Error handling
-          {:ok, signup_flow} = Auth.create_signup_flow(provider, uid, auth.info.email, auth.info.name, invite_id)
+          {:ok, signup_flow} = Auth.create_signup_flow(to_string(provider), to_string(uid), email, name, invite_id)
           signup_flow
       end
 
     conn
     |> put_session(:flow_id, signup_flow.id)
-    |> redirect(to: ~p"/signup/details")
+    |> redirect(to: ~p"/auth/signup/details")
   end
 end

@@ -5,8 +5,8 @@ defmodule ColorfulPandas.Auth.Organization do
   import Ecto.Changeset
 
   alias ColorfulPandas.Auth.Identity
-  alias ColorfulPandas.Auth.Organization
   alias ColorfulPandas.Auth.Invite
+  alias ColorfulPandas.Auth.Organization
 
   @schema_prefix "auth"
   @timestamps_opts [type: :utc_datetime]
