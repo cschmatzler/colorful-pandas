@@ -67,9 +67,19 @@ defmodule ColorfulPandas.Auth.Impl do
   end
 
   @impl ColorfulPandas.Auth
+  def revoke_invite(id) do
+    # NOTE: does this look good? `case`?
+    with {:ok, invite} <- Repo.get_by(Invite, id),
+         {:ok, updated_invite} <- Invite.changeset(invite, %{revoked_at: DateTime.truncate(DateTime.utc_now(), :second)}) do
+      {:ok, updated_invite}
+    end
+  end
+
+  @impl ColorfulPandas.Auth
   def is_invite_valid?(%Invite{} = invite) do
-    DateTime.after?(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day)) or
-      invite.accepted_at
+    DateTime.before(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day)) or
+      not invite.revoked_at or
+      not invite.accepted_at
   end
 
   # Organization

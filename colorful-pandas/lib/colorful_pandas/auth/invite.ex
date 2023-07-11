@@ -20,6 +20,7 @@ defmodule ColorfulPandas.Auth.Invite do
     belongs_to :organization, Organization
     belongs_to :created_by, Identity
 
+    field :revoked_at, :utc_datetime
     field :accepted_at, :utc_datetime
     timestamps updated_at: false
   end
@@ -39,7 +40,7 @@ defmodule ColorfulPandas.Auth.Invite do
   end
 
   def with_token_query(token) do
-    from t in Invite,
-      where: t.token == ^token
+    from i in Invite,
+      where: i.token == ^token
   end
 end

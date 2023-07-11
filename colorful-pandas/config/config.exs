@@ -10,6 +10,7 @@ config :libcluster, topologies: []
 # --------
 config :colorful_pandas,
   ecto_repos: [ColorfulPandas.Repo]
+config :flop, repo: ColorfulPandas.Repo
 
 # ----
 # Jobs

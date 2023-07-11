@@ -45,6 +45,8 @@ defmodule ColorfulPandas.MixProject do
       {:ex_doc, "~> 0.30", runtime: false},
       {:excellent_migrations, "~> 0.1", only: [:dev, :test], runtime: false},
       {:finch, "~> 0.16"},
+      {:flop, "~> 0.21.0"},
+      {:flop_phoenix, "~> 0.20.0"},
       {:gettext, "~> 0.22"},
       {:hammox, "~> 0.7", only: :test},
       {:jason, "~> 1.4"},

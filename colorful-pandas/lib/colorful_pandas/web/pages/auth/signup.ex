@@ -168,7 +168,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
       <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
         <dt class="text-sm font-medium leading-6 text-gray-900">Organization</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-          <%= @flow.invite.organization.name || @flow.organization_name %>
+          <%= @flow.organization_name || @flow.invite.organization.name %>
         </dd>
       </div>
     </dl>
