@@ -77,7 +77,7 @@ defmodule ColorfulPandas.Auth.Impl do
 
   @impl ColorfulPandas.Auth
   def is_invite_valid?(%Invite{} = invite) do
-    DateTime.before(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day)) or
+    DateTime.before?(DateTime.utc_now(), DateTime.add(invite.inserted_at, Invite.token_validity_in_days(), :day)) or
       not invite.revoked_at or
       not invite.accepted_at
   end
