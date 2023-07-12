@@ -75,9 +75,9 @@ jobs:
           FILENAME="colorful-pandas-pr-$PR_NUMBER.jsonnet"
           IMPORT="+ (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')"
           gomplate -f colorful-pandas-preview.jsonnet.tpl -o $FILENAME
-          if ! grep -Fxq "$IMPORT" $FILENAME
+          if ! grep -Fxq "$IMPORT" main.jsonnet
           then
-              echo "$IMPORT" >> $FILENAME
+              echo "$IMPORT" >> main.jsonnet
           fi
         env:
           PR_NUMBER: ${{ github.event.number }}
