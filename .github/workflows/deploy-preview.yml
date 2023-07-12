@@ -44,7 +44,7 @@ jobs:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
       - name: Create Neon branch
-        if: steps.neon-branch.outcome == "failure"
+        if: steps.neon-branch.outcome == 'failure'
         run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id long-hall-268151 --api-key $NEON_API_KEY
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
