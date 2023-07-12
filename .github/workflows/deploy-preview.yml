@@ -40,27 +40,22 @@ jobs:
       - name: Setup neonctl
         run: npm i -g neonctl
 
-      - name: Check if Neon branch exists
-        id: neon-branch
-        run: neonctl branch get pr-${{ github.event.number}} --project-id long-hall-268151 --api-key $NEON_API_KEY
+      - name: Create Neon branch
+        run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id $NEON_PROJECT_ID --api-key $NEON_API_KEY
         continue-on-error: true
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-
-      - name: Create Neon branch
-        if: steps.neon-branch.outcome == 'failure'
-        run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id long-hall-268151 --api-key $NEON_API_KEY
-        env:
-          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
 
       - name: Get database URL
         id: neon-url
         run: |
-          url=$(neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY)
+          url=$(neonctl cs pr-${{ github.event.number }} --project-id $NEON_PROJECT_ID --api-key $NEON_API_KEY)
           echo "::add-mask::$url"
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
 
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
@@ -77,8 +72,13 @@ jobs:
       - name: Create deployment manifests
         working-directory: clusters/platform/default
         run: |
-          gomplate -f colorful-pandas-preview.jsonnet.tpl -o colorful-pandas-pr-$PR_NUMBER.jsonnet
-          sed -i "$ a + (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')" main.jsonnet
+          FILENAME=colorful-pandas-pr-$PR_NUMBER.jsonnet
+          IMPORT="+ (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')""
+          gomplate -f colorful-pandas-preview.jsonnet.tpl -o $FILENAME
+          if ! grep -Fxq "$IMPORT" $FILENAME
+          then
+              echo "$IMPORT" >> $FILENAME
+          fi
         env:
           PR_NUMBER: ${{ github.event.number }}
           TAG: pr-${{ github.event.number }}-${{ github.sha }}
