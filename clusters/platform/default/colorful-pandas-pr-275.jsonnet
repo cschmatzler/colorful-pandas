@@ -9,7 +9,7 @@
     {
       _images+:: {
         colorfulPandas: {
-          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-00740b19c73bf47487b0760a6694347ca38f4e26',
+          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-05e0b0e2e2886ac6aecd129de180f55e13b54b6b',
         },
       },
       _config+:: {
