@@ -81,6 +81,7 @@ jobs:
           commit-message: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/deploy-colorful-pandas
+          base: main
           title: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
           body: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
           labels: |
