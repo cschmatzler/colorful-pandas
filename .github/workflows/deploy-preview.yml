@@ -53,7 +53,7 @@ jobs:
       - name: Get database URL
         id: neon-url
         run: |
-          url=$((neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY))
+          url=$(neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY)
           echo "::add-mask::$url"
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
