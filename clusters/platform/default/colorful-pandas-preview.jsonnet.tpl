@@ -1,7 +1,6 @@
 {
   vars+:: {
-    prNumber: {{ .Env.PR_NUMBER }},
-    envSecretName: 'colorful-pandas-env',
+    prNumber: {{ .Env.PR_NUMBER }}
   },
 } +
 {
@@ -17,7 +16,8 @@
         colorfulPandas+: {
           name: 'colorful-pandas-pr-' + $.vars.prNumber,
           host: 'pr-' + $.vars.prNumber + '.preview.colorful-pandas.com',
-          envSecretName: $.vars.envSecretName,
+          envSecretName: 'colorful-pandas-env',
+          headlessServiceName: 'colorful-pandas-pr-' + self.prNumber + '-headless'
         },
       },
     },
