@@ -38,7 +38,7 @@ spec:
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:pr-275-${GITHUB_SHA::7}
+        image: ghcr.io/panda-den/colorful-pandas:pr-275-69c7fbcc02c2ace507679c796adbb0a8361bfb0b
         name: server
         ports:
         - containerPort: 4000
@@ -64,5 +64,5 @@ spec:
         envFrom:
         - secretRef:
             name: colorful-pandas-env
-        image: ghcr.io/panda-den/colorful-pandas:pr-275-${GITHUB_SHA::7}
+        image: ghcr.io/panda-den/colorful-pandas:pr-275-69c7fbcc02c2ace507679c796adbb0a8361bfb0b
         name: migrations
