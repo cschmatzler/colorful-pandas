@@ -40,6 +40,7 @@ jobs:
       - name: Check if Neon branch exists
         id: neon-branch
         run: neonctl branch get pr-${{ github.event.number}} --project-id long-hall-268151 --api-key $NEON_API_KEY
+        continue-on-error: true
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
