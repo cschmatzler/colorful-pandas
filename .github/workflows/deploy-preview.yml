@@ -56,6 +56,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push image
-        run: earthly --org panda-den --sat github-actions --push --no-output +preview-image --PR_NUMBER=${{ github.event.number }} --DB_URL=${{ steps.neon-url.outputs.url }}
+        run: earthly --org panda-den --sat github-actions --push --no-output colorful-pandas/+preview-image --PR_NUMBER=${{ github.event.number }} --DB_URL=${{ steps.neon-url.outputs.url }}
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
