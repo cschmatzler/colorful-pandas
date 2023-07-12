@@ -9,7 +9,7 @@
     {
       _images+:: {
         colorfulPandas: {
-          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-' + $.vars.prNumber,
+          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:{{ .Env.TAG }},
         },
       },
       _config+:: {
