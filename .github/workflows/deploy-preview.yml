@@ -52,13 +52,12 @@ jobs:
 
       - name: Get database URL
         id: neon-url
-        run: echo "url=$(neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY)" >> $GITHUB_OUTPUT
+        run: |
+          url=$((neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY))
+          echo "::add-mask::$url"
+          echo "url=$url" >> $GITHUB_OUTPUT
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-
-      - name: Add mask
-        run: |
-          echo "::add-mask::${{ steps.neon-url.outputs.url }}"
 
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
