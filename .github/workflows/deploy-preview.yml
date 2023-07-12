@@ -38,7 +38,7 @@ jobs:
         run: npm i -g neonctl
 
       - name: Create Neon branch
-        run: neonctl branch create --name pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY
+        run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id long-hall-268151 --api-key $NEON_API_KEY
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
