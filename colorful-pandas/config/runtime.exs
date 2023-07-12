@@ -27,6 +27,7 @@ if config_env() in [:dev, :prod] do
   # For preview images, we are populating the database URL at compile time while building the image.
   # If it has not been set, fetch it from the environment at runtime.
   db_url = Application.get_env(:colorful_pandas, ColorfulPandas.Repo)[:url] || System.fetch_env!("DB_URL")
+  IO.puts(db_url)
 
   config :colorful_pandas, ColorfulPandas.Repo,
     url: db_url,
