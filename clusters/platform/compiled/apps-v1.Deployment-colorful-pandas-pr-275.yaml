@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: colorful-pandas-pr-275
+    app.kubernetes.io/name: colorful-pandas-pr-275
+  name: colorful-pandas-pr-275
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: colorful-pandas-pr-275
+      app.kubernetes.io/name: colorful-pandas-pr-275
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: colorful-pandas-pr-275
+        app.kubernetes.io/name: colorful-pandas-pr-275
+        grafana-agent/collect-logs: "true"
+    spec:
+      containers:
+      - env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SERVICE_NAME
+          value: colorful-pandas-pr-275-headless
+        - name: HOST
+          value: pr-275.preview.colorful-pandas.com
+        - name: PORT
+          value: "4000"
+        - name: ENABLE_TELEMETRY
+          value: "true"
+        - name: OTLP_ENDPOINT
+          value: http://grafana-agent-traces.monitoring.svc.cluster.local:4318
+        envFrom:
+        - secretRef:
+            name: colorful-pandas-env
+        image: ghcr.io/panda-den/colorful-pandas:pr-275
+        name: server
+        ports:
+        - containerPort: 4000
+          name: http
+      initContainers:
+      - command:
+        - /opt/colorful-pandas/bin/migrate
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SERVICE_NAME
+          value: colorful-pandas-pr-275-headless
+        - name: HOST
+          value: pr-275.preview.colorful-pandas.com
+        - name: PORT
+          value: "4000"
+        - name: ENABLE_TELEMETRY
+          value: "true"
+        - name: OTLP_ENDPOINT
+          value: http://grafana-agent-traces.monitoring.svc.cluster.local:4318
+        envFrom:
+        - secretRef:
+            name: colorful-pandas-env
+        image: ghcr.io/panda-den/colorful-pandas:pr-275
+        name: migrations
