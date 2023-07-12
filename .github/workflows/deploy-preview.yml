@@ -1,0 +1,61 @@
+name: Deploy Pull Request preview
+on:
+  pull_request:
+    paths:
+      - colorful-pandas/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    name: Build preview image and deploy to cluster
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get app token
+        id: app-token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Get tool versions
+        id: tool-versions
+        uses: marocchino/tool-versions-action@608d0ecb8f01e467223f0a854ead7d3fc784b540 # v1
+
+      - name: Setup Earthly
+        uses: earthly/actions-setup@v1
+        with:
+          version: v${{ steps.tool-versions.outputs.earthly }}
+
+      - name: Setup neonctl
+        run: npm i -g neonctl
+
+      - name: Create Neon branch
+        run: neonctl branch create --name pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+      - name: Get database URL
+        id: neon-url
+        run: echo "url=$(neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY)" >> $GITHUB_OUTPUT
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+      - name: Log into GHCR
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        run: earthly --org panda-den --sat github-actions --push --no-output +preview-image --PR_NUMBER=${{ github.event.number }} --DB_URL=${{ steps.neon-url.outputs.url }}
+        env:
+          EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}

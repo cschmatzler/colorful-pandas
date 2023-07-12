@@ -15,6 +15,13 @@ config :opentelemetry,
 # ---------------
 config :colorful_pandas, :posthog, enabled?: true
 
+# --------
+# Database
+# --------
+db_url = System.get_env("DB_URL")
+config :colorful_pandas, ColorfulPandas.Repo,
+  url: db_url
+
 # ---
 # Web
 # ---
