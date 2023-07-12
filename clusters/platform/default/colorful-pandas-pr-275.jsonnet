@@ -9,7 +9,7 @@
     {
       _images+:: {
         colorfulPandas: {
-          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-${GITHUB_SHA::7}',
+          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-69c7fbcc02c2ace507679c796adbb0a8361bfb0b',
         },
       },
       _config+:: {
