@@ -20,6 +20,8 @@
                 esutil.data('HONEYCOMB_DATASET', 'Colorful Pandas', 'HONEYCOMB_DATASET'),
                 esutil.data('GITHUB_CLIENT_ID', 'GitHub OAuth', 'username'),
                 esutil.data('GITHUB_CLIENT_SECRET', 'GitHub OAuth', 'credential'),
+                esutil.data('GOOGLE_CLIENT_ID', 'Google OAuth', 'username'),
+                esutil.data('GOOGLE_CLIENT_SECRET', 'Google OAuth', 'credential'),
               ]),
     },
   },
