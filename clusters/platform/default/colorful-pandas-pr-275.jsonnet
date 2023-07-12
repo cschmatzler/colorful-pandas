@@ -9,7 +9,7 @@
     {
       _images+:: {
         colorfulPandas: {
-          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-9c7996d6cc0b545c3d4684c72688c1190c9602dd',
+          colorfulPandas: 'ghcr.io/panda-den/colorful-pandas:pr-275-00740b19c73bf47487b0760a6694347ca38f4e26',
         },
       },
       _config+:: {
@@ -22,4 +22,3 @@
       },
     },
 }
-+ (import 'colorful-pandas-pr-275.jsonnet')
