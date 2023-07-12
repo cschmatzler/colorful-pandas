@@ -38,7 +38,7 @@ jobs:
         run: npm install -g gomplate
 
       - name: Create Neon branch
-        uses: neondatabase/create-branch-action@main
+        uses: neondatabase/create-branch-action@v3
         id: neon-branch
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
