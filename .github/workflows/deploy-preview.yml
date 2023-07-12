@@ -56,6 +56,10 @@ jobs:
         env:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
+      - name: Add mask
+        run: |
+          echo "::add-mask::${{ steps.neon-url.outputs.url }}"
+
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
