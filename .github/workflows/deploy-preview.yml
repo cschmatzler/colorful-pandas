@@ -78,6 +78,29 @@ jobs:
         working-directory: clusters/platform/default
         run: |
           gomplate -f colorful-pandas-preview.jsonnet.tpl -o colorful-pandas-pr-$PR_NUMBER.jsonnet
-          sed '$ a + (import "colorful-pandas-pr-${{ github.event.number }}.jsonnet")' main.jsonnet
+          sed "$ a + (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')" main.jsonnet
         env:
           PR_NUMBER: ${{ github.event.number }}
+
+      - name: Compile Kubernetes manifests
+        run: earthly --org panda-den --sat github-actions +compile-cluster-manifests --CLUSTER=platform
+        env:
+          EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+
+      - name: Create pull request
+        id: create-pr
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          add-paths: |
+            clusters/platform/default/**
+            clusters/platform/compiled/**
+          commit-message: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
+          author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
+          branch: actions/deploy-colorful-pandas
+          title: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
+          body: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
+          labels: |
+            ops
+            platform
+            colorful-pandas
