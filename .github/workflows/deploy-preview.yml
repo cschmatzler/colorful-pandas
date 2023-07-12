@@ -37,13 +37,30 @@ jobs:
       - name: Setup gomplate
         run: npm install -g gomplate
 
-      - name: Create Neon branch
-        uses: neondatabase/create-branch-action@v3
+      - name: Setup neonctl
+        run: npm i -g neonctl
+
+      - name: Check if Neon branch exists
         id: neon-branch
-        with:
-          project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name: pr-${{ github.event.number }}
-          api_key: ${{ secrets.NEON_API_KEY }}
+        run: neonctl branch get pr-${{ github.event.number}} --project-id long-hall-268151 --api-key $NEON_API_KEY
+        continue-on-error: true
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+      - name: Create Neon branch
+        if: steps.neon-branch.outcome == 'failure'
+        run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id long-hall-268151 --api-key $NEON_API_KEY
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+      - name: Get database URL
+        id: neon-url
+        run: |
+          url=$(neonctl cs pr-${{ github.event.number }} --project-id long-hall-268151 --api-key $NEON_API_KEY)
+          echo "::add-mask::$url"
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
@@ -53,7 +70,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push image
-        run: earthly --org panda-den --sat github-actions --push --no-output ./colorful-pandas/+preview-image --TAG=pr-${{ github.event.number }}-${{ github.sha }} --DB_URL=${{ steps.neon-branch.outputs.db_url }}
+        run: earthly --org panda-den --sat github-actions --push --no-output ./colorful-pandas/+preview-image --TAG=pr-${{ github.event.number }}-${{ github.sha }} --DB_URL=${{ steps.neon-url.outputs.url }}
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
