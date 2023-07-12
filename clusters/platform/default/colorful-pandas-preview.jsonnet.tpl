@@ -17,7 +17,7 @@
           name: 'colorful-pandas-pr-' + $.vars.prNumber,
           host: 'pr-' + $.vars.prNumber + '.preview.colorful-pandas.com',
           envSecretName: 'colorful-pandas-env',
-          headlessServiceName: 'colorful-pandas-pr-' + self.prNumber + '-headless'
+          headlessServiceName: 'colorful-pandas-pr-' + $.vars.prNumber + '-headless'
         },
       },
     },
