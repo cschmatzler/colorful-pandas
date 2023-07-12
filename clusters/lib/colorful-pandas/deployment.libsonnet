@@ -37,10 +37,10 @@ local k = import 'github.com/jsonnet-libs/k8s-libsonnet/1.27/main.libsonnet',
         port.newNamed(self.vars.port, 'http'),
       ]),
 
-    deployment: deployment.new('colorful-pandas') +
+    deployment: deployment.new($._config.colorfulPandas.name) +
                 util.deployment.withCommonLabels({
-                  'app.kubernetes.io/name': 'colorful-pandas',
-                  'app.kubernetes.io/instance': 'colorful-pandas',
+                  'app.kubernetes.io/name': $._config.colorfulPandas.name,
+                  'app.kubernetes.io/instance': $._config.colorfulPandas.name,
                 }) +
                 deployment.spec.withReplicas(3) +
                 deployment.spec.template.metadata.withLabelsMixin({"grafana-agent/collect-logs": "true"}) +

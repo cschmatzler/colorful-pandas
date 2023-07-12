@@ -37,6 +37,9 @@ jobs:
       - name: Setup neonctl
         run: npm i -g neonctl
 
+      - name: Setup gomplate
+        run: npm install -g gomplate
+
       - name: Check if Neon branch exists
         id: neon-branch
         run: neonctl branch get pr-${{ github.event.number}} --project-id long-hall-268151 --api-key $NEON_API_KEY
@@ -70,3 +73,11 @@ jobs:
         run: earthly --org panda-den --sat github-actions --push --no-output ./colorful-pandas/+preview-image --PR_NUMBER=${{ github.event.number }} --DB_URL=${{ steps.neon-url.outputs.url }}
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+
+      - name: Create deployment manifests
+        working-directory: clusters/platform/default
+        run: |
+          gomplate -f colorful-pandas-preview.jsonnet.tpl -o colorful-pandas-pr-$PR_NUMBER.jsonnet
+          sed '$ a + (import \'colorful-pandas-pr-$PR_NUMBER.jsonnet\')' main.jsonnet
+        env:
+          PR_NUMBER: ${{ github.event.number }}
