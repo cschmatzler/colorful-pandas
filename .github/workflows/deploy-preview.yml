@@ -83,10 +83,10 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           TAG: pr-${{ github.event.number }}-${{ github.sha }}
 
-      # - name: Compile Kubernetes manifests
-      #   run: earthly --org panda-den --sat github-actions +compile-cluster-manifests --CLUSTER=platform
-      #   env:
-      #     EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+      - name: Compile Kubernetes manifests
+        run: earthly --org panda-den --sat github-actions +compile-cluster-manifests --CLUSTER=platform
+        env:
+          EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
       - name: Create pull request
         id: create-pr
