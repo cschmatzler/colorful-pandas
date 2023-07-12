@@ -78,6 +78,6 @@ jobs:
         working-directory: clusters/platform/default
         run: |
           gomplate -f colorful-pandas-preview.jsonnet.tpl -o colorful-pandas-pr-$PR_NUMBER.jsonnet
-          sed '$ a + (import \'colorful-pandas-pr-${{ github.event.number }}.jsonnet\')' main.jsonnet
+          sed '$ a + (import "colorful-pandas-pr-${{ github.event.number }}.jsonnet")' main.jsonnet
         env:
           PR_NUMBER: ${{ github.event.number }}
