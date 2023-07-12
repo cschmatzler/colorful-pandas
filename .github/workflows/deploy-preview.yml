@@ -72,8 +72,8 @@ jobs:
       - name: Create deployment manifests
         working-directory: clusters/platform/default
         run: |
-          FILENAME=colorful-pandas-pr-$PR_NUMBER.jsonnet
-          IMPORT="+ (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')""
+          FILENAME="colorful-pandas-pr-$PR_NUMBER.jsonnet"
+          IMPORT="+ (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')"
           gomplate -f colorful-pandas-preview.jsonnet.tpl -o $FILENAME
           if ! grep -Fxq "$IMPORT" $FILENAME
           then
