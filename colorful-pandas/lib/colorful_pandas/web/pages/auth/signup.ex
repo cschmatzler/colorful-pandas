@@ -97,7 +97,7 @@ defmodule ColorfulPandas.Web.Pages.Auth.Signup do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <main class={["bg-light-blue flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
+    <main class={["bg-[#F8F6DD] flex min-h-full flex-col justify-center py-12", "sm:px-6", "lg:px-8"]}>
       <div class="sm:mx-auto sm:w-full sm:max-w-lg">
         <h2 class="text-teal text-center text-4xl font-bold leading-9 tracking-tight">
           Create your account

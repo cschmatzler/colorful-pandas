@@ -43,7 +43,7 @@ defmodule ColorfulPandas.Auth do
   @callback create_invite(organization :: Organization.t(), created_by :: Identity.t()) ::
               {:ok, Invite.t()} | {:error, Ecto.Changeset.t()}
 
-  @callback delete_invite(id :: non_neg_integer()) :: :ok
+  @callback revoke_invite(id :: non_neg_integer()) :: :ok
   @callback is_invite_valid?(invite :: Invite.t()) :: boolean()
 
   # Organization
