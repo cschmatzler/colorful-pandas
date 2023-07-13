@@ -25,7 +25,10 @@ compile:
   FROM +deps
 
   ARG ENV=test
+  ARG DB_URL
+
   ENV MIX_ENV=$ENV
+  ENV DB_URL=$DB_URL
 
   RUN mix deps.compile
 
@@ -67,8 +70,9 @@ lint:
 
 release:
   ARG ENV=prod
+  ARG DB_URL
 
-  FROM +compile --ENV=$ENV
+  FROM +compile --ENV=$ENV --DB_URL=$DB_URL
 
   COPY --dir assets priv .
   RUN mix do tailwind.install --if-missing, \
@@ -81,6 +85,24 @@ release:
   RUN mix release colorful_pandas
 
   SAVE ARTIFACT _build/$ENV/rel/colorful_pandas AS LOCAL _build/$ENV/rel/colorful_pandas
+
+preview-image:
+  ARG --required DB_URL
+  ARG --required TAG
+
+  FROM $DEPLOY_BASE
+
+  RUN apk add --no-cache libstdc++ ncurses openssl && \
+    adduser --system --shell /bin/false --home /opt/colorful-pandas colorful-pandas
+
+  WORKDIR /opt/colorful-pandas
+  USER colorful-pandas
+
+  COPY --chown=colorful-pandas:0 (+release/colorful_pandas --DB_URL=$DB_URL) .
+
+  CMD ["/opt/colorful-pandas/bin/server"]
+
+  SAVE IMAGE --push ghcr.io/panda-den/colorful-pandas:$TAG
 
 deploy:
   ARG --required VERSION

@@ -1,19 +1,16 @@
-name: Deploy Colorful Pandas
+name: Deploy Pull Request preview
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request:
     paths:
       - colorful-pandas/**
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy-colorful-pandas:
-    name: Build Colorful Pandas image, create pull request and set to auto-merge
+  deploy-preview:
+    name: Build preview image and deploy to cluster
     runs-on: ubuntu-22.04
     steps:
       - name: Get app token
@@ -37,6 +34,29 @@ jobs:
         with:
           version: v${{ steps.tool-versions.outputs.earthly }}
 
+      - name: Setup gomplate
+        run: npm install -g gomplate
+
+      - name: Setup neonctl
+        run: npm i -g neonctl
+
+      - name: Create Neon branch
+        run: neonctl branch create --name pr-${{ github.event.number }} --parent main --project-id $NEON_PROJECT_ID --api-key $NEON_API_KEY
+        continue-on-error: true
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+
+      - name: Get database URL
+        id: neon-url
+        run: |
+          url=$(neonctl cs pr-${{ github.event.number }} --project-id $NEON_PROJECT_ID --api-key $NEON_API_KEY)
+          echo "::add-mask::$url"
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+
       - name: Log into GHCR
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
@@ -44,17 +64,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set version
-        run: echo "VERSION=$(date '+%y.%-m.%-d')-${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: Build and push image
-        run: earthly --org panda-den --sat github-actions --push --no-output +deploy-colorful-pandas --VERSION=${{ env.VERSION }}
+        run: earthly --org panda-den --sat github-actions --push --no-output ./colorful-pandas/+preview-image --TAG=pr-${{ github.event.number }}-${{ github.sha }} --DB_URL=${{ steps.neon-url.outputs.url }}
         env:
           EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
 
-      - name: Update image tag
+      - name: Create deployment manifests
+        working-directory: clusters/platform/default
         run: |
-          sed -i "s/colorfulPandas: 'ghcr\.io\/panda-den\/colorful-pandas:\(.*\)'/colorfulPandas: 'ghcr.io\/panda-den\/colorful-pandas:${{ env.VERSION }}'/g" clusters/platform/default/colorful-pandas.jsonnet
+          FILENAME="colorful-pandas-pr-$PR_NUMBER.jsonnet"
+          IMPORT="+ (import 'colorful-pandas-pr-$PR_NUMBER.jsonnet')"
+          gomplate -f colorful-pandas-preview.jsonnet.tpl -o $FILENAME
+          if ! grep -Fxq "$IMPORT" main.jsonnet
+          then
+              echo "$IMPORT" >> main.jsonnet
+          fi
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+          TAG: pr-${{ github.event.number }}-${{ github.sha }}
 
       - name: Compile Kubernetes manifests
         run: earthly --org panda-den --sat github-actions +compile-cluster-manifests --CLUSTER=platform
@@ -67,13 +94,14 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           add-paths: |
-            clusters/platform/default/colorful-pandas.jsonnet
+            clusters/platform/default/**
             clusters/platform/compiled/**
-          commit-message: Update Colorful Pandas to v${{ env.VERSION }}
+          commit-message: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
           author: "astronaut-panda[bot] <137164246+astronaut-panda[bot]@users.noreply.github.com>"
           branch: actions/deploy-colorful-pandas
-          title: Update Colorful Pandas to v${{ env.VERSION }}
-          body: Update Colorful Pandas to v${{ env.VERSION }}
+          base: main
+          title: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
+          body: Deploy Colorful Pandas preview for PR ${{ github.event.number }}
           labels: |
             ops
             platform
