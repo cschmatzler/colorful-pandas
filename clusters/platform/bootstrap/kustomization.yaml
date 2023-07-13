@@ -4,7 +4,7 @@ resources:
   - ./namespaces.yaml
   - ./cilium/
   - ./hcloud-ccm/
-  - github.com/fluxcd/flux2/manifests/install?ref=v2.0.0-rc.5
+  - github.com/fluxcd/flux2/manifests/install?ref=v2.0.1
   - ./flux.yaml
   - ./hcloud-network.yaml
   - ./flux-config.yaml
