@@ -4,7 +4,7 @@ resource "tfe_workspace" "grafana_cloud" {
   name               = "tooling-grafana-cloud"
   auto_apply         = true
   allow_destroy_plan = false
-  terraform_version  = "1.5.2"
+  terraform_version  = "1.5.4"
   working_directory  = "tooling/grafana-cloud"
   vcs_repo {
     identifier     = "cschmatzler/colorful-pandas"
