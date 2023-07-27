@@ -1,5 +1,5 @@
 elixir 1.15.2
 erlang 26.0.2
 nodejs 20.4.0
-terraform 1.5.2
+terraform 1.5.4
 earthly 0.7.11
