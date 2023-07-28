@@ -22,10 +22,10 @@ repositories:
 requires:
   - chart: bitnami/contour
     # renovate: datasource=helm depName=contour registryUrl=https://charts.bitnami.com/bitnami versioning=helm
-    version: 12.1.1
+    version: 12.2.4
   - chart: cilium/cilium
     # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io versioning=helm
-    version: 1.13.4
+    version: 1.14.0
   - chart: external-dns/external-dns
     # renovate: datasource=helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns versioning=helm
     version: 1.13.0
@@ -34,19 +34,19 @@ requires:
     version: 0.9.1
   - chart: grafana/grafana-agent
     # renovate: datasource=helm depName=grafana-agent registryUrl=https://grafana.github.io/helm-charts versioning=helm
-    version: 0.16.0
+    version: 0.19.0
   - chart: hcloud/hcloud-cloud-controller-manager
     # renovate: datasource=helm depName=hcloud-cloud-controller-manager registryUrl=https://charts.hetzner.cloud versioning=helm
-    version: v1.16.0
+    version: v1.17.1
   - chart: jetstack/cert-manager
     # renovate: datasource=helm depName=cert-manager registryUrl=https://charts.jetstack.io versioning=helm
-    version: v1.12.2
+    version: v1.12.3
   - chart: onepassword/connect
     # renovate: datasource=helm depName=connect registryUrl=https://1password.github.io/connect-helm-charts versioning=helm
-    version: 1.11.0
+    version: 1.12.0
   - chart: prometheus-community/kube-state-metrics
     # renovate: datasource=helm depName=kube-state-metrics registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
-    version: 5.8.2
+    version: 5.10.1
   - chart: prometheus-community/prometheus-node-exporter
     # renovate: datasource=helm depName=prometheus-node-exporter registryUrl=https://prometheus-community.github.io/helm-charts versioning=helm
-    version: 4.18.1
+    version: 4.21.0
